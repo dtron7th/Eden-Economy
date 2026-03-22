@@ -181,21 +181,22 @@
                         this.radius = 2;
                         this.opacity = 0;
                         this.targetOpacity = 1;
-                        this.lifespan = Math.random() * 3000 + 2000; // 2-5 seconds
+                        this.lifespan = Math.random() * 4000 + 3000; // 3-7 seconds
                         this.age = 0;
                         this.isAlive = true;
+                        this.fadeDuration = 1000; // 1 second fade in/out
                     }
                     
                     update(deltaTime) {
                         this.age += deltaTime;
                         
                         // Fade in
-                        if (this.age < 500) {
-                            this.opacity = this.age / 500;
+                        if (this.age < this.fadeDuration) {
+                            this.opacity = this.age / this.fadeDuration;
                         }
                         // Fade out
-                        else if (this.age > this.lifespan - 500) {
-                            this.opacity = (this.lifespan - this.age) / 500;
+                        else if (this.age > this.lifespan - this.fadeDuration) {
+                            this.opacity = (this.lifespan - this.age) / this.fadeDuration;
                         }
                         // Stay fully visible
                         else {
@@ -217,7 +218,7 @@
                     draw() {
                         ctx.beginPath();
                         ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-                        ctx.fillStyle = `rgba(154, 154, 154, ${this.opacity * 0.3})`;
+                        ctx.fillStyle = `rgba(154, 154, 154, ${this.opacity * 0.5})`;
                         ctx.fill();
                     }
                 }
@@ -248,7 +249,7 @@
                     
                     // Spawn new particles to maintain count
                     spawnTimer += deltaTime;
-                    if (spawnTimer > 500 && particles.length < particleCount) { // Spawn every 500ms
+                    if (spawnTimer > 1000 && particles.length < particleCount) { // Spawn every 1000ms
                         particles.push(new Particle());
                         spawnTimer = 0;
                     }
