@@ -65,6 +65,9 @@
                 <span class="letter" data-letter="m">m</span>
                 <span class="letter" data-letter="y">y</span>
             </div>
+            <div class="slogan">
+                <span class="slogan-text"></span>
+            </div>
         </div>
 
         <div class="Download_Button">
@@ -162,6 +165,19 @@
                 width: 20px;
             }
             
+            .slogan {
+                margin-top: 20px;
+                opacity: 0;
+                transition: opacity 0.5s ease-in-out;
+            }
+            
+            .slogan-text {
+                font-size: 14px;
+                font-weight: 100;
+                color: #9a9a9a;
+                font-family: 'MainFont', monospace;
+            }
+            
             @keyframes letterFadeIn {
                 0% {
                     opacity: 0;
@@ -239,9 +255,12 @@
                 function replayLogoAnimation() {
                     const letters = document.querySelectorAll('.letter');
                     const downloadButton = document.querySelector('.Download_Button');
+                    const slogan = document.querySelector('.slogan');
+                    const sloganText = document.querySelector('.slogan-text');
                     
-                    // Hide download button initially
+                    // Hide download button and slogan initially
                     downloadButton.style.opacity = '0';
+                    slogan.style.opacity = '0';
                     
                     // Remove and re-add animation classes to restart them
                     letters.forEach((letter, index) => {
@@ -254,14 +273,40 @@
                         letter.style.animationDelay = `${index * 0.1}s`;
                     });
                     
-                    // Fade in download button after logo animation completes
+                    // Start typewriter animation after logo animation completes
                     const lastLetterDelay = (letters.length - 1) * 0.1; // Last letter delay
                     const animationDuration = 1.2; // Letter fade-in duration
-                    const totalDelay = (lastLetterDelay + animationDuration) * 1000; // Convert to milliseconds
+                    const logoDelay = (lastLetterDelay + animationDuration) * 1000; // Convert to milliseconds
+                    
+                    setTimeout(() => {
+                        // Show slogan container
+                        slogan.style.opacity = '1';
+                        // Start typewriter effect
+                        typeWriter("innovating indie tech", sloganText);
+                    }, logoDelay + 200);
+                    
+                    // Fade in download button after typewriter animation completes
+                    const typewriterDuration = "innovating indie tech".length * 100; // 100ms per character
                     
                     setTimeout(() => {
                         downloadButton.style.opacity = '1';
-                    }, totalDelay + 200); // Small extra delay for better timing
+                    }, logoDelay + 200 + typewriterDuration + 500); // Extra delay after typewriter
+                }
+                
+                // Typewriter animation function
+                function typeWriter(text, element, speed = 100) {
+                    let i = 0;
+                    element.textContent = '';
+                    
+                    function type() {
+                        if (i < text.length) {
+                            element.textContent += text.charAt(i);
+                            i++;
+                            setTimeout(type, speed);
+                        }
+                    }
+                    
+                    type();
                 }
                 
                 // Touch events for mobile
