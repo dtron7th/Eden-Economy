@@ -39,7 +39,57 @@
 </head>
 <body>
     <div class="Logo">
-        
+
+        <h1>Eden Economy</h1>
+
+        <style>
+            .Logo {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+            }
+            
+            .Logo h1 {
+                font-size: 48px;
+                color: var(--main-text-color);
+                background: linear-gradient(135deg, #2c3e50, #27ae60);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+                animation: logoFadeIn 2s ease-out, logoPulse 3s ease-in-out infinite 2s;
+                letter-spacing: 4px;
+                text-transform: uppercase;
+            }
+            
+            @keyframes logoFadeIn {
+                0% {
+                    opacity: 0;
+                    transform: translateY(-30px) scale(0.8);
+                }
+                100% {
+                    opacity: 1;
+                    transform: translateY(0) scale(1);
+                }
+            }
+            
+            @keyframes logoPulse {
+                0%, 100% {
+                    transform: scale(1);
+                    filter: brightness(1);
+                }
+                50% {
+                    transform: scale(1.05);
+                    filter: brightness(1.2);
+                }
+            }
+        </style>
+
+        <script aria-label="Logo_Script">
+            
+        </script>
+
+
     </div>
 </body>
 </html>
