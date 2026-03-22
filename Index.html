@@ -224,9 +224,30 @@
                         section.style.pointerEvents = i === index ? 'auto' : 'none';
                     });
                     
+                    // Replay logo animation when returning to Logo page
+                    if (index === 0) {
+                        replayLogoAnimation();
+                    }
+                    
                     setTimeout(() => {
                         isAnimating = false;
                     }, 600);
+                }
+                
+                // Replay logo animation function
+                function replayLogoAnimation() {
+                    const letters = document.querySelectorAll('.letter');
+                    
+                    // Remove and re-add animation classes to restart them
+                    letters.forEach((letter, index) => {
+                        // Remove animations
+                        letter.style.animation = 'none';
+                        letter.offsetHeight; // Force reflow
+                        
+                        // Re-add animations with staggered delay
+                        letter.style.animation = `letterFadeIn 1.2s ease-out forwards, gradientShift 3s ease-in-out infinite 2s`;
+                        letter.style.animationDelay = `${index * 0.1}s`;
+                    });
                 }
                 
                 // Touch events for mobile
