@@ -40,12 +40,6 @@
 <body>
     <div class="Logo">
         <div class="logo-container">
-            <div class="geometric-bg">
-                <div class="shape shape-1"></div>
-                <div class="shape shape-2"></div>
-                <div class="shape shape-3"></div>
-                <div class="shape shape-4"></div>
-            </div>
             <div class="text-container">
                 <span class="letter" data-letter="E">E</span>
                 <span class="letter" data-letter="d">d</span>
@@ -78,68 +72,14 @@
                 text-align: center;
             }
             
-            .geometric-bg {
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-                width: 400px;
-                height: 200px;
-                z-index: 1;
-            }
-            
-            .shape {
-                position: absolute;
-                background: linear-gradient(45deg, rgba(102,126,234,0.1), rgba(118,75,162,0.05));
-                border: 1px solid rgba(102,126,234,0.2);
-                backdrop-filter: blur(10px);
-            }
-            
-            .shape-1 {
-                width: 80px;
-                height: 80px;
-                top: -20px;
-                left: 50px;
-                transform: rotate(45deg);
-                animation: float1 6s ease-in-out infinite;
-            }
-            
-            .shape-2 {
-                width: 60px;
-                height: 60px;
-                top: 60px;
-                right: 80px;
-                border-radius: 50%;
-                animation: float2 8s ease-in-out infinite;
-            }
-            
-            .shape-3 {
-                width: 100px;
-                height: 4px;
-                bottom: 40px;
-                left: 100px;
-                transform: rotate(-30deg);
-                animation: float3 7s ease-in-out infinite;
-            }
-            
-            .shape-4 {
-                width: 40px;
-                height: 40px;
-                top: 20px;
-                right: 40px;
-                clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
-                animation: float4 5s ease-in-out infinite;
-            }
-            
             .text-container {
                 position: relative;
-                z-index: 2;
                 display: inline-block;
             }
             
             .letter {
                 display: inline-block;
-                font-size: 56px;
+                font-size: 24px;
                 font-weight: 700;
                 color: transparent;
                 background: linear-gradient(135deg, #667eea, #764ba2, #667eea);
@@ -148,8 +88,8 @@
                 -webkit-text-fill-color: transparent;
                 background-clip: text;
                 opacity: 0;
-                transform: translateY(50px) rotateX(90deg);
-                animation: letterReveal 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards, gradientShift 3s ease-in-out infinite 2s;
+                transform: translateY(20px);
+                animation: letterFadeIn 1s ease-out forwards, gradientShift 3s ease-in-out infinite 2s;
                 text-shadow: 0 0 20px rgba(102,126,234,0.3);
                 position: relative;
             }
@@ -188,34 +128,14 @@
                 animation: underlineGrow 1s ease-out 2s forwards;
             }
             
-            @keyframes float1 {
-                0%, 100% { transform: rotate(45deg) translateY(0px); }
-                50% { transform: rotate(45deg) translateY(-20px); }
-            }
-            
-            @keyframes float2 {
-                0%, 100% { transform: translateY(0px) scale(1); }
-                50% { transform: translateY(-15px) scale(1.1); }
-            }
-            
-            @keyframes float3 {
-                0%, 100% { transform: rotate(-30deg) translateX(0px); }
-                50% { transform: rotate(-30deg) translateX(20px); }
-            }
-            
-            @keyframes float4 {
-                0%, 100% { transform: rotate(0deg) translateY(0px); }
-                50% { transform: rotate(180deg) translateY(-10px); }
-            }
-            
-            @keyframes letterReveal {
+            @keyframes letterFadeIn {
                 0% {
                     opacity: 0;
-                    transform: translateY(50px) rotateX(90deg);
+                    transform: translateY(20px);
                 }
                 100% {
                     opacity: 1;
-                    transform: translateY(0) rotateX(0deg);
+                    transform: translateY(0);
                 }
             }
             
@@ -248,19 +168,6 @@
                     
                     letter.addEventListener('mouseleave', () => {
                         letter.style.transform = 'translateY(0) scale(1)';
-                    });
-                });
-                
-                // Add pulsing effect to shapes
-                const shapes = document.querySelectorAll('.shape');
-                shapes.forEach((shape, index) => {
-                    shape.addEventListener('mouseenter', () => {
-                        shape.style.transform += ' scale(1.2)';
-                        shape.style.transition = 'transform 0.3s ease';
-                    });
-                    
-                    shape.addEventListener('mouseleave', () => {
-                        shape.style.transform = shape.style.transform.replace(' scale(1.2)', '');
                     });
                 });
             });
