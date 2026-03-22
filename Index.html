@@ -74,7 +74,8 @@
                 .Download_Button {
                     position: absolute;
                     bottom: 80px;
-                    
+                    opacity: 0;
+                    transition: opacity 0.8s ease-in-out;
                 }
 
                 .Download_Button button {
@@ -237,6 +238,10 @@
                 // Replay logo animation function
                 function replayLogoAnimation() {
                     const letters = document.querySelectorAll('.letter');
+                    const downloadButton = document.querySelector('.Download_Button');
+                    
+                    // Hide download button initially
+                    downloadButton.style.opacity = '0';
                     
                     // Remove and re-add animation classes to restart them
                     letters.forEach((letter, index) => {
@@ -248,6 +253,15 @@
                         letter.style.animation = `letterFadeIn 1.2s ease-out forwards, gradientShift 3s ease-in-out infinite 2s`;
                         letter.style.animationDelay = `${index * 0.1}s`;
                     });
+                    
+                    // Fade in download button after logo animation completes
+                    const lastLetterDelay = (letters.length - 1) * 0.1; // Last letter delay
+                    const animationDuration = 1.2; // Letter fade-in duration
+                    const totalDelay = (lastLetterDelay + animationDuration) * 1000; // Convert to milliseconds
+                    
+                    setTimeout(() => {
+                        downloadButton.style.opacity = '1';
+                    }, totalDelay + 200); // Small extra delay for better timing
                 }
                 
                 // Touch events for mobile
