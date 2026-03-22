@@ -168,7 +168,10 @@
             .slogan {
                 margin-top: 20px;
                 opacity: 0;
-                transition: opacity 0.5s ease-in-out;
+                visibility: hidden;
+                height: 0;
+                transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out, height 0.5s ease-in-out;
+                overflow: hidden;
             }
             
             .slogan-text {
@@ -261,6 +264,8 @@
                     // Hide download button and slogan initially
                     downloadButton.style.opacity = '0';
                     slogan.style.opacity = '0';
+                    slogan.style.visibility = 'hidden';
+                    slogan.style.height = '0';
                     
                     // Remove and re-add animation classes to restart them
                     letters.forEach((letter, index) => {
@@ -279,7 +284,9 @@
                     const logoDelay = (lastLetterDelay + animationDuration) * 1000; // Convert to milliseconds
                     
                     setTimeout(() => {
-                        // Show slogan container
+                        // Show slogan container with smooth transition
+                        slogan.style.visibility = 'visible';
+                        slogan.style.height = 'auto';
                         slogan.style.opacity = '1';
                         // Start typewriter effect
                         typeWriter("Innovating Indie Tech", sloganText);
@@ -303,6 +310,8 @@
                     // Hide download button and slogan initially
                     downloadButton.style.opacity = '0';
                     slogan.style.opacity = '0';
+                    slogan.style.visibility = 'hidden';
+                    slogan.style.height = '0';
                     
                     // Start typewriter animation after logo animation completes
                     const lastLetterDelay = (letters.length - 1) * 0.1; // Last letter delay
@@ -310,7 +319,9 @@
                     const logoDelay = (lastLetterDelay + animationDuration) * 1000; // Convert to milliseconds
                     
                     setTimeout(() => {
-                        // Show slogan container
+                        // Show slogan container with smooth transition
+                        slogan.style.visibility = 'visible';
+                        slogan.style.height = 'auto';
                         slogan.style.opacity = '1';
                         // Start typewriter effect
                         typeWriter("Innovating Indie Tech", sloganText);
