@@ -293,6 +293,37 @@
                     }, logoDelay + 200 + typewriterDuration + 500); // Extra delay after typewriter
                 }
                 
+                // Initial logo animation on page load
+                function initialLogoAnimation() {
+                    const letters = document.querySelectorAll('.letter');
+                    const downloadButton = document.querySelector('.Download_Button');
+                    const slogan = document.querySelector('.slogan');
+                    const sloganText = document.querySelector('.slogan-text');
+                    
+                    // Hide download button and slogan initially
+                    downloadButton.style.opacity = '0';
+                    slogan.style.opacity = '0';
+                    
+                    // Start typewriter animation after logo animation completes
+                    const lastLetterDelay = (letters.length - 1) * 0.1; // Last letter delay
+                    const animationDuration = 1.2; // Letter fade-in duration
+                    const logoDelay = (lastLetterDelay + animationDuration) * 1000; // Convert to milliseconds
+                    
+                    setTimeout(() => {
+                        // Show slogan container
+                        slogan.style.opacity = '1';
+                        // Start typewriter effect
+                        typeWriter("Innovating Indie Tech", sloganText);
+                    }, logoDelay + 200);
+                    
+                    // Fade in download button after typewriter animation completes
+                    const typewriterDuration = "Innovating Indie Tech".length * 50; // 50ms per character
+                    
+                    setTimeout(() => {
+                        downloadButton.style.opacity = '1';
+                    }, logoDelay + 200 + typewriterDuration + 500); // Extra delay after typewriter
+                }
+                
                 // Typewriter animation function
                 function typeWriter(text, element, speed = 50) {
                     let i = 0;
@@ -360,6 +391,9 @@
                 // Prevent default scroll behavior
                 document.body.style.overflow = 'hidden';
                 document.documentElement.style.overflow = 'hidden';
+                
+                // Start initial logo animation
+                initialLogoAnimation();
             });
         </script>
         <script aria-label="Logo_Script">
