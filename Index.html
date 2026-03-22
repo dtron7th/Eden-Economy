@@ -54,7 +54,6 @@
                 <span class="letter" data-letter="m">m</span>
                 <span class="letter" data-letter="y">y</span>
             </div>
-            <div class="underline"></div>
         </div>
 
         <style>
@@ -82,15 +81,15 @@
                 font-size: 24px;
                 font-weight: 700;
                 color: transparent;
-                background: linear-gradient(135deg, #667eea, #764ba2, #667eea);
-                background-size: 200% 200%;
+                background: linear-gradient(135deg, #e8e8e8, #ffffff, #d0d0d0, #ffffff);
+                background-size: 300% 300%;
                 -webkit-background-clip: text;
                 -webkit-text-fill-color: transparent;
                 background-clip: text;
                 opacity: 0;
-                transform: translateY(20px);
-                animation: letterFadeIn 1s ease-out forwards, gradientShift 3s ease-in-out infinite 2s;
-                text-shadow: 0 0 20px rgba(102,126,234,0.3);
+                transform: translateY(10px);
+                animation: letterFadeIn 1.2s ease-out forwards, gradientShift 3s ease-in-out infinite 2s;
+                text-shadow: 0 0 20px rgba(255,255,255,0.5);
                 position: relative;
             }
             
@@ -100,8 +99,8 @@
                 top: 0;
                 left: 0;
                 color: transparent;
-                background: linear-gradient(135deg, #764ba2, #667eea, #764ba2);
-                background-size: 200% 200%;
+                background: linear-gradient(135deg, #d0d0d0, #ffffff, #e8e8e8, #ffffff);
+                background-size: 300% 300%;
                 -webkit-background-clip: text;
                 -webkit-text-fill-color: transparent;
                 background-clip: text;
@@ -117,21 +116,22 @@
                 width: 20px;
             }
             
-            .underline {
-                position: absolute;
-                bottom: -20px;
-                left: 50%;
-                transform: translateX(-50%);
-                width: 0;
-                height: 3px;
-                background: linear-gradient(90deg, transparent, #667eea, transparent);
-                animation: underlineGrow 1s ease-out 2s forwards;
-            }
-            
             @keyframes letterFadeIn {
                 0% {
                     opacity: 0;
-                    transform: translateY(20px);
+                    transform: translateY(10px);
+                }
+                20% {
+                    opacity: 0.3;
+                    transform: translateY(8px);
+                }
+                50% {
+                    opacity: 0.7;
+                    transform: translateY(4px);
+                }
+                80% {
+                    opacity: 0.95;
+                    transform: translateY(1px);
                 }
                 100% {
                     opacity: 1;
@@ -143,12 +143,6 @@
                 0% { background-position: 0% 50%; }
                 50% { background-position: 100% 50%; }
                 100% { background-position: 0% 50%; }
-            }
-            
-            @keyframes underlineGrow {
-                0% { width: 0; opacity: 0; }
-                50% { opacity: 1; }
-                100% { width: 100%; opacity: 1; }
             }
         </style>
 
