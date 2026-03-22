@@ -186,6 +186,114 @@
             }
         </style>
 
+        <script aria-label="Scroll_Script">
+            // Enhanced smooth scrolling with easing
+            document.addEventListener('DOMContentLoaded', () => {
+                // Disable default scroll-behavior for custom implementation
+                document.documentElement.style.scrollBehavior = 'auto';
+                document.body.style.scrollBehavior = 'auto';
+                
+                // Custom smooth scroll function
+                function smoothScrollTo(target, duration = 800) {
+                    const start = window.pageYOffset;
+                    const distance = target - start;
+                    let startTime = null;
+                    
+                    function easeInOutCubic(t) {
+                        return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+                    }
+                    
+                    function animateScroll(currentTime) {
+                        if (startTime === null) startTime = currentTime;
+                        const timeElapsed = currentTime - startTime;
+                        const progress = Math.min(timeElapsed / duration, 1);
+                        const easeProgress = easeInOutCubic(progress);
+                        
+                        window.scrollTo(0, start + (distance * easeProgress));
+                        
+                        if (timeElapsed < duration) {
+                            requestAnimationFrame(animateScroll);
+                        } else {
+                            // Ensure final position is exact
+                            window.scrollTo(0, target);
+                        }
+                    }
+                    
+                    requestAnimationFrame(animateScroll);
+                }
+                
+                // Handle scroll snap with smooth animation
+                let isScrolling = false;
+                let scrollTimeout;
+                
+                window.addEventListener('wheel', (e) => {
+                    if (isScrolling) return;
+                    
+                    e.preventDefault();
+                    isScrolling = true;
+                    
+                    const sections = document.querySelectorAll('.Logo, .Page_1, .page_2, .page_3');
+                    const currentScroll = window.pageYOffset;
+                    const viewportHeight = window.innerHeight;
+                    
+                    let currentSectionIndex = 0;
+                    for (let i = 0; i < sections.length; i++) {
+                        const sectionTop = sections[i].offsetTop;
+                        if (Math.abs(currentScroll - sectionTop) < viewportHeight / 2) {
+                            currentSectionIndex = i;
+                            break;
+                        }
+                    }
+                    
+                    let targetSectionIndex;
+                    if (e.deltaY > 0) {
+                        // Scrolling down
+                        targetSectionIndex = Math.min(currentSectionIndex + 1, sections.length - 1);
+                    } else {
+                        // Scrolling up
+                        targetSectionIndex = Math.max(currentSectionIndex - 1, 0);
+                    }
+                    
+                    const targetPosition = sections[targetSectionIndex].offsetTop;
+                    smoothScrollTo(targetPosition);
+                    
+                    clearTimeout(scrollTimeout);
+                    scrollTimeout = setTimeout(() => {
+                        isScrolling = false;
+                    }, 850);
+                }, { passive: false });
+                
+                // Handle keyboard navigation
+                window.addEventListener('keydown', (e) => {
+                    if (e.key === 'ArrowDown' || e.key === 'ArrowUp' || e.key === 'PageDown' || e.key === 'PageUp') {
+                        e.preventDefault();
+                        
+                        const sections = document.querySelectorAll('.Logo, .Page_1, .page_2, .page_3');
+                        const currentScroll = window.pageYOffset;
+                        const viewportHeight = window.innerHeight;
+                        
+                        let currentSectionIndex = 0;
+                        for (let i = 0; i < sections.length; i++) {
+                            const sectionTop = sections[i].offsetTop;
+                            if (Math.abs(currentScroll - sectionTop) < viewportHeight / 2) {
+                                currentSectionIndex = i;
+                                break;
+                            }
+                        }
+                        
+                        let targetSectionIndex;
+                        if (e.key === 'ArrowDown' || e.key === 'PageDown') {
+                            targetSectionIndex = Math.min(currentSectionIndex + 1, sections.length - 1);
+                        } else {
+                            targetSectionIndex = Math.max(currentSectionIndex - 1, 0);
+                        }
+                        
+                        const targetPosition = sections[targetSectionIndex].offsetTop;
+                        smoothScrollTo(targetPosition);
+                    }
+                });
+            });
+        </script>
         <script aria-label="Logo_Script">
             document.addEventListener('DOMContentLoaded', () => {
                 // Network particle system
