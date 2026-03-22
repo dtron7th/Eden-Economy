@@ -39,9 +39,28 @@
 </head>
 <body>
     <div class="Logo">
-        <div class="explosion-container"></div>
-            <canvas id="explosionCanvas"></canvas>
-            <h1 class="final-text">Eden Economy</h1>
+        <div class="logo-container">
+            <div class="geometric-bg">
+                <div class="shape shape-1"></div>
+                <div class="shape shape-2"></div>
+                <div class="shape shape-3"></div>
+                <div class="shape shape-4"></div>
+            </div>
+            <div class="text-container">
+                <span class="letter" data-letter="E">E</span>
+                <span class="letter" data-letter="d">d</span>
+                <span class="letter" data-letter="e">e</span>
+                <span class="letter" data-letter="n">n</span>
+                <span class="space"></span>
+                <span class="letter" data-letter="E">E</span>
+                <span class="letter" data-letter="c">c</span>
+                <span class="letter" data-letter="o">o</span>
+                <span class="letter" data-letter="n">n</span>
+                <span class="letter" data-letter="o">o</span>
+                <span class="letter" data-letter="m">m</span>
+                <span class="letter" data-letter="y">y</span>
+            </div>
+            <div class="underline"></div>
         </div>
 
         <style>
@@ -50,178 +69,200 @@
                 justify-content: center;
                 align-items: center;
                 height: 100vh;
+                background: rgb(255, 255, 255);
+                overflow: hidden;
+            }
+            
+            .logo-container {
                 position: relative;
+                text-align: center;
             }
             
-            .explosion-container {
-                position: relative;
-                width: 600px;
-                height: 200px;
-            }
-            
-            #explosionCanvas {
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-            }
-            
-            .final-text {
+            .geometric-bg {
                 position: absolute;
                 top: 50%;
                 left: 50%;
                 transform: translate(-50%, -50%);
-                font-size: 48px;
-                background: linear-gradient(135deg, #2c3e50, #27ae60);
+                width: 400px;
+                height: 200px;
+                z-index: 1;
+            }
+            
+            .shape {
+                position: absolute;
+                background: linear-gradient(45deg, rgba(102,126,234,0.1), rgba(118,75,162,0.05));
+                border: 1px solid rgba(102,126,234,0.2);
+                backdrop-filter: blur(10px);
+            }
+            
+            .shape-1 {
+                width: 80px;
+                height: 80px;
+                top: -20px;
+                left: 50px;
+                transform: rotate(45deg);
+                animation: float1 6s ease-in-out infinite;
+            }
+            
+            .shape-2 {
+                width: 60px;
+                height: 60px;
+                top: 60px;
+                right: 80px;
+                border-radius: 50%;
+                animation: float2 8s ease-in-out infinite;
+            }
+            
+            .shape-3 {
+                width: 100px;
+                height: 4px;
+                bottom: 40px;
+                left: 100px;
+                transform: rotate(-30deg);
+                animation: float3 7s ease-in-out infinite;
+            }
+            
+            .shape-4 {
+                width: 40px;
+                height: 40px;
+                top: 20px;
+                right: 40px;
+                clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+                animation: float4 5s ease-in-out infinite;
+            }
+            
+            .text-container {
+                position: relative;
+                z-index: 2;
+                display: inline-block;
+            }
+            
+            .letter {
+                display: inline-block;
+                font-size: 56px;
+                font-weight: 700;
+                color: transparent;
+                background: linear-gradient(135deg, #667eea, #764ba2, #667eea);
+                background-size: 200% 200%;
                 -webkit-background-clip: text;
                 -webkit-text-fill-color: transparent;
                 background-clip: text;
-                letter-spacing: 4px;
-                text-transform: uppercase;
                 opacity: 0;
-                animation: finalTextReveal 1s ease-out 3s forwards;
+                transform: translateY(50px) rotateX(90deg);
+                animation: letterReveal 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards, gradientShift 3s ease-in-out infinite 2s;
+                text-shadow: 0 0 20px rgba(102,126,234,0.3);
+                position: relative;
             }
             
-            @keyframes finalTextReveal {
+            .letter::before {
+                content: attr(data-letter);
+                position: absolute;
+                top: 0;
+                left: 0;
+                color: transparent;
+                background: linear-gradient(135deg, #764ba2, #667eea, #764ba2);
+                background-size: 200% 200%;
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+                animation: gradientShift 3s ease-in-out infinite 2s reverse;
+                z-index: -1;
+                opacity: 0.5;
+                filter: blur(2px);
+                transform: translate(2px, 2px);
+            }
+            
+            .space {
+                display: inline-block;
+                width: 20px;
+            }
+            
+            .underline {
+                position: absolute;
+                bottom: -20px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 0;
+                height: 3px;
+                background: linear-gradient(90deg, transparent, #667eea, transparent);
+                animation: underlineGrow 1s ease-out 2s forwards;
+            }
+            
+            @keyframes float1 {
+                0%, 100% { transform: rotate(45deg) translateY(0px); }
+                50% { transform: rotate(45deg) translateY(-20px); }
+            }
+            
+            @keyframes float2 {
+                0%, 100% { transform: translateY(0px) scale(1); }
+                50% { transform: translateY(-15px) scale(1.1); }
+            }
+            
+            @keyframes float3 {
+                0%, 100% { transform: rotate(-30deg) translateX(0px); }
+                50% { transform: rotate(-30deg) translateX(20px); }
+            }
+            
+            @keyframes float4 {
+                0%, 100% { transform: rotate(0deg) translateY(0px); }
+                50% { transform: rotate(180deg) translateY(-10px); }
+            }
+            
+            @keyframes letterReveal {
                 0% {
                     opacity: 0;
-                    transform: translate(-50%, -50%) scale(0.8);
+                    transform: translateY(50px) rotateX(90deg);
                 }
                 100% {
                     opacity: 1;
-                    transform: translate(-50%, -50%) scale(1);
+                    transform: translateY(0) rotateX(0deg);
                 }
+            }
+            
+            @keyframes gradientShift {
+                0% { background-position: 0% 50%; }
+                50% { background-position: 100% 50%; }
+                100% { background-position: 0% 50%; }
+            }
+            
+            @keyframes underlineGrow {
+                0% { width: 0; opacity: 0; }
+                50% { opacity: 1; }
+                100% { width: 100%; opacity: 1; }
             }
         </style>
 
         <script aria-label="Logo_Script">
-            class ParticleExplosion {
-                constructor(canvas, text) {
-                    this.canvas = canvas;
-                    this.ctx = canvas.getContext('2d');
-                    this.text = text;
-                    this.particles = [];
-                    this.animationComplete = false;
-                    
-                    this.resize();
-                    this.createTextParticles();
-                    this.explodeParticles();
-                    this.animate();
-                    
-                    window.addEventListener('resize', () => this.resize());
-                }
+            document.addEventListener('DOMContentLoaded', () => {
+                const letters = document.querySelectorAll('.letter');
                 
-                resize() {
-                    this.canvas.width = this.canvas.offsetWidth;
-                    this.canvas.height = this.canvas.offsetHeight;
-                }
-                
-                createTextParticles() {
-                    // Create temporary canvas to render text
-                    const tempCanvas = document.createElement('canvas');
-                    const tempCtx = tempCanvas.getContext('2d');
-                    tempCanvas.width = this.canvas.width;
-                    tempCanvas.height = this.canvas.height;
+                // Stagger letter animations
+                letters.forEach((letter, index) => {
+                    letter.style.animationDelay = `${index * 0.1}s`;
                     
-                    // Draw text
-                    tempCtx.font = 'bold 48px monospace';
-                    tempCtx.fillStyle = '#27ae60';
-                    tempCtx.textAlign = 'center';
-                    tempCtx.textBaseline = 'middle';
-                    tempCtx.fillText(this.text, tempCanvas.width / 2, tempCanvas.height / 2);
-                    
-                    // Get text pixels
-                    const imageData = tempCtx.getImageData(0, 0, tempCanvas.width, tempCanvas.height);
-                    const pixels = imageData.data;
-                    
-                    // Sample pixels and create particles
-                    for (let y = 0; y < tempCanvas.height; y += 4) {
-                        for (let x = 0; x < tempCanvas.width; x += 4) {
-                            const index = (y * tempCanvas.width + x) * 4;
-                            const alpha = pixels[index + 3];
-                            
-                            if (alpha > 128) {
-                                this.particles.push({
-                                    x: x,
-                                    y: y,
-                                    originX: x,
-                                    originY: y,
-                                    vx: 0,
-                                    vy: 0,
-                                    size: Math.random() * 3 + 1,
-                                    color: `hsl(${150 + Math.random() * 30}, 70%, ${40 + Math.random() * 20}%)`,
-                                    delay: Math.random() * 0.5
-                                });
-                            }
-                        }
-                    }
-                }
-                
-                explodeParticles() {
-                    this.particles.forEach(particle => {
-                        const angle = Math.random() * Math.PI * 2;
-                        const velocity = Math.random() * 15 + 10;
-                        
-                        particle.x = particle.originX + Math.cos(angle) * velocity * 20;
-                        particle.y = particle.originY + Math.sin(angle) * velocity * 20;
-                        particle.vx = -Math.cos(angle) * velocity;
-                        particle.vy = -Math.sin(angle) * velocity;
-                    });
-                }
-                
-                animate() {
-                    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-                    
-                    let allSettled = true;
-                    
-                    this.particles.forEach(particle => {
-                        if (particle.delay > 0) {
-                            particle.delay -= 0.016;
-                            return;
-                        }
-                        
-                        // Spring physics to return to origin
-                        const dx = particle.originX - particle.x;
-                        const dy = particle.originY - particle.y;
-                        
-                        if (Math.abs(dx) > 0.5 || Math.abs(dy) > 0.5) {
-                            particle.vx += dx * 0.05;
-                            particle.vy += dy * 0.05;
-                            particle.vx *= 0.85; // Damping
-                            particle.vy *= 0.85;
-                            
-                            particle.x += particle.vx;
-                            particle.y += particle.vy;
-                            allSettled = false;
-                        } else {
-                            particle.x = particle.originX;
-                            particle.y = particle.originY;
-                        }
-                        
-                        // Draw particle
-                        this.ctx.fillStyle = particle.color;
-                        this.ctx.beginPath();
-                        this.ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
-                        this.ctx.fill();
+                    // Add hover effect
+                    letter.addEventListener('mouseenter', () => {
+                        letter.style.transform = 'translateY(-5px) scale(1.1)';
+                        letter.style.transition = 'transform 0.3s ease';
                     });
                     
-                    if (!allSettled && !this.animationComplete) {
-                        requestAnimationFrame(() => this.animate());
-                    } else {
-                        this.animationComplete = true;
-                        // Clear canvas after animation
-                        setTimeout(() => {
-                            this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-                        }, 500);
-                    }
-                }
-            }
-            
-            // Initialize explosion when page loads
-            window.addEventListener('load', () => {
-                const canvas = document.getElementById('explosionCanvas');
-                new ParticleExplosion(canvas, 'Eden Economy');
+                    letter.addEventListener('mouseleave', () => {
+                        letter.style.transform = 'translateY(0) scale(1)';
+                    });
+                });
+                
+                // Add pulsing effect to shapes
+                const shapes = document.querySelectorAll('.shape');
+                shapes.forEach((shape, index) => {
+                    shape.addEventListener('mouseenter', () => {
+                        shape.style.transform += ' scale(1.2)';
+                        shape.style.transition = 'transform 0.3s ease';
+                    });
+                    
+                    shape.addEventListener('mouseleave', () => {
+                        shape.style.transform = shape.style.transform.replace(' scale(1.2)', '');
+                    });
+                });
             });
         </script>
     </div>
