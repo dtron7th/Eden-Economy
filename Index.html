@@ -6,7 +6,36 @@
     <title>Document</title>
 
     <style aria-label="Main">
+        :root {
+            --main-text-color: rgb(255, 255, 255);
+            --font-size: 8px;
+            --main-box-shadow: 5px 5px 0px rgba(0, 0, 0, 0.3);
 
+            --main-ui-color: rgba(0, 0, 0, 0.137);
+            --header-color: rgba(32, 32, 32, 0.226);
+
+            --ui-border-radius: 0px;
+
+            --ui-back-drop: 30px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'MainFont', monospace;
+        }
+
+        @font-face {
+            font-family: 'MainFont';
+            src: url(/Fonts/OverpassMono-Regular.ttf);
+
+        }
+
+
+        body {
+            background-color: rgb(255, 255, 255);
+        }
     </style>
 </head>
 <body>
