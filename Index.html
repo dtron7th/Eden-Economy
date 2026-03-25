@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+<!-- Book_Mark: ==================================== HEAD SECTION ==================================== -->
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -28,8 +29,7 @@
 
         @font-face {
             font-family: 'MainFont';
-            src: url(/Fonts/JetBrainsMono-2.304/fonts/variable/JetBrainsMono[wght].ttf);
-
+            src: url(/Fonts/JetBrainsMono-2.304/fonts/ttf/JetBrainsMono-ExtraLight.ttf);
         }
         
         body {
@@ -45,9 +45,13 @@
             scroll-snap-type: y mandatory;
             scroll-behavior: smooth;
         }
+        
+        
     </style>
 </head>
+<!-- Book_Mark: ==================================== BODY SECTION ==================================== -->
 <body>
+    <!-- Book_Mark: =============================== LOGO SECTION =============================== -->
     <div class="Logo">
         <canvas id="networkCanvas"></canvas>
         <div class="logo-container">
@@ -70,6 +74,7 @@
             </div>
         </div>
 
+        <!-- Book_Mark: ========================== DOWNLOAD BUTTON SECTION ========================== -->
         <div class="Download_Button">
             <button>Download</button>
 
@@ -93,6 +98,7 @@
             </style>
         </div>
 
+        <!-- Book_Mark: =============================== LOGO CSS STYLES =============================== -->
         <style>
             .Logo {
                 width: 100dvw;
@@ -104,6 +110,7 @@
                 overflow: hidden;
                 position: relative;
                 scroll-snap-align: start;
+                
             }
             
             #networkCanvas {
@@ -218,6 +225,7 @@
             }
         </style>
 
+        <!-- Book_Mark: ============================== SWIPE SCRIPT ============================== -->
         <script aria-label="Swipe_Script">
             // Touch/swipe fade navigation
             document.addEventListener('DOMContentLoaded', () => {
@@ -254,6 +262,11 @@
                     // Replay logo animation when returning to Logo page
                     if (index === 0) {
                         replayLogoAnimation();
+                    }
+                    
+                    // Start roadmap animation when Page_1 is displayed
+                    if (index === 1) {
+                        startRoadMapAnimation();
                     }
                     
                     setTimeout(() => {
@@ -408,8 +421,80 @@
                 
                 // Start initial logo animation
                 initialLogoAnimation();
+                
+                // Roadmap animation function - Works like logo page
+                function startRoadMapAnimation() {
+                    const roadmapNodes = document.querySelectorAll('.roadmap-node');
+                    const kickstarterButton = document.querySelector('.Kickstarter_Button');
+                    const whoWeAreSection = document.querySelector('.Who_We_Are');
+                    const moreIdeasSection = document.querySelector('.More_Ideas');
+                    console.log('Found roadmap nodes:', roadmapNodes.length); // Debug
+                    
+                    // Hide all nodes initially (like logo letters)
+                    roadmapNodes.forEach((node, index) => {
+                        node.style.opacity = '0';
+                        node.style.visibility = 'hidden';
+                        console.log('Hiding node', index); // Debug
+                    });
+                    
+                    // Hide all sections initially
+                    if (kickstarterButton) {
+                        kickstarterButton.style.opacity = '0';
+                    }
+                    if (whoWeAreSection) {
+                        whoWeAreSection.style.opacity = '0';
+                    }
+                    if (moreIdeasSection) {
+                        moreIdeasSection.style.opacity = '0';
+                    }
+                    
+                    // Add initial delay before any animation starts (like logo page)
+                    const initialDelay = 800; // 800ms delay before first circle
+                    const animationDuration = 0.6; // Same as page transition
+                    const staggerDelay = 0.15; // 150ms between nodes
+                    
+                    // Start animation after initial delay
+                    setTimeout(() => {
+                        roadmapNodes.forEach((node, index) => {
+                            const nodeDelay = index * staggerDelay;
+                            
+                            setTimeout(() => {
+                                // Show node with smooth transition (like logo letters)
+                                node.style.visibility = 'visible';
+                                node.style.opacity = '1';
+                                node.style.transition = 'opacity 0.6s ease-in-out';
+                                console.log('Showing node', index, 'at', (initialDelay + nodeDelay * 1000) + 'ms'); // Debug
+                            }, nodeDelay * 1000);
+                        });
+                        
+                        // Show Who We Are section after all nodes appear
+                        if (whoWeAreSection) {
+                            setTimeout(() => {
+                                whoWeAreSection.style.opacity = '1';
+                                whoWeAreSection.style.transition = 'opacity 0.8s ease-in-out';
+                            }, (roadmapNodes.length * staggerDelay * 1000) + 300); // 300ms after last node
+                        }
+                        
+                        // Show More Ideas section after Who We Are appears
+                        if (moreIdeasSection) {
+                            setTimeout(() => {
+                                moreIdeasSection.style.opacity = '1';
+                                moreIdeasSection.style.transition = 'opacity 0.8s ease-in-out';
+                            }, (roadmapNodes.length * staggerDelay * 1000) + 600); // 600ms after last node
+                        }
+                        
+                        // Show Kickstarter button after More Ideas appears
+                        if (kickstarterButton) {
+                            setTimeout(() => {
+                                kickstarterButton.style.opacity = '1';
+                                kickstarterButton.style.transition = 'opacity 0.8s ease-in-out';
+                            }, (roadmapNodes.length * staggerDelay * 1000) + 1000); // 1000ms after last node
+                        }
+                    }, initialDelay);
+                }
             });
         </script>
+        <!-- Book_Mark: =============================== LOGO SCRIPT =============================== -->
         <script aria-label="Logo_Script">
             document.addEventListener('DOMContentLoaded', () => {
                 // Network particle system
@@ -555,8 +640,341 @@
             });
         </script>
     </div>
+    
+    <!-- Book_Mark: ============================== ADDITIONAL PAGES ============================== -->
     <div class="Page_1">
-        <style>
+        <div class="Road_Map">
+            <div class="roadmap-container">
+                <div class="Title">
+                    <p>Road Map</p>
+                </div>
+                <div class="roadmap-nodes">
+                    <div class="roadmap-node" data-node="1">
+                        <div class="node-year">2026</div>
+                        <div class="node-circle"></div>
+                        <div class="node-label">Patton AT<br>the game</div>
+                        <div class="node-title">Patton AI</div>
+                        <div class="node-description">
+                            <p>Patton AI is a WWII RTS AI-Powered game that is like no other. Using Unreal Engine 5.7 and with 10 years of experience in the gaming industry, we are creating a peer to peer gambling game that uses AI to command units across the battle field. Buy your units, select your stage, then bet your friends in the most epic battle environment of all time. </p>
+                        </div>
+                        <div class="node-details">• Team formation and role assignment<br>• Project scope definition<br>• Technology stack selection<br>• Development environment setup</div>
+                    </div>
+                    <div class="roadmap-node" data-node="2">
+                        <div class="node-year">2027</div>
+                        <div class="node-circle"></div>
+                        <div class="node-label">Shen CAD tools</div>
+                        <div class="node-title">Phase 1: Foundation</div>
+                        <div class="node-description">Building the core infrastructure and basic functionality.</div>
+                        <div class="node-details">• Database design and implementation<br>• Core API development<br>• Basic UI components<br>• Authentication system</div>
+                    </div>
+                    <div class="roadmap-node" data-node="3">
+                        <div class="node-year">2029</div>
+                        <div class="node-circle"></div>
+                        <div class="node-label">Mini machines for indie companies</div>
+                        <div class="node-title">Phase 2: Development</div>
+                        <div class="node-description">Expanding features and implementing advanced functionality.</div>
+                        <div class="node-details">• Advanced features development<br>• Performance optimization<br>• Security enhancements<br>• Third-party integrations</div>
+                    </div>
+                    <div class="roadmap-node" data-node="4">
+                        <div class="node-year">2032</div>
+                        <div class="node-circle"></div>
+                        <div class="node-label">Building AI for R&D</div>
+                        <div class="node-title">Major Milestone</div>
+                        <div class="node-description">Critical checkpoint demonstrating significant progress and achievements.</div>
+                        <div class="node-details">• Feature completeness review<br>• Performance benchmarks<br>• User testing feedback<br>• Stakeholder presentation</div>
+                    </div>
+                    <div class="roadmap-node" data-node="5">
+                        <div class="node-year">2040</div>
+                        <div class="node-circle"></div>
+                        <div class="node-label">Advance indie Engineering</div>
+                        <div class="node-title">Project Completion</div>
+                        <div class="node-description">Final delivery and deployment of the complete solution.</div>
+                        <div class="node-details">• Production deployment<br>• Documentation completion<br>• Training and handover<br>• Post-launch support plan</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Popup Cards -->
+            <div id="roadMapPopup" class="roadmap-popup">
+                <div class="popup-card">
+                    <div class="close-popup">[ Close ]</div>
+                    <h2 id="popupTitle"></h2>
+                    <p id="popupDescription"></p>
+                    <div id="popupDetails"></div>
+                </div>
+            </div>
+            
+            <style>
+
+                /* Roadmap Styles - Moved to main style section */
+                .Road_Map {
+                    position: absolute;
+                    top: 10px;
+                    width: calc(100% - 20px);
+                    height: 200px;
+                    overflow: hidden;
+                }
+                
+                .roadmap-container {
+                    position: relative;
+                    width: 100%;
+                    height: 100%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                }
+
+                .roadmap-container .Title {
+                    position: absolute;
+                    top: 10px;
+                    left: 10px;
+                    
+                }
+
+                .roadmap-container .Title p {
+                    font-size: 14px;
+                    font-weight: 100;
+                }
+                
+                .roadmap-line {
+                    position: absolute;
+                    top: 50%;
+                    left: 10%;
+                    width: 80%;
+                    height: 1px;
+                    background: linear-gradient(90deg, 
+                        transparent 0%, 
+                        rgba(150, 150, 150, 0.3) 10%, 
+                        rgba(150, 150, 150, 0.7) 50%, 
+                        rgba(150, 150, 150, 0.3) 90%, 
+                        transparent 100%
+                    );
+                    z-index: 1;
+                }
+                
+                .roadmap-nodes {
+                    position: relative;
+                    width: 100%;
+                    height: 100%;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    padding: 0 10%;
+                    z-index: 2;
+                }
+                
+                .roadmap-node {
+                    position: relative;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    opacity: 0;
+                    transition: opacity 0.6s ease-in-out;
+                }
+                
+                .roadmap-node.active {
+                    opacity: 1;
+                }
+                
+                .node-circle {
+                    width: 10px;
+                    height: 10px;
+                    border-radius: 50%;
+                    margin-bottom: 20px;
+                }
+                
+                .node-year {
+                    font-family: 'MainFont', monospace;
+                    font-size: 9px;
+                    font-weight: 100;
+                    color: rgb(120, 120, 120);
+                    text-align: center;
+                    margin-bottom: 5px;
+                }
+                
+                .roadmap-node[data-node="1"] .node-circle { background-color: #C0C0C0; }
+                .roadmap-node[data-node="2"] .node-circle { background-color: #B8B8B8; }
+                .roadmap-node[data-node="3"] .node-circle { background-color: #B0B0B0; }
+                .roadmap-node[data-node="4"] .node-circle { background-color: #A8A8A8; }
+                .roadmap-node[data-node="5"] .node-circle { background-color: #A0A0A0; }
+                
+                .node-label {
+                    position: absolute;
+                    top: 30px;
+                    width: 70px;
+                    font-family: 'MainFont', monospace;
+                    font-size: 10px;
+                    font-weight: 200;
+                    color: rgb(150, 150, 150);
+                    text-align: center;
+                    margin-bottom: 5px;
+                    margin-top: 10px;
+                }
+                
+                .node-title, .node-description, .node-details {
+                    display: none;
+                }
+
+                .roadmap-popup {
+                    display: none;
+                    position: fixed;
+                    z-index: 1000;
+                    left: 0;
+                    top: 0;
+                    width: 100%;
+                    height: 100%;
+                    background-color: rgba(0, 0, 0, 0);
+                    opacity: 0;
+                    transition: opacity 0.6s ease-in-out;
+                    align-items: center;
+                    justify-content: center;
+                }
+                
+                .roadmap-popup.active {
+                    opacity: 1;
+                }
+                
+                .popup-card {
+                    background-color: #ffffff;
+                    padding: 30px;
+                    width: 90%;
+                    max-width: 500px;
+                    height: calc(100% - 20px);
+                    box-sizing: border-box;
+                    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+                    position: relative;
+                    opacity: 0;
+                    transition: opacity 0.6s ease-in-out;
+                    overflow-y: auto;
+                    margin: auto;
+                }
+                
+                .roadmap-popup.active .popup-card {
+                    opacity: 1;
+                }
+                
+                .close-popup {
+                    position: absolute;
+                    top: 10px;
+                    right: 10px;
+                    font-size: 10px;
+                    cursor: pointer;
+                    color: #666;
+                    transition: color 0.3s ease;
+                    font-family: 'MainFont', monospace;
+                    
+                }
+                
+                .close-popup:hover {
+                    color: #333;
+                }
+                
+                #popupTitle {
+                    color: #333;
+                    position: absolute;
+                    top: 20px;
+                    left: 20px;
+                    font-size: 14px;
+                    font-family: 'MainFont', monospace;
+                    font-weight: 100;
+                }
+                
+                #popupDescription {
+                    color: #666;
+                    line-height: 1.6;
+                    margin-top: 20px;
+                    margin-bottom: 20px;
+                    font-size: 11px;
+                    font-family: 'MainFont', monospace;
+                }
+                
+                #popupDetails {
+                    color: #777;
+                    font-size: 14px;
+                    line-height: 1.5;
+                }
+            </style>
+            <script>
+                document.addEventListener('DOMContentLoaded', () => {
+                    // Popup elements
+                    const popup = document.getElementById('roadMapPopup');
+                    const popupTitle = document.getElementById('popupTitle');
+                    const popupDescription = document.getElementById('popupDescription');
+                    const popupDetails = document.getElementById('popupDetails');
+                    const closePopup = document.querySelector('.close-popup');
+                    
+                    // Click detection for roadmap nodes
+                    const roadmapNodes = document.querySelectorAll('.roadmap-node');
+                    
+                    roadmapNodes.forEach(node => {
+                        node.addEventListener('click', () => {
+                            openPopup(node);
+                        });
+                    });
+                    
+                    // Open popup function
+                    function openPopup(nodeElement) {
+                        const title = nodeElement.querySelector('.node-title').textContent;
+                        const description = nodeElement.querySelector('.node-description').textContent;
+                        const details = nodeElement.querySelector('.node-details').innerHTML;
+                        
+                        popupTitle.textContent = title;
+                        popupDescription.textContent = description;
+                        popupDetails.innerHTML = details;
+                        popup.style.display = 'flex';
+                        
+                        // Trigger fade in
+                        setTimeout(() => {
+                            popup.classList.add('active');
+                        }, 10);
+                    }
+                    
+                    // Close popup function
+                    closePopup.addEventListener('click', () => {
+                        closePopupFunc();
+                    });
+                    
+                    // Close popup when clicking outside
+                    window.addEventListener('click', (e) => {
+                        if (e.target === popup) {
+                            closePopupFunc();
+                        }
+                    });
+                    
+                    function closePopupFunc() {
+                        popup.classList.remove('active');
+                        
+                        // Hide after fade out
+                        setTimeout(() => {
+                            popup.style.display = 'none';
+                        }, 600);
+                    }
+                });
+            </script>
+        </div>
+        
+        <!-- Who We Are Section -->
+        <div class="Who_We_Are">
+            <h2>Who We Are</h2>
+            <p>We are a team of passionate developers and designers dedicated to creating innovative gaming experiences and cutting-edge engineering solutions.</p>
+        </div>
+        
+        <!-- More Ideas Section -->
+        <div class="More_Ideas">
+            <h2>More of our ideas</h2>
+            <div class="ideas-buttons">
+                <button class="idea-btn">Idea 1</button>
+                <button class="idea-btn">Idea 2</button>
+                <button class="idea-btn">Idea 3</button>
+            </div>
+        </div>
+        
+        <!-- Kickstarter Button -->
+        <div class="Kickstarter_Button">
+            <button>Kickstarter</button>
+        </div>
+        
+        <style aria-label="Page_1">
             .Page_1 {
                 width: 100dvw;
                 height: 100dvh;
@@ -569,8 +987,98 @@
                 color: #9a9a9a;
                 background: linear-gradient(135deg, #f5f5f5, #ffffff);
             }
+            
+            .Who_We_Are {
+                position: absolute;
+                top: 250px;
+                left: 50%;
+                transform: translateX(-50%);
+                text-align: center;
+                opacity: 0;
+                transition: opacity 0.8s ease-in-out;
+                width: 80%;
+                max-width: 600px;
+            }
+            
+            .Who_We_Are h2 {
+                font-family: 'MainFont', monospace;
+                font-size: 18px;
+                font-weight: 100;
+                color: #333;
+                margin-bottom: 15px;
+            }
+            
+            .Who_We_Are p {
+                font-family: 'MainFont', monospace;
+                font-size: 12px;
+                font-weight: 200;
+                color: #666;
+                line-height: 1.6;
+            }
+            
+            .More_Ideas {
+                position: absolute;
+                top: 350px;
+                left: 50%;
+                transform: translateX(-50%);
+                text-align: center;
+                opacity: 0;
+                transition: opacity 0.8s ease-in-out;
+                width: 80%;
+                max-width: 600px;
+                margin-top: 70px;
+            }
+            
+            .More_Ideas h2 {
+                font-family: 'MainFont', monospace;
+                font-size: 18px;
+                font-weight: 100;
+                color: #333;
+                margin-bottom: 20px;
+            }
+            
+            .ideas-buttons {
+                display: flex;
+                justify-content: center;
+                gap: 20px;
+                flex-wrap: wrap;
+            }
+            
+            .idea-btn {
+                width: 120px;
+                height: 35px;
+                background: rgb(255, 255, 255);
+                border: 1px solid rgb(0, 0, 0);
+                font-size: 10px;
+                font-family: 'MainFont', monospace;
+                cursor: pointer;
+                transition: all 0.3s ease;
+            }
+            
+            .idea-btn:hover {
+                background: rgb(0, 0, 0);
+                color: rgb(255, 255, 255);
+            }
+            
+            .Kickstarter_Button {
+                position: absolute;
+                bottom: 40px;
+                opacity: 0;
+                transition: opacity 0.8s ease-in-out;
+            }
+
+            .Kickstarter_Button button {
+                width: 160px;
+                height: 30px;
+                background: rgb(255, 255, 255);
+                border: 1px solid rgb(0, 0, 0);
+                
+                font-size: 11px;
+                font-family: 'MainFont', monospace;
+                cursor: pointer;
+            }
         </style>
-        Page 1 Content
+        
     </div>
     <div class="page_2">
         <style>
@@ -585,6 +1093,7 @@
                 font-size: 2rem;
                 color: #9a9a9a;
                 background: linear-gradient(135deg, #ffffff, #f0f0f0);
+                display: none;
             }
         </style>
         Page 2 Content
@@ -602,11 +1111,20 @@
                 font-size: 2rem;
                 color: #9a9a9a;
                 background: linear-gradient(135deg, #f8f8f8, #ffffff);
+                display: none;
             }
         </style>
         Page 3 Content
     </div>
 </body>
+<!-- Book_Mark: ==================================== END HTML ==================================== -->
+</html>
+
+
+
+
+
+<!-- Book_Mark: ==================================== END HTML ==================================== -->
 </html>
 
 
