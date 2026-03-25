@@ -269,6 +269,11 @@
                         startRoadMapAnimation();
                     }
                     
+                    // Start Beautiful UI animation when Page_2 is displayed
+                    if (index === 2) {
+                        startPage2Animation();
+                    }
+                    
                     setTimeout(() => {
                         isAnimating = false;
                     }, 600);
@@ -490,6 +495,28 @@
                                 kickstarterButton.style.transition = 'opacity 0.8s ease-in-out';
                             }, (roadmapNodes.length * staggerDelay * 1000) + 1000); // 1000ms after last node
                         }
+                    }, initialDelay);
+                }
+                
+                // Page 2 animation function - Beautiful UI letter-by-letter fade-in
+                function startPage2Animation() {
+                    const beautifulUILetters = document.querySelectorAll('.beautiful-ui-letter');
+                    
+                    // Reset and hide letters initially
+                    beautifulUILetters.forEach((letter) => {
+                        letter.style.animation = 'none';
+                        letter.offsetHeight; // Force reflow
+                    });
+                    
+                    // Add initial delay before animation starts (like logo)
+                    const initialDelay = 800; // 800ms delay like logo
+                    
+                    setTimeout(() => {
+                        // Re-add animations with staggered delay (like Eden Economy)
+                        beautifulUILetters.forEach((letter, index) => {
+                            letter.style.animation = `letterFadeIn 1.2s ease-out forwards`;
+                            letter.style.animationDelay = `${index * 0.1}s`;
+                        });
                     }, initialDelay);
                 }
             });
@@ -1093,10 +1120,50 @@
                 font-size: 2rem;
                 color: #9a9a9a;
                 background: linear-gradient(135deg, #ffffff, #f0f0f0);
-                display: none;
+                
+            }
+            
+            .beautiful-ui-container {
+                display: inline-block;
+            }
+            
+            .beautiful-ui-letter {
+                display: inline-block;
+                font-size: 14px;
+                font-weight: 100;
+                font-family: 'MainFont', monospace;
+                color: #333;
+                opacity: 0;
+                transform: translateY(10px);
+                animation: letterFadeIn 1.2s ease-out forwards;
+                position: relative;
+            }
+            
+            @keyframes letterFadeIn {
+                0% {
+                    opacity: 0;
+                    transform: translateY(10px);
+                }
+                100% {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
             }
         </style>
-        Page 2 Content
+        <div class="beautiful-ui-container">
+            <span class="beautiful-ui-letter">B</span>
+            <span class="beautiful-ui-letter">e</span>
+            <span class="beautiful-ui-letter">a</span>
+            <span class="beautiful-ui-letter">u</span>
+            <span class="beautiful-ui-letter">t</span>
+            <span class="beautiful-ui-letter">i</span>
+            <span class="beautiful-ui-letter">f</span>
+            <span class="beautiful-ui-letter">u</span>
+            <span class="beautiful-ui-letter">l</span>
+            <span class="beautiful-ui-letter"></span> </span>
+            <span class="beautiful-ui-letter">U</span>
+            <span class="beautiful-ui-letter">I</span>
+        </div>
     </div>
     <div class="page_3">
         <style>
@@ -1111,7 +1178,7 @@
                 font-size: 2rem;
                 color: #9a9a9a;
                 background: linear-gradient(135deg, #f8f8f8, #ffffff);
-                display: none;
+                
             }
         </style>
         Page 3 Content
