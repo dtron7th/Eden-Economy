@@ -501,12 +501,24 @@
                 // Page 2 animation function - Beautiful UI letter-by-letter fade-in
                 function startPage2Animation() {
                     const beautifulUILetters = document.querySelectorAll('.beautiful-ui-letter');
+                    const blueBackground = document.querySelector('.blue-background');
+                    const slogan = document.querySelector('.slogan');
+                    const sloganText = document.querySelector('.slogan-text');
                     
-                    // Reset and hide letters initially
+                    // Reset and hide letters, background, and slogan initially (like logo)
                     beautifulUILetters.forEach((letter) => {
                         letter.style.animation = 'none';
                         letter.offsetHeight; // Force reflow
                     });
+                    
+                    if (blueBackground) {
+                        blueBackground.classList.remove('active');
+                    }
+                    
+                    if (slogan) {
+                        slogan.style.opacity = '0';
+                        slogan.style.visibility = 'hidden';
+                    }
                     
                     // Add initial delay before animation starts (like logo)
                     const initialDelay = 800; // 800ms delay like logo
@@ -517,7 +529,45 @@
                             letter.style.animation = `letterFadeIn 1.2s ease-out forwards`;
                             letter.style.animationDelay = `${index * 0.1}s`;
                         });
+                        
+                        // Start slogan animation after Beautiful UI completes (like logo)
+                        const lastLetterDelay = (beautifulUILetters.length - 1) * 0.1; // Last letter delay
+                        const animationDuration = 1.2; // Letter fade-in duration
+                        const logoDelay = (lastLetterDelay + animationDuration) * 1000; // Convert to milliseconds
+                        
+                        setTimeout(() => {
+                            // Show slogan container with smooth transition (like logo)
+                            slogan.style.visibility = 'visible';
+                            slogan.style.opacity = '1';
+                            // Start typewriter effect (like logo)
+                            typeWriter("Be inspired by glass", sloganText);
+                        }, logoDelay + 200);
+                        
+                        // Fade in blue background after typewriter animation completes
+                        const typewriterDuration = "Be inspired by glass".length * 50; // 50ms per character (like logo)
+                        
+                        setTimeout(() => {
+                            if (blueBackground) {
+                                blueBackground.classList.add('active');
+                            }
+                        }, logoDelay + 200 + typewriterDuration + 1000); // Extra 1 second delay after typewriter
                     }, initialDelay);
+                }
+                
+                // Typewriter animation function (local to Page 2)
+                function typeWriter(text, element, speed = 50) {
+                    let i = 0;
+                    element.textContent = '';
+                    
+                    function type() {
+                        if (i < text.length) {
+                            element.textContent += text.charAt(i);
+                            i++;
+                            setTimeout(type, speed);
+                        }
+                    }
+                    
+                    type();
                 }
             });
         </script>
@@ -1149,6 +1199,40 @@
                     transform: translateY(0);
                 }
             }
+            
+            .blue-background {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100dvw;
+                height: 100dvh;
+                background-color: blue;
+                opacity: 0;
+                transition: opacity 0.6s ease-in-out;
+                z-index: -1;
+            }
+            
+            .blue-background.active {
+                opacity: 1;
+            }
+            
+            .slogan {
+                position: absolute;
+                left: 50%;
+                top: 60px;
+                transform: translateX(-50%);
+                opacity: 0;
+                transition: opacity 0.6s ease-in-out;
+                visibility: hidden;
+                white-space: nowrap;
+            }
+            
+            .slogan-text {
+                font-size: 11px;
+                font-weight: 100;
+                color: #333;
+                font-family: 'MainFont', monospace;
+            }
         </style>
         <div class="beautiful-ui-container">
             <span class="beautiful-ui-letter">B</span>
@@ -1164,6 +1248,12 @@
             <span class="beautiful-ui-letter">U</span>
             <span class="beautiful-ui-letter">I</span>
         </div>
+        
+        <div class="slogan">
+            <span class="slogan-text"></span>
+        </div>
+        
+        <div class="blue-background"></div>
     </div>
     <div class="page_3">
         <style>
