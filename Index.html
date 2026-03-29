@@ -279,6 +279,11 @@
                     if (index === 3) {
                         startPage2Animation();
                     }
+
+                    // Start Terminal Technology animation when Page_3 is displayed
+                    if (index === 4) {
+                        startPage3Animation();
+                    }
                     
                     setTimeout(() => {
                         isAnimating = false;
@@ -564,7 +569,7 @@
                             slogan.style.visibility = 'visible';
                             slogan.style.opacity = '1';
                             // Start typewriter effect (like logo)
-                            typeWriter("Be inspired by glass UI", sloganText);
+                            typeWriter("Be inspired by glass", sloganText);
                         }, logoDelay + 200);
                         
                         // Fade in blue background after typewriter animation completes
@@ -583,6 +588,67 @@
                                 }
                             }, heroFadeDuration + blueStartDelayAfterHeroFade);
                         }, logoDelay + 200 + typewriterDuration + 1000); // Extra 1 second delay after typewriter
+                    }, initialDelay);
+                }
+
+                function startPage3Animation() {
+                    const terminalTechLetters = document.querySelectorAll('.terminal-tech-letter');
+                    const blueBackground = document.querySelector('.page3-blue-background');
+                    const page3Hero = document.querySelector('.page3-hero');
+                    const slogan = document.querySelector('.page3-slogan');
+                    const sloganText = document.querySelector('.page3-slogan-text');
+
+                    terminalTechLetters.forEach((letter) => {
+                        letter.style.animation = 'none';
+                        letter.offsetHeight;
+                    });
+
+                    if (blueBackground) {
+                        blueBackground.classList.remove('active');
+                    }
+
+                    if (page3Hero) {
+                        page3Hero.classList.remove('fade-out');
+                    }
+
+                    if (slogan) {
+                        slogan.style.opacity = '0';
+                        slogan.style.visibility = 'hidden';
+                    }
+
+                    const initialDelay = 800;
+
+                    setTimeout(() => {
+                        terminalTechLetters.forEach((letter, index) => {
+                            letter.style.animation = `letterFadeIn 1.2s ease-out forwards`;
+                            letter.style.animationDelay = `${index * 0.1}s`;
+                        });
+
+                        const lastLetterDelay = (terminalTechLetters.length - 1) * 0.1;
+                        const animationDuration = 1.2;
+                        const logoDelay = (lastLetterDelay + animationDuration) * 1000;
+
+                        setTimeout(() => {
+                            slogan.style.visibility = 'visible';
+                            slogan.style.opacity = '1';
+                            typeWriter("Written like DOS-MS", sloganText);
+                        }, logoDelay + 200);
+
+                        const typewriterDuration = "Written like DOS-MS".length * 50;
+                        const heroFadeDuration = 800;
+                        const blueStartDelayAfterHeroFade = 1000;
+
+                        setTimeout(() => {
+                            if (page3Hero) {
+                                page3Hero.classList.add('fade-out');
+                            }
+
+                            setTimeout(() => {
+                                if (blueBackground) {
+                                    blueBackground.classList.add('active');
+                                }
+                            }, heroFadeDuration + blueStartDelayAfterHeroFade);
+                        }, logoDelay + 200 + typewriterDuration + 1000);
                     }, initialDelay);
                 }
                 
@@ -1734,6 +1800,15 @@
                 font-weight: 100;
                 color: #9a9a9a;
                 margin: 0;
+                position: absolute;
+                top: 20px;
+                left: 20px;
+                opacity: 0;
+                transition: opacity 0.6s ease-in-out 1s;
+            }
+
+            .The_Free_Economy .Our_Ideas .blueprint-overlay.active .blueprint-card h3 {
+                opacity: 1;
             }
 
             .The_Free_Economy .Our_Ideas .blueprint-close {
@@ -1986,7 +2061,15 @@
             }
             
             .beautiful-ui-container {
-                display: inline-block;
+                display: inline-flex;
+                flex-direction: column;
+                align-items: center;
+                line-height: 1.1;
+            }
+
+            .beautiful-ui-line {
+                display: flex;
+                justify-content: center;
             }
 
             .page2-hero {
@@ -2062,18 +2145,20 @@
         </style>
         <div class="page2-hero">
             <div class="beautiful-ui-container">
-                <span class="beautiful-ui-letter">B</span>
-                <span class="beautiful-ui-letter">e</span>
-                <span class="beautiful-ui-letter">a</span>
-                <span class="beautiful-ui-letter">u</span>
-                <span class="beautiful-ui-letter">t</span>
-                <span class="beautiful-ui-letter">i</span>
-                <span class="beautiful-ui-letter">f</span>
-                <span class="beautiful-ui-letter">u</span>
-                <span class="beautiful-ui-letter">l</span>
-                <span class="beautiful-ui-letter"></span> </span>
-                <span class="beautiful-ui-letter">U</span>
-                <span class="beautiful-ui-letter">I</span>
+                <div class="beautiful-ui-line">
+                    <span class="beautiful-ui-letter">B</span>
+                    <span class="beautiful-ui-letter">e</span>
+                    <span class="beautiful-ui-letter">a</span>
+                    <span class="beautiful-ui-letter">u</span>
+                    <span class="beautiful-ui-letter">t</span>
+                    <span class="beautiful-ui-letter">i</span>
+                    <span class="beautiful-ui-letter">f</span>
+                    <span class="beautiful-ui-letter">u</span>
+                    <span class="beautiful-ui-letter">l</span>
+                    <span class="beautiful-ui-letter">&nbsp;</span>
+                    <span class="beautiful-ui-letter">U</span>
+                    <span class="beautiful-ui-letter">I</span>
+                </div>
             </div>
 
             <div class="page2-slogan">
@@ -2095,11 +2180,114 @@
                 align-items: center;
                 font-size: 2rem;
                 color: #9a9a9a;
-                background: linear-gradient(135deg, #f8f8f8, #ffffff);
+                background: linear-gradient(135deg, #ffffff, #f0f0f0);
                 
             }
+
+            .terminal-tech-container {
+                display: inline-flex;
+                flex-direction: column;
+                align-items: center;
+                line-height: 1.1;
+            }
+
+            .terminal-tech-line {
+                display: flex;
+                justify-content: center;
+            }
+
+            .page3-hero {
+                position: relative;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+                gap: 10px;
+                opacity: 1;
+                transition: opacity 0.8s ease-in-out;
+            }
+
+            .page3-hero.fade-out {
+                opacity: 0;
+            }
+
+            .terminal-tech-letter {
+                display: inline-block;
+                font-size: 14px;
+                font-weight: 100;
+                font-family: 'MainFont', monospace;
+                color: #333;
+                opacity: 0;
+                transform: translateY(10px);
+                animation: letterFadeIn 1.2s ease-out forwards;
+                position: relative;
+            }
+
+            .page3-blue-background {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100dvw;
+                height: 100dvh;
+                background-color: blue;
+                opacity: 0;
+                transition: opacity 0.6s ease-in-out;
+                z-index: -1;
+            }
+
+            .page3-blue-background.active {
+                opacity: 1;
+            }
+
+            .page3-slogan {
+                position: relative;
+                height: 20px;
+                min-width: 240px;
+                opacity: 0;
+                transition: opacity 0.6s ease-in-out;
+                visibility: hidden;
+                white-space: nowrap;
+            }
+
+            .page3-slogan-text {
+                font-size: 11px;
+                font-weight: 100;
+                color: #333;
+                font-family: 'MainFont', monospace;
+            }
         </style>
-        Page 3 Content
+
+        <div class="page3-hero">
+            <div class="terminal-tech-container">
+                <div class="terminal-tech-line">
+                    <span class="terminal-tech-letter">T</span>
+                    <span class="terminal-tech-letter">e</span>
+                    <span class="terminal-tech-letter">r</span>
+                    <span class="terminal-tech-letter">m</span>
+                    <span class="terminal-tech-letter">i</span>
+                    <span class="terminal-tech-letter">n</span>
+                    <span class="terminal-tech-letter">a</span>
+                    <span class="terminal-tech-letter">l</span>
+                    <span class="terminal-tech-letter">&nbsp;</span>
+                    <span class="terminal-tech-letter">T</span>
+                    <span class="terminal-tech-letter">e</span>
+                    <span class="terminal-tech-letter">c</span>
+                    <span class="terminal-tech-letter">h</span>
+                    <span class="terminal-tech-letter">n</span>
+                    <span class="terminal-tech-letter">o</span>
+                    <span class="terminal-tech-letter">l</span>
+                    <span class="terminal-tech-letter">o</span>
+                    <span class="terminal-tech-letter">g</span>
+                    <span class="terminal-tech-letter">y</span>
+                </div>
+            </div>
+
+            <div class="page3-slogan">
+                <span class="page3-slogan-text"></span>
+            </div>
+        </div>
+
+        <div class="page3-blue-background"></div>
     </div>
 </body>
 <!-- Book_Mark: ==================================== END HTML ==================================== -->
