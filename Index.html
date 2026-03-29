@@ -230,7 +230,7 @@
         <script aria-label="Swipe_Script">
             // Touch/swipe fade navigation
             document.addEventListener('DOMContentLoaded', () => {
-                const sections = document.querySelectorAll('.Logo, .Page_1, .page_2, .page_3');
+                const sections = document.querySelectorAll('.Logo, .Page_1, .The_Free_Economy, .page_2, .page_3');
                 let currentSection = 0;
                 let touchStartY = 0;
                 let touchEndY = 0;
@@ -269,9 +269,14 @@
                     if (index === 1) {
                         startRoadMapAnimation();
                     }
+
+                    // Start Free Economy animation when The_Free_Economy is displayed
+                    if (index === 2) {
+                        startFreeEconomyAnimation();
+                    }
                     
                     // Start Beautiful UI animation when Page_2 is displayed
-                    if (index === 2) {
+                    if (index === 3) {
                         startPage2Animation();
                     }
                     
@@ -445,6 +450,46 @@
                     const allAnimationItems = animationGroups.flatMap((group) => Array.from(group));
 
                     // Reset like logo replay
+                    allAnimationItems.forEach((item) => {
+                        item.style.opacity = '0';
+                        item.style.visibility = 'hidden';
+                        item.style.transition = 'none';
+                    });
+
+                    const initialDelay = 800;
+                    const staggerDelay = 90;
+                    const groupGap = 220;
+
+                    let totalDelay = initialDelay;
+
+                    animationGroups.forEach((group) => {
+                        setTimeout(() => {
+                            group.forEach((item, index) => {
+                                setTimeout(() => {
+                                    item.style.visibility = 'visible';
+                                    item.style.opacity = '1';
+                                    item.style.transition = 'opacity 0.6s ease-in-out';
+                                }, index * staggerDelay);
+                            });
+                        }, totalDelay);
+
+                        totalDelay += (group.length * staggerDelay) + groupGap;
+                    });
+                }
+
+                function startFreeEconomyAnimation() {
+                    const freeEconomy = document.querySelector('.The_Free_Economy');
+                    if (!freeEconomy) return;
+
+                    const animationGroups = [
+                        freeEconomy.querySelectorAll('.About_Free_Economy h2, .About_Free_Economy p'),
+                        freeEconomy.querySelectorAll('.Our_Ideas .Title p'),
+                        freeEconomy.querySelectorAll('.Our_Ideas .Blueprints p, .Our_Ideas .Blueprints_Buttons button'),
+                        freeEconomy.querySelectorAll('.Ideas_List .ideas-markers .idea-marker, .Ideas_List .ideas-timeline-content')
+                    ];
+
+                    const allAnimationItems = animationGroups.flatMap((group) => Array.from(group));
+
                     allAnimationItems.forEach((item) => {
                         item.style.opacity = '0';
                         item.style.visibility = 'hidden';
@@ -1214,6 +1259,77 @@
                     window.addEventListener('resize', () => {
                         updateEdenSliderPosition(edenCurrentYear);
                     });
+
+                    // Free Economy ideas timeline
+                    const ideaMarkers = document.querySelectorAll('.idea-marker');
+                    const ideaContents = document.querySelectorAll('.idea-content');
+                    const ideasTimelineContent = document.querySelector('.ideas-timeline-content');
+
+                    function updateIdeaContent(ideaId) {
+                        ideaMarkers.forEach((marker) => {
+                            marker.classList.remove('active');
+                        });
+
+                        ideaContents.forEach((content) => {
+                            content.classList.remove('active');
+                        });
+
+                        const activeMarker = document.querySelector(`.idea-marker[data-idea="${ideaId}"]`);
+                        const activeContent = document.querySelector(`.idea-content[data-idea="${ideaId}"]`);
+
+                        if (activeMarker) {
+                            activeMarker.classList.add('active');
+                        }
+
+                        if (activeContent) {
+                            activeContent.classList.add('active');
+                            if (ideasTimelineContent) {
+                                ideasTimelineContent.classList.add('active');
+                            }
+                        }
+                    }
+
+                    ideaMarkers.forEach((marker) => {
+                        marker.addEventListener('click', () => {
+                            updateIdeaContent(marker.dataset.idea);
+                        });
+                    });
+
+                    if (ideaMarkers.length > 0) {
+                        updateIdeaContent(ideaMarkers[0].dataset.idea);
+                    }
+
+                    const blueprintButtons = document.querySelectorAll('.blueprint-trigger');
+                    const blueprintCards = document.querySelectorAll('.blueprint-overlay');
+                    const blueprintCloseButtons = document.querySelectorAll('.blueprint-close');
+
+                    function closeBlueprintCards() {
+                        blueprintCards.forEach((card) => {
+                            card.classList.remove('active');
+                        });
+                    }
+
+                    function openBlueprintCard(targetId) {
+                        blueprintCards.forEach((card) => {
+                            if (card.dataset.blueprint === targetId) {
+                                card.classList.add('active');
+                            } else {
+                                card.classList.remove('active');
+                            }
+                        });
+                    }
+
+                    blueprintButtons.forEach((button) => {
+                        button.addEventListener('click', () => {
+                            openBlueprintCard(button.dataset.blueprintTarget);
+                        });
+                    });
+
+                    blueprintCloseButtons.forEach((button) => {
+                        button.addEventListener('click', () => {
+                            closeBlueprintCards();
+                        });
+                    });
                 });
             </script>
         
@@ -1467,6 +1583,391 @@
             }
         </style>
         
+    </div>
+    <div class="The_Free_Economy">
+        <style>
+            .The_Free_Economy {
+                width: 100dvw;
+                height: 100dvh;
+                position: relative;
+                scroll-snap-align: start;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                background: linear-gradient(135deg, #ffffff, #f7f7f7);
+                color: #333;
+                gap: 24px;
+            }
+
+            .The_Free_Economy .About_Free_Economy {
+                position: absolute;
+                top: 10px;
+                width: calc(100% - 20px);
+                height: 260px;
+
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                text-align: center;
+                padding: 0 20px;
+            }
+
+            .The_Free_Economy .About_Free_Economy h2 {
+                font-family: 'MainFont', monospace;
+                font-size: 18px;
+                font-weight: 100;
+                color: #9a9a9a;
+                margin: 0 0 12px;
+            }
+
+            .The_Free_Economy .About_Free_Economy p {
+                font-family: 'MainFont', monospace;
+                font-size: 11px;
+                font-weight: 100;
+                color: #9a9a9a;
+                margin: 0;
+                line-height: 1.4;
+                max-width: 760px;
+            }
+
+            .The_Free_Economy .Our_Ideas {
+                position: absolute;
+                top: 280px;
+                width: calc(100% - 20px);
+                height: calc(100% - 280px);
+                overflow: hidden;
+            }
+
+            .The_Free_Economy .Our_Ideas .Title {
+                position: absolute;
+                top: 10px;
+                left: 10px;
+            }
+
+            .The_Free_Economy .Our_Ideas .Title p {
+                font-family: 'MainFont', monospace;
+                font-size: 11px;
+                font-weight: 100;
+                color: #9a9a9a;
+                margin: 0;
+            }
+
+            .The_Free_Economy .Our_Ideas .Blueprints {
+                position: absolute;
+                top: 80px;
+                left: 50%;
+                transform: translateX(-50%);
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 8px;
+                width: calc(100% - 40px);
+                z-index: 25;
+            }
+
+            .The_Free_Economy .Our_Ideas .Blueprints p {
+                font-family: 'MainFont', monospace;
+                font-size: 11px;
+                font-weight: 100;
+                color: #9a9a9a;
+                margin: 0;
+            }
+
+            .The_Free_Economy .Our_Ideas .Blueprints_Buttons {
+                display: flex;
+                margin-top: 10px;
+                justify-content: center;
+                flex-wrap: wrap;
+                gap: 8px;
+            }
+
+            .The_Free_Economy .Our_Ideas .Blueprints_Buttons button {
+                width: 100px;
+                height: 20px;
+                background: rgb(255, 255, 255);
+                border: 1px solid rgb(0, 0, 0);
+                font-size: 11px;
+                font-family: 'MainFont', monospace;
+                cursor: pointer;
+            }
+
+            .The_Free_Economy .Our_Ideas .blueprint-overlay {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100dvw;
+                height: 100dvh;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                opacity: 0;
+                visibility: hidden;
+                pointer-events: none;
+                transition: opacity 0.6s ease-in-out, visibility 0.6s ease-in-out;
+                z-index: 30;
+            }
+
+            .The_Free_Economy .Our_Ideas .blueprint-overlay.active {
+                opacity: 1;
+                visibility: visible;
+                pointer-events: auto;
+            }
+
+            .The_Free_Economy .Our_Ideas .blueprint-card {
+                position: relative;
+                width: calc(100% - 40px);
+                height: calc(100% - 40px);
+                background: rgb(255, 255, 255);
+                border: 1px solid rgb(0, 0, 0);
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                text-align: center;
+                padding: 20px;
+            }
+
+            .The_Free_Economy .Our_Ideas .blueprint-card h3 {
+                font-family: 'MainFont', monospace;
+                font-size: 18px;
+                font-weight: 100;
+                color: #9a9a9a;
+                margin: 0;
+            }
+
+            .The_Free_Economy .Our_Ideas .blueprint-close {
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                background: transparent;
+                border: none;
+                font-family: 'MainFont', monospace;
+                font-size: 11px;
+                color: #9a9a9a;
+                cursor: pointer;
+                padding: 0;
+            }
+
+            .The_Free_Economy .Ideas_List {
+                position: absolute;
+                top: 100px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: calc(100% - 40px);
+                height: calc(100% - 120px);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                z-index: 1;
+            }
+
+            .The_Free_Economy .ideas-timeline-container {
+                width: 100%;
+                max-width: 820px;
+                display: flex;
+                align-items: flex-start;
+                gap: 28px;
+            }
+
+            .The_Free_Economy .ideas-markers {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                gap: 24px;
+            }
+
+            .The_Free_Economy .idea-marker {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background: transparent;
+                border: none;
+                padding: 0;
+                cursor: pointer;
+                -webkit-tap-highlight-color: transparent;
+            }
+
+            .The_Free_Economy .idea-marker:focus,
+            .The_Free_Economy .idea-marker:focus-visible {
+                outline: none;
+                box-shadow: none;
+            }
+
+            .The_Free_Economy .idea-dot {
+                width: 5px;
+                height: 5px;
+                border-radius: 50%;
+                background: #C0C0C0;
+                transition: all 0.3s ease;
+            }
+
+            .The_Free_Economy .idea-marker:hover .idea-dot,
+            .The_Free_Economy .idea-marker.active .idea-dot {
+                background: #4A90E2;
+                transform: scale(1.5);
+            }
+
+            .The_Free_Economy .ideas-timeline-content {
+                flex: 1;
+                opacity: 0;
+                transition: opacity 0.4s ease;
+                pointer-events: none;
+            }
+
+            .The_Free_Economy .ideas-timeline-content.active {
+                opacity: 1;
+                pointer-events: auto;
+            }
+
+            .The_Free_Economy .idea-content {
+                display: none;
+            }
+
+            .The_Free_Economy .idea-content.active {
+                display: block;
+            }
+
+            .The_Free_Economy .idea-content h3 {
+                font-family: 'MainFont', monospace;
+                font-size: 14px;
+                font-weight: 100;
+                color: #333;
+                margin-bottom: 10px;
+            }
+
+            .The_Free_Economy .idea-content p {
+                font-family: 'MainFont', monospace;
+                font-size: 11px;
+                font-weight: 100;
+                color: #666;
+                line-height: 1.4;
+            }
+        </style>
+        <div class="About_Free_Economy">
+            <div>
+                <h2>About thr free economy</h2>
+                <p>We are designing open, creator-focused systems where communities can build value together in a fair and transparent digital economy.</p>
+            </div>
+        </div>
+        <div class="Our_Ideas">
+            <div class="Title">
+                <p>Our Ideas for the free economy</p>
+            </div>
+            <div class="Blueprints">
+                <p>Blueprints</p>
+                <div class="Blueprints_Buttons">
+                    <button type="button" class="blueprint-trigger" data-blueprint-target="plan-1">Plan 1</button>
+                    <button type="button" class="blueprint-trigger" data-blueprint-target="plan-2">Plan 2</button>
+                    <button type="button" class="blueprint-trigger" data-blueprint-target="plan-3">Plan 3</button>
+                    <button type="button" class="blueprint-trigger" data-blueprint-target="plan-4">Plan 4</button>
+                </div>
+            </div>
+            <div class="blueprint-overlay" data-blueprint="plan-1">
+                <div class="blueprint-card">
+                    <button class="blueprint-close">[ Close ]</button>
+                    <h3>Plan 1</h3>
+                </div>
+            </div>
+            <div class="blueprint-overlay" data-blueprint="plan-2">
+                <div class="blueprint-card">
+                    <button class="blueprint-close">[ Close ]</button>
+                    <h3>Plan 2</h3>
+                </div>
+            </div>
+            <div class="blueprint-overlay" data-blueprint="plan-3">
+                <div class="blueprint-card">
+                    <button class="blueprint-close">[ Close ]</button>
+                    <h3>Plan 3</h3>
+                </div>
+            </div>
+            <div class="blueprint-overlay" data-blueprint="plan-4">
+                <div class="blueprint-card">
+                    <button class="blueprint-close">[ Close ]</button>
+                    <h3>Plan 4</h3>
+                </div>
+            </div>
+            <div class="Ideas_List">
+                <div class="ideas-timeline-container">
+                    <div class="ideas-markers">
+                        <button class="idea-marker" data-idea="idea-1" aria-label="Idea 1">
+                            <span class="idea-dot"></span>
+                        </button>
+                        <button class="idea-marker" data-idea="idea-2" aria-label="Idea 2">
+                            <span class="idea-dot"></span>
+                        </button>
+                        <button class="idea-marker" data-idea="idea-3" aria-label="Idea 3">
+                            <span class="idea-dot"></span>
+                        </button>
+                        <button class="idea-marker" data-idea="idea-4" aria-label="Idea 4">
+                            <span class="idea-dot"></span>
+                        </button>
+                        <button class="idea-marker" data-idea="idea-5" aria-label="Idea 5">
+                            <span class="idea-dot"></span>
+                        </button>
+                        <button class="idea-marker" data-idea="idea-6" aria-label="Idea 6">
+                            <span class="idea-dot"></span>
+                        </button>
+                        <button class="idea-marker" data-idea="idea-7" aria-label="Idea 7">
+                            <span class="idea-dot"></span>
+                        </button>
+                        <button class="idea-marker" data-idea="idea-8" aria-label="Idea 8">
+                            <span class="idea-dot"></span>
+                        </button>
+                        <button class="idea-marker" data-idea="idea-9" aria-label="Idea 9">
+                            <span class="idea-dot"></span>
+                        </button>
+                        <button class="idea-marker" data-idea="idea-10" aria-label="Idea 10">
+                            <span class="idea-dot"></span>
+                        </button>
+                    </div>
+
+                    <div class="ideas-timeline-content">
+                        <div class="idea-content" data-idea="idea-1">
+                            <h3>Open Infrastructure</h3>
+                            <p>Build transparent tooling that gives creators ownership over their digital work.</p>
+                        </div>
+                        <div class="idea-content" data-idea="idea-2">
+                            <h3>Community Currency</h3>
+                            <p>Design reward systems that return value directly to the people who contribute.</p>
+                        </div>
+                        <div class="idea-content" data-idea="idea-3">
+                            <h3>Decentralized Learning</h3>
+                            <p>Create education pathways where open knowledge compounds across communities.</p>
+                        </div>
+                        <div class="idea-content" data-idea="idea-4">
+                            <h3>Global Collaboration</h3>
+                            <p>Connect independent builders into a shared economy powered by cooperative protocols.</p>
+                        </div>
+                        <div class="idea-content" data-idea="idea-5">
+                            <h3>Ethical AI Standards</h3>
+                            <p>Develop clear frameworks so intelligent systems remain transparent, fair, and accountable.</p>
+                        </div>
+                        <div class="idea-content" data-idea="idea-6">
+                            <h3>Micro-Grant Engine</h3>
+                            <p>Launch fast funding rails that help small teams ship experiments without traditional gatekeepers.</p>
+                        </div>
+                        <div class="idea-content" data-idea="idea-7">
+                            <h3>Creator Toolchain</h3>
+                            <p>Offer modular software kits that let builders publish, iterate, and monetize in one workflow.</p>
+                        </div>
+                        <div class="idea-content" data-idea="idea-8">
+                            <h3>Open Governance</h3>
+                            <p>Use community-led decision systems to guide product priorities and treasury allocation.</p>
+                        </div>
+                        <div class="idea-content" data-idea="idea-9">
+                            <h3>Interoperable Identity</h3>
+                            <p>Create portable reputation layers so contributors can carry trust across ecosystems.</p>
+                        </div>
+                        <div class="idea-content" data-idea="idea-10">
+                            <h3>Sustainable Growth Loops</h3>
+                            <p>Build feedback systems where user success continuously strengthens the wider network.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <div class="page_2">
         <style>
