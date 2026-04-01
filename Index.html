@@ -230,7 +230,7 @@
         <script aria-label="Swipe_Script">
             // Touch/swipe fade navigation
             document.addEventListener('DOMContentLoaded', () => {
-                const sections = document.querySelectorAll('.Logo, .Page_1, .The_Free_Economy, .page_2, .page_3');
+                const sections = document.querySelectorAll('.Logo, .Subscriptions, .Page_1, .The_Free_Economy, .page_2, .page_3');
                 let currentSection = 0;
                 let touchStartY = 0;
                 let touchEndY = 0;
@@ -265,23 +265,28 @@
                         replayLogoAnimation();
                     }
                     
-                    // Start roadmap animation when Page_1 is displayed
+                    // Start Subscriptions animation when Subscriptions is displayed
                     if (index === 1) {
+                        startSubscriptionsAnimation();
+                    }
+
+                    // Start roadmap animation when Page_1 is displayed
+                    if (index === 2) {
                         startRoadMapAnimation();
                     }
 
                     // Start Free Economy animation when The_Free_Economy is displayed
-                    if (index === 2) {
+                    if (index === 3) {
                         startFreeEconomyAnimation();
                     }
                     
                     // Start Beautiful UI animation when Page_2 is displayed
-                    if (index === 3) {
+                    if (index === 4) {
                         startPage2Animation();
                     }
 
                     // Start Terminal Technology animation when Page_3 is displayed
-                    if (index === 4) {
+                    if (index === 5) {
                         startPage3Animation();
                     }
                     
@@ -439,63 +444,57 @@
                 initialLogoAnimation();
                 
                 // Roadmap animation function - Works like logo page
+                function startSubscriptionsAnimation() {
+                    const subscriptions = document.querySelector('.Subscriptions');
+                    if (!subscriptions) return;
+
+                    runFadeAnimation([
+                        subscriptions.querySelectorAll('.Subscription-Title p'),
+                        subscriptions.querySelectorAll('.Subscription-Subtitle p'),
+                        subscriptions.querySelectorAll('.Subscription-Content p'),
+                        subscriptions.querySelectorAll('.Subscription-Button'),
+                        subscriptions.querySelectorAll('.Future_Plans .Title p'),
+                        subscriptions.querySelectorAll('.Future_Plans .Description p'),
+                        subscriptions.querySelectorAll('.Future_Plans .Future_Plans_Dots .future-plan-marker'),
+                        subscriptions.querySelectorAll('.Future_Plans .future-plans-timeline-content')
+                    ]);
+                }
+
                 function startRoadMapAnimation() {
                     const pageOne = document.querySelector('.Page_1');
                     if (!pageOne) return;
 
-                    const animationGroups = [
+                    runFadeAnimation([
                         pageOne.querySelectorAll('.roadmap-container .Title p'),
-                        pageOne.querySelectorAll('.timeline-years .year-marker, .timeline-content'),
+                        pageOne.querySelectorAll('.roadmap-container .timeline-content'),
+                        pageOne.querySelectorAll('.roadmap-container .timeline-years .year-marker'),
                         pageOne.querySelectorAll('.eden-container .Title p'),
-                        pageOne.querySelectorAll('.eden-timeline-years .eden-year-marker, .eden-timeline-content'),
+                        pageOne.querySelectorAll('.eden-container .eden-timeline-content'),
+                        pageOne.querySelectorAll('.eden-container .eden-timeline-years .eden-year-marker'),
                         pageOne.querySelectorAll('.Who_We_Are'),
                         pageOne.querySelectorAll('.Kickstarter_Button')
-                    ];
-
-                    const allAnimationItems = animationGroups.flatMap((group) => Array.from(group));
-
-                    // Reset like logo replay
-                    allAnimationItems.forEach((item) => {
-                        item.style.opacity = '0';
-                        item.style.visibility = 'hidden';
-                        item.style.transition = 'none';
-                    });
-
-                    const initialDelay = 800;
-                    const staggerDelay = 90;
-                    const groupGap = 220;
-
-                    let totalDelay = initialDelay;
-
-                    animationGroups.forEach((group) => {
-                        setTimeout(() => {
-                            group.forEach((item, index) => {
-                                setTimeout(() => {
-                                    item.style.visibility = 'visible';
-                                    item.style.opacity = '1';
-                                    item.style.transition = 'opacity 0.6s ease-in-out';
-                                }, index * staggerDelay);
-                            });
-                        }, totalDelay);
-
-                        totalDelay += (group.length * staggerDelay) + groupGap;
-                    });
+                    ]);
                 }
 
                 function startFreeEconomyAnimation() {
                     const freeEconomy = document.querySelector('.The_Free_Economy');
                     if (!freeEconomy) return;
 
-                    const animationGroups = [
-                        freeEconomy.querySelectorAll('.About_Free_Economy h2, .About_Free_Economy p'),
+                    runFadeAnimation([
+                        freeEconomy.querySelectorAll('.About_Free_Economy h2'),
+                        freeEconomy.querySelectorAll('.About_Free_Economy p'),
                         freeEconomy.querySelectorAll('.Our_Ideas .Title p'),
-                        freeEconomy.querySelectorAll('.Our_Ideas .Blueprints p, .Our_Ideas .Blueprints_Buttons button'),
-                        freeEconomy.querySelectorAll('.Ideas_List .ideas-markers .idea-marker, .Ideas_List .ideas-timeline-content')
-                    ];
+                        freeEconomy.querySelectorAll('.Our_Ideas .Blueprints p'),
+                        freeEconomy.querySelectorAll('.Our_Ideas .Blueprints_Buttons button'),
+                        freeEconomy.querySelectorAll('.Ideas_List .ideas-markers .idea-marker'),
+                        freeEconomy.querySelectorAll('.Ideas_List .ideas-timeline-content')
+                    ]);
+                }
 
-                    const allAnimationItems = animationGroups.flatMap((group) => Array.from(group));
+                function runFadeAnimation(animationGroups) {
+                    const allItems = animationGroups.flatMap((group) => Array.from(group));
 
-                    allAnimationItems.forEach((item) => {
+                    allItems.forEach((item) => {
                         item.style.opacity = '0';
                         item.style.visibility = 'hidden';
                         item.style.transition = 'none';
@@ -509,12 +508,12 @@
 
                     animationGroups.forEach((group) => {
                         setTimeout(() => {
-                            group.forEach((item, index) => {
+                            group.forEach((item, i) => {
                                 setTimeout(() => {
                                     item.style.visibility = 'visible';
                                     item.style.opacity = '1';
                                     item.style.transition = 'opacity 0.6s ease-in-out';
-                                }, index * staggerDelay);
+                                }, i * staggerDelay);
                             });
                         }, totalDelay);
 
@@ -522,134 +521,76 @@
                     });
                 }
 
-                // Page 2 animation function - Beautiful UI letter-by-letter fade-in
+                // Page 2 animation function
                 function startPage2Animation() {
-                    const beautifulUILetters = document.querySelectorAll('.beautiful-ui-letter');
-                    const blueBackground = document.querySelector('.blue-background');
                     const page2Hero = document.querySelector('.page2-hero');
+                    const page2Letters = document.querySelectorAll('.beautiful-ui-letter');
                     const slogan = document.querySelector('.page2-slogan');
                     const sloganText = document.querySelector('.page2-slogan-text');
-                    
-                    // Reset and hide letters, background, and slogan initially (like logo)
-                    beautifulUILetters.forEach((letter) => {
-                        letter.style.animation = 'none';
-                        letter.offsetHeight; // Force reflow
-                    });
-                    
-                    if (blueBackground) {
-                        blueBackground.classList.remove('active');
-                    }
+                    const blueBackground = document.querySelector('.blue-background');
 
-                    if (page2Hero) {
-                        page2Hero.classList.remove('fade-out');
-                    }
-                    
-                    if (slogan) {
-                        slogan.style.opacity = '0';
-                        slogan.style.visibility = 'hidden';
-                    }
-                    
-                    // Add initial delay before animation starts (like logo)
-                    const initialDelay = 800; // 800ms delay like logo
-                    
+                    if (blueBackground) blueBackground.classList.remove('active');
+                    if (sloganText) sloganText.textContent = '';
+
+                    runFadeAnimation([
+                        document.querySelectorAll('.page2-hero'),
+                        page2Letters,
+                        document.querySelectorAll('.page2-slogan')
+                    ]);
+
+                    const sloganStart = 800 + (1 * 90 + 220) + (page2Letters.length * 90 + 220);
                     setTimeout(() => {
-                        // Re-add animations with staggered delay (like Eden Economy)
-                        beautifulUILetters.forEach((letter, index) => {
-                            letter.style.animation = `letterFadeIn 1.2s ease-out forwards`;
-                            letter.style.animationDelay = `${index * 0.1}s`;
-                        });
-                        
-                        // Start slogan animation after Beautiful UI completes (like logo)
-                        const lastLetterDelay = (beautifulUILetters.length - 1) * 0.1; // Last letter delay
-                        const animationDuration = 1.2; // Letter fade-in duration
-                        const logoDelay = (lastLetterDelay + animationDuration) * 1000; // Convert to milliseconds
-                        
-                        setTimeout(() => {
-                            // Show slogan container with smooth transition (like logo)
-                            slogan.style.visibility = 'visible';
-                            slogan.style.opacity = '1';
-                            // Start typewriter effect (like logo)
-                            typeWriter("Be inspired by glass", sloganText);
-                        }, logoDelay + 200);
-                        
-                        // Fade in blue background after typewriter animation completes
-                        const typewriterDuration = "Be inspired by glass UI".length * 50; // 50ms per character (like logo)
-                        const heroFadeDuration = 800; // Matches .page2-hero transition duration
-                        const blueStartDelayAfterHeroFade = 1000;
-                        
-                        setTimeout(() => {
-                            if (page2Hero) {
-                                page2Hero.classList.add('fade-out');
-                            }
+                        if (sloganText) typeWriter('Be inspired by glass', sloganText);
+                    }, sloganStart);
 
-                            setTimeout(() => {
-                                if (blueBackground) {
-                                    blueBackground.classList.add('active');
-                                }
-                            }, heroFadeDuration + blueStartDelayAfterHeroFade);
-                        }, logoDelay + 200 + typewriterDuration + 1000); // Extra 1 second delay after typewriter
-                    }, initialDelay);
+                    // Chain hero fade-out then blue background
+                    const typewriterDuration = 'Be inspired by glass'.length * 50;
+                    const heroFadeOutDelay = sloganStart + typewriterDuration + 1000;
+
+                    setTimeout(() => {
+                        if (page2Hero) {
+                            page2Hero.style.transition = 'opacity 0.8s ease-in-out';
+                            page2Hero.style.opacity = '0';
+                        }
+                        setTimeout(() => {
+                            if (blueBackground) blueBackground.classList.add('active');
+                        }, 1800);
+                    }, heroFadeOutDelay);
                 }
 
                 function startPage3Animation() {
-                    const terminalTechLetters = document.querySelectorAll('.terminal-tech-letter');
-                    const blueBackground = document.querySelector('.page3-blue-background');
                     const page3Hero = document.querySelector('.page3-hero');
+                    const page3Letters = document.querySelectorAll('.terminal-tech-letter');
                     const slogan = document.querySelector('.page3-slogan');
                     const sloganText = document.querySelector('.page3-slogan-text');
+                    const blueBackground = document.querySelector('.page3-blue-background');
 
-                    terminalTechLetters.forEach((letter) => {
-                        letter.style.animation = 'none';
-                        letter.offsetHeight;
-                    });
+                    if (blueBackground) blueBackground.classList.remove('active');
+                    if (sloganText) sloganText.textContent = '';
 
-                    if (blueBackground) {
-                        blueBackground.classList.remove('active');
-                    }
+                    runFadeAnimation([
+                        document.querySelectorAll('.page3-hero'),
+                        page3Letters,
+                        document.querySelectorAll('.page3-slogan')
+                    ]);
 
-                    if (page3Hero) {
-                        page3Hero.classList.remove('fade-out');
-                    }
+                    const sloganStart = 800 + (1 * 90 + 220) + (page3Letters.length * 90 + 220);
+                    setTimeout(() => {
+                        if (sloganText) typeWriter('Written like DOS-MS', sloganText);
+                    }, sloganStart);
 
-                    if (slogan) {
-                        slogan.style.opacity = '0';
-                        slogan.style.visibility = 'hidden';
-                    }
-
-                    const initialDelay = 800;
+                    const typewriterDuration = 'Written like DOS-MS'.length * 50;
+                    const heroFadeOutDelay = sloganStart + typewriterDuration + 1000;
 
                     setTimeout(() => {
-                        terminalTechLetters.forEach((letter, index) => {
-                            letter.style.animation = `letterFadeIn 1.2s ease-out forwards`;
-                            letter.style.animationDelay = `${index * 0.1}s`;
-                        });
-
-                        const lastLetterDelay = (terminalTechLetters.length - 1) * 0.1;
-                        const animationDuration = 1.2;
-                        const logoDelay = (lastLetterDelay + animationDuration) * 1000;
-
+                        if (page3Hero) {
+                            page3Hero.style.transition = 'opacity 0.8s ease-in-out';
+                            page3Hero.style.opacity = '0';
+                        }
                         setTimeout(() => {
-                            slogan.style.visibility = 'visible';
-                            slogan.style.opacity = '1';
-                            typeWriter("Written like DOS-MS", sloganText);
-                        }, logoDelay + 200);
-
-                        const typewriterDuration = "Written like DOS-MS".length * 50;
-                        const heroFadeDuration = 800;
-                        const blueStartDelayAfterHeroFade = 1000;
-
-                        setTimeout(() => {
-                            if (page3Hero) {
-                                page3Hero.classList.add('fade-out');
-                            }
-
-                            setTimeout(() => {
-                                if (blueBackground) {
-                                    blueBackground.classList.add('active');
-                                }
-                            }, heroFadeDuration + blueStartDelayAfterHeroFade);
-                        }, logoDelay + 200 + typewriterDuration + 1000);
-                    }, initialDelay);
+                            if (blueBackground) blueBackground.classList.add('active');
+                        }, 1800);
+                    }, heroFadeOutDelay);
                 }
                 
                 // Typewriter animation function (local to Page 2)
@@ -817,7 +758,425 @@
     </div>
     
     <!-- Book_Mark: ============================== ADDITIONAL PAGES ============================== -->
+    <!-- Book_Mark: ============================== SUBSCRIPTIONS ============================== -->
+    <div class="Subscriptions">
+        <style>
+            .Subscriptions {
+                width: 100dvw;
+                height: 100dvh;
+                position: relative;
+                scroll-snap-align: start;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background: linear-gradient(135deg, #f5f5f5, #ffffff);
+                color: #9a9a9a;
+                font-size: 2rem;
+            }
+
+            .Subscriptions .Subscription-Container {
+                position: absolute;
+                top: 10px;
+                width: calc(100% - 20px);
+                height: 360px;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                text-align: center;
+            }
+
+            .Subscriptions .Subscription-Title p {
+                font-family: 'MainFont', monospace;
+                font-size: 18px;
+                font-weight: 100;
+                color: #333;
+                margin: 0;
+                opacity: 0;
+                visibility: hidden;
+            }
+
+            .Subscriptions .Subscription-Subtitle p,
+            .Subscriptions .Subscription-Content p,
+            .Subscriptions .Future_Plans .Description p {
+                font-family: 'MainFont', monospace;
+                font-size: 11px;
+                font-weight: 100;
+                color: #666;
+                line-height: 1.5;
+                opacity: 0;
+                visibility: hidden;
+            }
+
+            .Subscriptions .Subscription-Subtitle {
+                margin-top: 10px;
+                max-width: 760px;
+            }
+
+            .Subscriptions .Subscription-Content {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                gap: 16px;
+                margin-top: 16px;
+            }
+
+            .Subscriptions .Subscription-Content p {
+                margin: 0;
+                max-width: 760px;
+            }
+
+            .Subscriptions .Subscription-Button {
+                margin-top: 50px;
+                opacity: 0;
+                visibility: hidden;
+            }
+
+            .Subscriptions .Subscription-Button button {
+                width: 160px;
+                height: 30px;
+                background: #ffffff;
+                border: 1px solid #000;
+                font-size: 11px;
+                font-family: 'MainFont', monospace;
+                cursor: pointer;
+            }
+
+            .Subscriptions .subscription-overlay {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100dvw;
+                height: 100dvh;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                opacity: 0;
+                visibility: hidden;
+                pointer-events: none;
+                transition: opacity 0.6s ease-in-out, visibility 0.6s ease-in-out;
+                z-index: 30;
+            }
+
+            .Subscriptions .subscription-overlay.active {
+                opacity: 1;
+                visibility: visible;
+                pointer-events: auto;
+            }
+
+            .Subscriptions .subscription-card {
+                position: relative;
+                width: 400px;
+                height: 400px;
+                background: #ffffff;
+                border: 1px solid #000;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                text-align: center;
+                padding: 20px;
+            }
+
+            .Subscriptions .subscription-card h3 {
+                position: absolute;
+                top: 20px;
+                left: 20px;
+                margin: 0;
+                font-family: 'MainFont', monospace;
+                font-size: 18px;
+                font-weight: 100;
+                color: #9a9a9a;
+                opacity: 0;
+                transition: opacity 0.6s ease-in-out 1s;
+            }
+
+            .Subscriptions .subscription-overlay.active .subscription-card h3 {
+                opacity: 1;
+            }
+
+            .Subscriptions .subscription-card p {
+                font-family: 'MainFont', monospace;
+                font-size: 11px;
+                font-weight: 100;
+                color: #666;
+                line-height: 1.4;
+                max-width: 300px;
+            }
+
+            .Subscriptions .subscription-close {
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                background: transparent;
+                border: none;
+                font-family: 'MainFont', monospace;
+                font-size: 11px;
+                color: #9a9a9a;
+                cursor: pointer;
+                padding: 0;
+            }
+
+            .Subscriptions .Future_Plans {
+                position: absolute;
+                top: 380px;
+                width: calc(100% - 20px);
+                height: 250px;
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-start;
+                align-items: flex-start;
+                gap: 10px;
+            }
+
+            .Subscriptions .Future_Plans .Title {
+                position: absolute;
+                top: 10px;
+                left: 10px;
+                font-size: 11px;
+            }
+
+            .Subscriptions .Future_Plans .Description {
+                margin-top: 44px;
+                margin-left: 10px;
+                max-width: 860px;
+            }
+
+            .Subscriptions .Plan_List {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                gap: 0;
+                margin-top: 4px;
+                margin-left: 0;
+                width: 100%;
+            }
+
+            .Subscriptions .future-plans-content {
+                flex: 1;
+                opacity: 0;
+                visibility: hidden;
+                transition: opacity 0.4s ease;
+            }
+
+            .Subscriptions .future-plans-content.active {
+                opacity: 1;
+                visibility: visible;
+            }
+
+            .Subscriptions .future-plans-content .plan-item {
+                display: none;
+                font-family: 'MainFont', monospace;
+                font-size: 11px;
+                font-weight: 100;
+                color: #666;
+                line-height: 1.5;
+                margin: 0;
+            }
+
+            .Subscriptions .future-plans-content .plan-item.active {
+                display: block;
+            }
+
+            .Subscriptions .Future_Plans_Timeline {
+                display: flex;
+                align-items: flex-start;
+                gap: 20px;
+                margin-top: 8px;
+                width: calc(100% - 40px);
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .Subscriptions .Future_Plans_Dots {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: flex-start;
+                gap: 24px;
+                padding-top: 2px;
+            }
+
+            .Subscriptions .future-plan-marker {
+                position: relative;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                background: transparent;
+                border: none;
+                padding: 0;
+                cursor: pointer;
+                -webkit-tap-highlight-color: transparent;
+                opacity: 0;
+                visibility: hidden;
+            }
+
+            .Subscriptions .future-plan-marker:focus,
+            .Subscriptions .future-plan-marker:focus-visible {
+                outline: none;
+                box-shadow: none;
+            }
+
+            .Subscriptions .future-plan-dot {
+                width: 5px;
+                height: 5px;
+                border-radius: 50%;
+                background: #C0C0C0;
+                transition: all 0.3s ease;
+            }
+
+            .Subscriptions .future-plan-marker:hover .future-plan-dot {
+                background: #4A90E2;
+                transform: scale(1.5);
+            }
+
+            .Subscriptions .future-plan-marker.active .future-plan-dot {
+                background: #4A90E2;
+                transform: scale(1.5);
+            }
+
+            .Subscriptions .future-plans-timeline-content {
+                flex: 1;
+                opacity: 0;
+                transition: opacity 0.4s ease;
+                pointer-events: none;
+            }
+
+            .Subscriptions .future-plans-timeline-content.active {
+                opacity: 1;
+                pointer-events: auto;
+            }
+
+            .Subscriptions .future-plan-content {
+                display: none;
+            }
+
+            .Subscriptions .future-plan-content.active {
+                display: block;
+            }
+
+            .Subscriptions .future-plan-content h3 {
+                font-family: 'MainFont', monospace;
+                font-size: 14px;
+                font-weight: 100;
+                color: #333;
+                margin-bottom: 10px;
+            }
+
+            .Subscriptions .future-plan-content p {
+                font-family: 'MainFont', monospace;
+                font-size: 11px;
+                font-weight: 100;
+                color: #666;
+                line-height: 1.4;
+            }
+
+        </style>
+        <!-- Book_Mark: ================= SUBSCRIPTIONS MAIN ================= -->
+        <div class="Subscription-Container">
+            <div class="Subscription-Title">
+                <p>Subscriptions</p>
+            </div>
+            <div class="Subscription-Subtitle">
+                <p>The app is written as a social platform, you can chat, call and more, but it can be used for engineering projects, tech development business ventures, and more, Eden Economy is writting software to meet the needs of engineers and tech development.</p>
+            </div>
+            <div class="Subscription-Content">
+                <p>Subscribing to Eden Economy gives you access to our AI software, $10 a month helps us out alot, we're not just a social platform, we're developing technology for the world.</p>
+            </div>
+            <div class="Subscription-Button">
+                <button type="button" class="subscription-trigger">Subscribe</button>
+            </div>
+            <div class="subscription-overlay">
+                <div class="subscription-card">
+                    <button type="button" class="subscription-close">[ Close ]</button>
+                    <h3>Subscription Card</h3>
+                    <p>Membership plans, benefits, and subscription access details will be displayed here.</p>
+                </div>
+            </div>
+        </div>
+        <!-- Book_Mark: ================= SUBSCRIPTIONS FUTURE PLANS ================= -->
+        <div class="Future_Plans">
+            <div class="Title">
+                <p>Our Future Plans with Eden Economy</p>
+            </div>
+            <div class="Description">
+                <p>We're always looking to the future to better indie tech companies aound the world. See what we are coming up with to help advance indie tech companies to new heights.</p>
+            </div>
+            <div class="Future_Plans_Timeline">
+                <div class="Future_Plans_Dots">
+                    <button class="future-plan-marker" data-plan="plan-1" aria-label="Future plan marker 1"><span class="future-plan-dot"></span></button>
+                    <button class="future-plan-marker" data-plan="plan-2" aria-label="Future plan marker 2"><span class="future-plan-dot"></span></button>
+                    <button class="future-plan-marker" data-plan="plan-3" aria-label="Future plan marker 3"><span class="future-plan-dot"></span></button>
+                    <button class="future-plan-marker" data-plan="plan-4" aria-label="Future plan marker 4"><span class="future-plan-dot"></span></button>
+                </div>
+                <div class="future-plans-timeline-content">
+                    <div class="future-plan-content" data-plan="plan-1">
+                        <h3>Subscription based equipment purchasing</h3>
+                        <p>Instead of buying equipment at full price, users can subscribe to Indie World and get equipment for their business based on their tier.</p>
+                        <style>
+                            .subscription-tiers {
+                                display: flex;
+                                flex-direction: row;
+                                gap: 8px;
+                                margin-top: 15px;
+                                width: 100%;
+                                justify-content: center;
+                            }
+                            .subscription-tiers .tier {
+                                flex: 1;
+                                max-width: 120px;
+                                min-width: 80px;
+                                height: 50px;
+                                border: 1px solid #ccc;
+                                display: flex;
+                                flex-direction: column;
+                                align-items: center;
+                                justify-content: center;
+                                font-size: 9px;
+                                font-family: 'MainFont', monospace;
+                                background: #ffffff;
+                                transition: all 0.3s ease;
+                                cursor: pointer;
+                                gap: 4px;
+                            }
+                            
+                            .subscription-tiers .tier .tier-title {
+                                font-weight: 600;
+                                color: #333;
+                            }
+                            .subscription-tiers .tier .tier-price {
+                                color: #666;
+                            }
+                        </style>
+                        <div class="subscription-tiers">
+                            <button class="tier"><span class="tier-title">CL-A Tech</span><span class="tier-price">$250/mo</span></button>
+                            <button class="tier"><span class="tier-title">CL-B Tech</span><span class="tier-price">$79/mo</span></button>
+                            <button class="tier"><span class="tier-title">CL-C Tech</span><span class="tier-price">$199/mo</span></button>
+                            <button class="tier"><span class="tier-title">CL-D Tech</span><span class="tier-price">$299/mo</span></button>
+                        </div>
+                    </div>
+                    <div class="future-plan-content" data-plan="plan-2">
+                        <h3>Member Dashboard</h3>
+                        <p>Create transparent billing visibility and account management tools for subscribers.</p>
+                    </div>
+                    <div class="future-plan-content" data-plan="plan-3">
+                        <h3>Community Access</h3>
+                        <p>Offer exclusive releases and early previews for active subscription members.</p>
+                    </div>
+                    <div class="future-plan-content" data-plan="plan-4">
+                        <h3>Long-term Rewards</h3>
+                        <p>Implement loyalty benefits and sustained value for long-term subscribers.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Book_Mark: ============================== PAGE_1 ============================== -->
     <div class="Page_1">
+        <!-- Book_Mark: ================= PAGE_1 ROADMAP ================= -->
         <div class="Road_Map">
             <div class="roadmap-container">
                 <div class="Title">
@@ -908,6 +1267,7 @@
             </div>
         </div>
         
+        <!-- Book_Mark: ================= PAGE_1 EDEN DEVELOPMENT ================= -->
         <!-- Eden Development Timeline -->
         <div class="Eden_Development">
             <div class="eden-container">
@@ -1044,6 +1404,8 @@
             .roadmap-container .Title p {
                 font-size: 11px;
                 font-weight: 100;
+                opacity: 0;
+                visibility: hidden;
             }
             
             .roadmap-nodes {
@@ -1115,6 +1477,8 @@
                     cursor: pointer;
                     justify-content: center;
                     -webkit-tap-highlight-color: transparent;
+                    opacity: 0;
+                    visibility: hidden;
                 }
 
                 .year-marker:focus,
@@ -1365,6 +1729,51 @@
                         updateIdeaContent(ideaMarkers[0].dataset.idea);
                     }
 
+                    const futurePlanMarkers = document.querySelectorAll('.future-plan-marker');
+                    const futurePlanContents = document.querySelectorAll('.future-plan-content');
+                    const futurePlansTimelineContent = document.querySelector('.future-plans-timeline-content');
+
+                    function updateFuturePlanContent(planId) {
+                        futurePlanMarkers.forEach((marker) => {
+                            marker.classList.remove('active');
+                        });
+
+                        futurePlanContents.forEach((content) => {
+                            content.classList.remove('active');
+                        });
+
+                        const activeMarker = document.querySelector(`.future-plan-marker[data-plan="${planId}"]`);
+                        const activeContent = document.querySelector(`.future-plan-content[data-plan="${planId}"]`);
+
+                        if (activeMarker) {
+                            activeMarker.classList.add('active');
+                        }
+
+                        if (activeContent) {
+                            activeContent.classList.add('active');
+                            if (futurePlansTimelineContent) {
+                                futurePlansTimelineContent.classList.add('active');
+                            }
+                        }
+                    }
+
+                    futurePlanMarkers.forEach((marker) => {
+                        marker.addEventListener('click', () => {
+                            updateFuturePlanContent(marker.dataset.plan);
+                        });
+
+                        marker.addEventListener('keydown', (e) => {
+                            if (e.key === 'Enter' || e.key === ' ') {
+                                e.preventDefault();
+                                updateFuturePlanContent(marker.dataset.plan);
+                            }
+                        });
+                    });
+
+                    if (futurePlanMarkers.length > 0) {
+                        updateFuturePlanContent(futurePlanMarkers[0].dataset.plan);
+                    }
+
                     const blueprintButtons = document.querySelectorAll('.blueprint-trigger');
                     const blueprintCards = document.querySelectorAll('.blueprint-overlay');
                     const blueprintCloseButtons = document.querySelectorAll('.blueprint-close');
@@ -1396,15 +1805,47 @@
                             closeBlueprintCards();
                         });
                     });
+
+                    const subscriptionTrigger = document.querySelector('.subscription-trigger');
+                    const subscriptionOverlay = document.querySelector('.subscription-overlay');
+                    const subscriptionClose = document.querySelector('.subscription-close');
+
+                    function closeSubscriptionCard() {
+                        if (subscriptionOverlay) {
+                            subscriptionOverlay.classList.remove('active');
+                        }
+                    }
+
+                    if (subscriptionTrigger && subscriptionOverlay) {
+                        subscriptionTrigger.addEventListener('click', () => {
+                            subscriptionOverlay.classList.add('active');
+                        });
+                    }
+
+                    if (subscriptionClose) {
+                        subscriptionClose.addEventListener('click', () => {
+                            closeSubscriptionCard();
+                        });
+                    }
+
+                    if (subscriptionOverlay) {
+                        subscriptionOverlay.addEventListener('click', (event) => {
+                            if (event.target === subscriptionOverlay) {
+                                closeSubscriptionCard();
+                            }
+                        });
+                    }
                 });
             </script>
         
+        <!-- Book_Mark: ================= PAGE_1 WHO WE ARE ================= -->
         <!-- Who We Are Section -->
         <div class="Who_We_Are">
             <h2>Who We Are</h2>
             <p>We are a team of passionate developers and designers dedicated to creating innovative gaming experiences and cutting-edge engineering solutions.</p>
         </div>
         
+        <!-- Book_Mark: ================= PAGE_1 KICKSTARTER ================= -->
         <!-- Kickstarter Button -->
         <div class="Kickstarter_Button">
             <button>Kickstarter</button>
@@ -1431,6 +1872,7 @@
                 transform: translateX(-50%);
                 text-align: center;
                 opacity: 0;
+                visibility: hidden;
                 transition: opacity 0.8s ease-in-out;
                 width: 80%;
                 max-width: 600px;
@@ -1447,7 +1889,7 @@
             
             .Who_We_Are p {
                 font-family: 'MainFont', monospace;
-                font-size: 12px;
+                font-size: 11px;
                 font-weight: 200;
                 color: #666;
                 line-height: 1.6;
@@ -1459,6 +1901,7 @@
                 left: 50%;
                 transform: translateX(-50%);
                 opacity: 0;
+                visibility: hidden;
                 transition: opacity 0.8s ease-in-out;
             }
 
@@ -1500,6 +1943,8 @@
             .eden-container .Title p {
                 font-size: 11px;
                 font-weight: 100;
+                opacity: 0;
+                visibility: hidden;
             }
             
             .eden-nodes {
@@ -1650,6 +2095,7 @@
         </style>
         
     </div>
+    <!-- Book_Mark: ============================== THE_FREE_ECONOMY ============================== -->
     <div class="The_Free_Economy">
         <style>
             .The_Free_Economy {
@@ -1683,8 +2129,10 @@
                 font-family: 'MainFont', monospace;
                 font-size: 18px;
                 font-weight: 100;
-                color: #9a9a9a;
+                color: #333;
                 margin: 0 0 12px;
+                opacity: 0;
+                visibility: hidden;
             }
 
             .The_Free_Economy .About_Free_Economy p {
@@ -1695,6 +2143,8 @@
                 margin: 0;
                 line-height: 1.4;
                 max-width: 760px;
+                opacity: 0;
+                visibility: hidden;
             }
 
             .The_Free_Economy .Our_Ideas {
@@ -1717,6 +2167,8 @@
                 font-weight: 100;
                 color: #9a9a9a;
                 margin: 0;
+                opacity: 0;
+                visibility: hidden;
             }
 
             .The_Free_Economy .Our_Ideas .Blueprints {
@@ -1738,6 +2190,8 @@
                 font-weight: 100;
                 color: #9a9a9a;
                 margin: 0;
+                opacity: 0;
+                visibility: hidden;
             }
 
             .The_Free_Economy .Our_Ideas .Blueprints_Buttons {
@@ -1756,6 +2210,8 @@
                 font-size: 11px;
                 font-family: 'MainFont', monospace;
                 cursor: pointer;
+                opacity: 0;
+                visibility: hidden;
             }
 
             .The_Free_Economy .Our_Ideas .blueprint-overlay {
@@ -1862,6 +2318,8 @@
                 padding: 0;
                 cursor: pointer;
                 -webkit-tap-highlight-color: transparent;
+                opacity: 0;
+                visibility: hidden;
             }
 
             .The_Free_Economy .idea-marker:focus,
@@ -1920,16 +2378,19 @@
                 line-height: 1.4;
             }
         </style>
+        <!-- Book_Mark: ================= THE_FREE_ECONOMY ABOUT ================= -->
         <div class="About_Free_Economy">
             <div>
                 <h2>About thr free economy</h2>
                 <p>We are designing open, creator-focused systems where communities can build value together in a fair and transparent digital economy.</p>
             </div>
         </div>
+        <!-- Book_Mark: ================= THE_FREE_ECONOMY OUR IDEAS ================= -->
         <div class="Our_Ideas">
             <div class="Title">
                 <p>Our Ideas for the free economy</p>
             </div>
+            <!-- Book_Mark: ================= THE_FREE_ECONOMY BLUEPRINTS ================= -->
             <div class="Blueprints">
                 <p>Blueprints</p>
                 <div class="Blueprints_Buttons">
@@ -1963,6 +2424,7 @@
                     <h3>Plan 4</h3>
                 </div>
             </div>
+            <!-- Book_Mark: ================= THE_FREE_ECONOMY IDEAS TIMELINE ================= -->
             <div class="Ideas_List">
                 <div class="ideas-timeline-container">
                     <div class="ideas-markers">
@@ -2044,6 +2506,7 @@
             </div>
         </div>
     </div>
+    <!-- Book_Mark: ============================== PAGE_2 ============================== -->
     <div class="page_2">
         <style>
             .page_2 {
@@ -2079,7 +2542,8 @@
                 align-items: center;
                 text-align: center;
                 gap: 10px;
-                opacity: 1;
+                opacity: 0;
+                visibility: hidden;
                 transition: opacity 0.8s ease-in-out;
             }
 
@@ -2093,10 +2557,9 @@
                 font-weight: 100;
                 font-family: 'MainFont', monospace;
                 color: #333;
-                opacity: 0;
-                transform: translateY(10px);
-                animation: letterFadeIn 1.2s ease-out forwards;
                 position: relative;
+                opacity: 0;
+                visibility: hidden;
             }
             
             @keyframes letterFadeIn {
@@ -2143,6 +2606,7 @@
                 font-family: 'MainFont', monospace;
             }
         </style>
+        <!-- Book_Mark: ================= PAGE_2 HERO ================= -->
         <div class="page2-hero">
             <div class="beautiful-ui-container">
                 <div class="beautiful-ui-line">
@@ -2203,7 +2667,8 @@
                 align-items: center;
                 text-align: center;
                 gap: 10px;
-                opacity: 1;
+                opacity: 0;
+                visibility: hidden;
                 transition: opacity 0.8s ease-in-out;
             }
 
@@ -2217,10 +2682,9 @@
                 font-weight: 100;
                 font-family: 'MainFont', monospace;
                 color: #333;
-                opacity: 0;
-                transform: translateY(10px);
-                animation: letterFadeIn 1.2s ease-out forwards;
                 position: relative;
+                opacity: 0;
+                visibility: hidden;
             }
 
             .page3-blue-background {
@@ -2289,14 +2753,129 @@
 
         <div class="page3-blue-background"></div>
     </div>
+
+    <!-- Book_Mark: ============================== PAGE_3 ============================== -->
+    <div class="page_3">
+        <style>
+            .page_3 {
+                width: 100dvw;
+                height: 100dvh;
+                position: relative;
+                scroll-snap-align: start;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-size: 2rem;
+                color: #9a9a9a;
+                background: linear-gradient(135deg, #ffffff, #f0f0f0);
+            }
+
+            .terminal-tech-container {
+                display: inline-flex;
+                flex-direction: column;
+                align-items: center;
+                line-height: 1.1;
+            }
+
+            .terminal-tech-line {
+                display: flex;
+                justify-content: center;
+            }
+
+            .page3-hero {
+                position: relative;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+                gap: 10px;
+                opacity: 0;
+                visibility: hidden;
+                transition: opacity 0.8s ease-in-out;
+            }
+
+            .page3-hero.fade-out {
+                opacity: 0;
+            }
+
+            .terminal-tech-letter {
+                display: inline-block;
+                font-size: 14px;
+                font-weight: 100;
+                font-family: 'MainFont', monospace;
+                color: #333;
+                position: relative;
+                opacity: 0;
+                visibility: hidden;
+            }
+
+            .page3-blue-background {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100dvw;
+                height: 100dvh;
+                background-color: blue;
+                opacity: 0;
+                transition: opacity 0.6s ease-in-out;
+                z-index: -1;
+            }
+
+            .page3-blue-background.active {
+                opacity: 1;
+            }
+
+            .page3-slogan {
+                position: relative;
+                height: 20px;
+                min-width: 240px;
+                opacity: 0;
+                transition: opacity 0.6s ease-in-out;
+                visibility: hidden;
+                white-space: nowrap;
+            }
+
+            .page3-slogan-text {
+                font-size: 11px;
+                font-weight: 100;
+                color: #333;
+                font-family: 'MainFont', monospace;
+            }
+        </style>
+        <!-- Book_Mark: ================= PAGE_3 HERO ================= -->
+        <div class="page3-hero">
+            <div class="terminal-tech-container">
+                <div class="terminal-tech-line">
+                    <span class="terminal-tech-letter">T</span>
+                    <span class="terminal-tech-letter">e</span>
+                    <span class="terminal-tech-letter">r</span>
+                    <span class="terminal-tech-letter">m</span>
+                    <span class="terminal-tech-letter">i</span>
+                    <span class="terminal-tech-letter">n</span>
+                    <span class="terminal-tech-letter">a</span>
+                    <span class="terminal-tech-letter">l</span>
+                    <span class="terminal-tech-letter">&nbsp;</span>
+                    <span class="terminal-tech-letter">T</span>
+                    <span class="terminal-tech-letter">e</span>
+                    <span class="terminal-tech-letter">c</span>
+                    <span class="terminal-tech-letter">h</span>
+                    <span class="terminal-tech-letter">n</span>
+                    <span class="terminal-tech-letter">o</span>
+                    <span class="terminal-tech-letter">l</span>
+                    <span class="terminal-tech-letter">o</span>
+                    <span class="terminal-tech-letter">g</span>
+                    <span class="terminal-tech-letter">y</span>
+                </div>
+            </div>
+
+            <div class="page3-slogan">
+                <span class="page3-slogan-text"></span>
+            </div>
+        </div>
+
+        <div class="page3-blue-background"></div>
+    </div>
 </body>
-<!-- Book_Mark: ==================================== END HTML ==================================== -->
-</html>
-
-
-
-
-
 <!-- Book_Mark: ==================================== END HTML ==================================== -->
 </html>
 
