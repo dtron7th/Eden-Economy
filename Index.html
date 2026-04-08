@@ -230,7 +230,7 @@
         <script aria-label="Swipe_Script">
             // Touch/swipe fade navigation
             document.addEventListener('DOMContentLoaded', () => {
-                const sections = document.querySelectorAll('.Logo, .Subscriptions, .Page_1, .The_Free_Economy, .page_2, .page_3');
+                const sections = document.querySelectorAll('.Logo, .Subscriptions, .Marketing, .Page_1, .The_Free_Economy, .page_2, .page_3');
                 let currentSection = 0;
                 let touchStartY = 0;
                 let touchEndY = 0;
@@ -270,23 +270,28 @@
                         startSubscriptionsAnimation();
                     }
 
-                    // Start roadmap animation when Page_1 is displayed
+                    // Start Marketing animation when Marketing is displayed
                     if (index === 2) {
+                        startMarketingAnimation();
+                    }
+
+                    // Start roadmap animation when Page_1 is displayed
+                    if (index === 3) {
                         startRoadMapAnimation();
                     }
 
                     // Start Free Economy animation when The_Free_Economy is displayed
-                    if (index === 3) {
+                    if (index === 4) {
                         startFreeEconomyAnimation();
                     }
                     
                     // Start Beautiful UI animation when Page_2 is displayed
-                    if (index === 4) {
+                    if (index === 5) {
                         startPage2Animation();
                     }
 
                     // Start Terminal Technology animation when Page_3 is displayed
-                    if (index === 5) {
+                    if (index === 6) {
                         startPage3Animation();
                     }
                     
@@ -460,6 +465,20 @@
                     ]);
                 }
 
+                function startMarketingAnimation() {
+                    const marketing = document.querySelector('.Marketing');
+                    if (!marketing) return;
+
+                    runFadeAnimation([
+                        marketing.querySelectorAll('.Marketing_Hero .Title p'),
+                        marketing.querySelectorAll('.Marketing_Hero .Subtitle p'),
+                        marketing.querySelectorAll('.Marketing_Hero .Description p'),
+                        marketing.querySelectorAll('.Marketing_Strategy .Title p'),
+                        marketing.querySelectorAll('.Marketing_Strategy .marketing-item'),
+                        marketing.querySelectorAll('.Marketing_CTA .marketing-cta-button')
+                    ]);
+                }
+
                 function startRoadMapAnimation() {
                     const pageOne = document.querySelector('.Page_1');
                     if (!pageOne) return;
@@ -491,6 +510,7 @@
                     ]);
                 }
 
+                window.runFadeAnimation = runFadeAnimation;
                 function runFadeAnimation(animationGroups) {
                     const allItems = animationGroups.flatMap((group) => Array.from(group));
 
@@ -1073,6 +1093,247 @@
                 line-height: 1.4;
             }
 
+            .Subscriptions .subscription-tiers {
+                display: flex;
+                flex-direction: row;
+                gap: 8px;
+                margin-top: 15px;
+                width: 100%;
+                justify-content: center;
+            }
+
+            .Subscriptions .subscription-tiers .tier {
+                flex: 1;
+                max-width: 120px;
+                min-width: 80px;
+                height: 50px;
+                border: 1px solid #ccc;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                font-size: 9px;
+                font-family: 'MainFont', monospace;
+                background: #ffffff;
+                transition: all 0.3s ease;
+                cursor: pointer;
+                gap: 4px;
+            }
+
+            .Subscriptions .subscription-tiers .tier .tier-title {
+                font-weight: 600;
+                color: #333;
+            }
+
+            .Subscriptions .subscription-tiers .tier .tier-price {
+                color: #666;
+            }
+
+            .Subscriptions .subscription-tier-overlay {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100dvw;
+                height: 100dvh;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                opacity: 0;
+                visibility: hidden;
+                pointer-events: none;
+                transition: opacity 0.6s ease-in-out, visibility 0.6s ease-in-out;
+                z-index: 30;
+            }
+
+            .Subscriptions .subscription-tier-overlay.active {
+                opacity: 1;
+                visibility: visible;
+                pointer-events: auto;
+            }
+
+            .Subscriptions .subscription-tier-card {
+                position: relative;
+                width: calc(100% - 40px);
+                height: calc(100% - 40px);
+                background: rgb(255, 255, 255);
+                border: 1px solid rgb(0, 0, 0);
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                text-align: center;
+                padding: 20px;
+            }
+
+            .Subscriptions .subscription-tier-card > h3 {
+                font-family: 'MainFont', monospace;
+                font-size: 18px;
+                font-weight: 100;
+                color: #9a9a9a;
+                margin: 0;
+                position: absolute;
+                top: 20px;
+                left: 20px;
+            }
+
+            .Subscriptions .subscription-tier-card .tier-type-text {
+                position: absolute;
+                top: 52px;
+                left: 20px;
+                margin: 0;
+                font-family: 'MainFont', monospace;
+                font-size: 11px;
+                font-weight: 100;
+                color: #666;
+                width: 0;
+                overflow: hidden;
+                white-space: nowrap;
+                --tier-type-steps: 25;
+                --tier-type-width: 25ch;
+            }
+
+            .Subscriptions .subscription-tier-overlay.typing-active .subscription-tier-card .tier-type-text {
+                animation: tierType 0.2s steps(var(--tier-type-steps), end) forwards;
+            }
+
+            @keyframes tierType {
+                from {
+                    width: 0;
+                }
+                to {
+                    width: var(--tier-type-width);
+                }
+            }
+
+            .Subscriptions .subscription-tier-card .subscription-tier-close,
+            .Subscriptions .subscription-tier-card > h3,
+            .Subscriptions .subscription-tier-card .tier-type-text,
+            .Subscriptions .subscription-tier-card .tier-description,
+            .Subscriptions .subscription-tier-card .cl-a-machine-marker,
+            .Subscriptions .subscription-tier-card .cl-a-machine-timeline-content {
+                opacity: 0;
+                visibility: hidden;
+            }
+
+            .Subscriptions .subscription-tier-card .tier-description {
+                position: absolute;
+                top: 130px;
+                width: calc(100% - 40px);
+                font-family: 'MainFont', monospace;
+                font-size: 11px;
+                font-weight: 100;
+                color: #666;
+                line-height: 1.4;
+                max-width: 760px;
+            }
+
+            .Subscriptions .subscription-tier-card .cl-a-machine-list {
+                position: absolute;
+                top: 215px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 350px;
+                display: flex;
+                align-items: flex-start;
+                gap: 28px;
+            }
+
+            .Subscriptions .subscription-tier-card .cl-a-machine-markers {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                gap: 24px;
+                padding-top: 2px;
+            }
+
+            .Subscriptions .subscription-tier-card .cl-a-machine-marker {
+                position: relative;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                background: transparent;
+                border: none;
+                padding: 0;
+                cursor: pointer;
+                -webkit-tap-highlight-color: transparent;
+            }
+
+            .Subscriptions .subscription-tier-card .cl-a-machine-marker:focus,
+            .Subscriptions .subscription-tier-card .cl-a-machine-marker:focus-visible {
+                outline: none;
+                box-shadow: none;
+            }
+
+            .Subscriptions .subscription-tier-card .cl-a-machine-dot {
+                width: 5px;
+                height: 5px;
+                min-width: 5px;
+                border-radius: 50%;
+                background: #C0C0C0;
+                transition: all 0.3s ease;
+            }
+
+            .Subscriptions .subscription-tier-card .cl-a-machine-marker:hover .cl-a-machine-dot,
+            .Subscriptions .subscription-tier-card .cl-a-machine-marker.active .cl-a-machine-dot {
+                background: #4A90E2;
+                transform: scale(1.5);
+            }
+
+            .Subscriptions .subscription-tier-card .cl-a-machine-timeline-content {
+                flex: 1;
+                opacity: 0;
+                transition: opacity 0.4s ease;
+                pointer-events: none;
+                text-align: left;
+            }
+
+            .Subscriptions .subscription-tier-card .cl-a-machine-timeline-content.active {
+                opacity: 1;
+                pointer-events: auto;
+            }
+
+            .Subscriptions .subscription-tier-card .cl-a-product-content {
+                display: none;
+            }
+
+            .Subscriptions .subscription-tier-card .cl-a-product-content.active {
+                display: block;
+            }
+
+            .Subscriptions .subscription-tier-card .cl-a-product-content h3 {
+                margin: 0 0 10px 0;
+                font-family: 'MainFont', monospace;
+                font-size: 14px;
+                font-weight: 100;
+                color: #333;
+                text-align: left;
+            }
+
+            .Subscriptions .subscription-tier-card .cl-a-product-content p {
+                margin: 0;
+                font-family: 'MainFont', monospace;
+                font-size: 11px;
+                font-weight: 100;
+                color: #666;
+                line-height: 1.4;
+                text-align: left;
+            }
+
+            .Subscriptions .subscription-tier-close {
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                background: transparent;
+                border: none;
+                font-family: 'MainFont', monospace;
+                font-size: 11px;
+                color: #9a9a9a;
+                cursor: pointer;
+                padding: 0;
+            }
+
         </style>
         <!-- Book_Mark: ================= SUBSCRIPTIONS MAIN ================= -->
         <div class="Subscription-Container">
@@ -1115,46 +1376,84 @@
                     <div class="future-plan-content" data-plan="plan-1">
                         <h3>Subscription based equipment purchasing</h3>
                         <p>Instead of buying equipment at full price, users can subscribe to Indie World and get equipment for their business based on their tier.</p>
-                        <style>
-                            .subscription-tiers {
-                                display: flex;
-                                flex-direction: row;
-                                gap: 8px;
-                                margin-top: 15px;
-                                width: 100%;
-                                justify-content: center;
-                            }
-                            .subscription-tiers .tier {
-                                flex: 1;
-                                max-width: 120px;
-                                min-width: 80px;
-                                height: 50px;
-                                border: 1px solid #ccc;
-                                display: flex;
-                                flex-direction: column;
-                                align-items: center;
-                                justify-content: center;
-                                font-size: 9px;
-                                font-family: 'MainFont', monospace;
-                                background: #ffffff;
-                                transition: all 0.3s ease;
-                                cursor: pointer;
-                                gap: 4px;
-                            }
-                            
-                            .subscription-tiers .tier .tier-title {
-                                font-weight: 600;
-                                color: #333;
-                            }
-                            .subscription-tiers .tier .tier-price {
-                                color: #666;
-                            }
-                        </style>
                         <div class="subscription-tiers">
-                            <button class="tier"><span class="tier-title">CL-A Tech</span><span class="tier-price">$250/mo</span></button>
-                            <button class="tier"><span class="tier-title">CL-B Tech</span><span class="tier-price">$79/mo</span></button>
-                            <button class="tier"><span class="tier-title">CL-C Tech</span><span class="tier-price">$199/mo</span></button>
-                            <button class="tier"><span class="tier-title">CL-D Tech</span><span class="tier-price">$299/mo</span></button>
+                            <button type="button" class="tier tier-trigger" data-tier-target="cl-a-tech"><span class="tier-title">CL-A Tech</span><span class="tier-price">$250/mo</span></button>
+                            <button type="button" class="tier tier-trigger" data-tier-target="cl-b-tech"><span class="tier-title">CL-B Tech</span><span class="tier-price">$79/mo</span></button>
+                            <button type="button" class="tier tier-trigger" data-tier-target="cl-c-tech"><span class="tier-title">CL-C Tech</span><span class="tier-price">$199/mo</span></button>
+                            <button type="button" class="tier tier-trigger" data-tier-target="cl-d-tech"><span class="tier-title">CL-D Tech</span><span class="tier-price">$299/mo</span></button>
+                        </div>
+                        <div class="subscription-tier-overlay" data-tier="cl-a-tech">
+                            <div class="subscription-tier-card">
+                                <button type="button" class="subscription-tier-close">[ Close ]</button>
+                                <h3>Class - A Tech</h3>
+                                <p class="tier-type-text">Circuit Board Development</p>
+                                <p class="tier-description">We build machines that can build any curcuit board in the world, including modular expansion cards to modern mother boards.</p>
+                                <div class="cl-a-machine-list">
+                                    <div class="cl-a-machine-markers">
+                                        <button type="button" class="cl-a-machine-marker" data-product="product-1" aria-label="CL-A product marker 1"><span class="cl-a-machine-dot"></span></button>
+                                        <button type="button" class="cl-a-machine-marker" data-product="product-2" aria-label="CL-A product marker 2"><span class="cl-a-machine-dot"></span></button>
+                                        <button type="button" class="cl-a-machine-marker" data-product="product-3" aria-label="CL-A product marker 3"><span class="cl-a-machine-dot"></span></button>
+                                        <button type="button" class="cl-a-machine-marker" data-product="product-4" aria-label="CL-A product marker 4"><span class="cl-a-machine-dot"></span></button>
+                                        <button type="button" class="cl-a-machine-marker" data-product="product-5" aria-label="CL-A product marker 5"><span class="cl-a-machine-dot"></span></button>
+                                        <button type="button" class="cl-a-machine-marker" data-product="product-6" aria-label="CL-A product marker 6"><span class="cl-a-machine-dot"></span></button>
+                                        <button type="button" class="cl-a-machine-marker" data-product="product-7" aria-label="CL-A product marker 7"><span class="cl-a-machine-dot"></span></button>
+                                    </div>
+                                    <div class="cl-a-machine-timeline-content">
+                                        <div class="cl-a-product-content" data-product="product-1">
+                                            <h3>Copper Clad Lamination Presses</h3>
+                                            <p>Used for multilayer board base construction and stack-up consistency before trace imaging.</p>
+                                        </div>
+                                        <div class="cl-a-product-content" data-product="product-2">
+                                            <h3>UV Photoresist Exposure Units</h3>
+                                            <p>Provides high-precision trace imaging for clean transfer of circuit layouts to copper surfaces.</p>
+                                        </div>
+                                        <div class="cl-a-product-content" data-product="product-3">
+                                            <h3>Automated PCB Etching Systems</h3>
+                                            <p>Handles controlled copper removal to produce accurate pattern transfer and board geometry.</p>
+                                        </div>
+                                        <div class="cl-a-product-content" data-product="product-4">
+                                            <h3>CNC Micro-Drilling Stations</h3>
+                                            <p>Creates precision vias and component pin routing paths for complex high-density board designs.</p>
+                                        </div>
+                                        <div class="cl-a-product-content" data-product="product-5">
+                                            <h3>SMT Pick-and-Place Lines</h3>
+                                            <p>Supports rapid board population and surface-mount assembly for prototype and production runs.</p>
+                                        </div>
+                                        <div class="cl-a-product-content" data-product="product-6">
+                                            <h3>AOI Inspection Cameras and Test Rigs</h3>
+                                            <p>Performs production quality assurance with optical inspection, validation checks, and test cycles.</p>
+                                        </div>
+                                        <div class="cl-a-product-content" data-product="product-7">
+                                            <h3>Modular Expansion Cards and Motherboard Kits</h3>
+                                            <p>Finished hardware products designed for scalable integration across modern motherboard platforms.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="subscription-tier-overlay" data-tier="cl-b-tech">
+                            <div class="subscription-tier-card">
+                                <button type="button" class="subscription-tier-close">[ Close ]</button>
+                                <h3>Class - B Tech</h3>
+                                <p class="tier-type-text">System Development</p>
+                                <p class="tier-description">Starter equipment access for small teams building early products with flexible monthly commitment.</p>
+                            </div>
+                        </div>
+                        <div class="subscription-tier-overlay" data-tier="cl-c-tech">
+                            <div class="subscription-tier-card">
+                                <button type="button" class="subscription-tier-close">[ Close ]</button>
+                                <h3>Class - C Tech</h3>
+                                <p class="tier-type-text">Prototype Testing Lab</p>
+                                <p class="tier-description">Growth-focused equipment tier designed for teams scaling operations and testing more ambitious builds.</p>
+                            </div>
+                        </div>
+                        <div class="subscription-tier-overlay" data-tier="cl-d-tech">
+                            <div class="subscription-tier-card">
+                                <button type="button" class="subscription-tier-close">[ Close ]</button>
+                                <h3>Class - D Tech</h3>
+                                <p class="tier-type-text">Silicon Fabrication and componet manufacturing</p>
+                                <p class="tier-description">Enterprise-ready subscription tier with broad equipment options and dedicated roadmap collaboration.</p>
+                            </div>
                         </div>
                     </div>
                     <div class="future-plan-content" data-plan="plan-2">
@@ -1171,6 +1470,168 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <!-- Book_Mark: ============================== MARKETING ============================== -->
+    <div class="Marketing">
+        <style>
+            .Marketing {
+                width: 100dvw;
+                height: 100dvh;
+                position: relative;
+                scroll-snap-align: start;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background: linear-gradient(135deg, #ffffff, #f3f3f3);
+                color: #333;
+            }
+
+            .Marketing .Marketing_Hero {
+                position: absolute;
+                top: 10px;
+                width: calc(100% - 20px);
+                height: 260px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                text-align: center;
+                padding: 0 20px;
+                gap: 12px;
+            }
+
+            .Marketing .Marketing_Hero .Title p {
+                font-family: 'MainFont', monospace;
+                font-size: 18px;
+                font-weight: 100;
+                color: #333;
+                margin: 0;
+                opacity: 0;
+                visibility: hidden;
+            }
+
+            .Marketing .Marketing_Hero .Subtitle p,
+            .Marketing .Marketing_Hero .Description p,
+            .Marketing .Marketing_Strategy .marketing-item p {
+                font-family: 'MainFont', monospace;
+                font-size: 11px;
+                font-weight: 100;
+                color: #666;
+                line-height: 1.5;
+                margin: 0;
+                opacity: 0;
+                visibility: hidden;
+            }
+
+            .Marketing .Marketing_Hero .Subtitle p {
+                max-width: 760px;
+            }
+
+            .Marketing .Marketing_Hero .Description p {
+                max-width: 800px;
+            }
+
+            .Marketing .Marketing_Strategy {
+                position: absolute;
+                top: 300px;
+                width: calc(100% - 20px);
+                height: calc(100% - 360px);
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: flex-start;
+                gap: 18px;
+            }
+
+            .Marketing .Marketing_Strategy .Title {
+                position: absolute;
+                top: 10px;
+                left: 10px;
+            }
+
+            .Marketing .Marketing_Strategy .Title p {
+                font-family: 'MainFont', monospace;
+                font-size: 11px;
+                font-weight: 100;
+                color: #9a9a9a;
+                margin: 0;
+                opacity: 0;
+                visibility: hidden;
+            }
+
+            .Marketing .Marketing_Strategy .marketing-list {
+                width: calc(100% - 40px);
+                max-width: 860px;
+                margin-top: 44px;
+                display: grid;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 10px;
+            }
+
+            .Marketing .Marketing_Strategy .marketing-item {
+                border: 1px solid #000;
+                background: #fff;
+                min-height: 74px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                text-align: center;
+                padding: 10px;
+                opacity: 0;
+                visibility: hidden;
+            }
+
+            .Marketing .Marketing_CTA {
+                position: absolute;
+                bottom: 30px;
+                left: 50%;
+                transform: translateX(-50%);
+            }
+
+            .Marketing .Marketing_CTA .marketing-cta-button {
+                width: 180px;
+                height: 30px;
+                background: #fff;
+                border: 1px solid #000;
+                font-size: 11px;
+                font-family: 'MainFont', monospace;
+                cursor: pointer;
+                opacity: 0;
+                visibility: hidden;
+            }
+        </style>
+
+        <!-- Book_Mark: ================= MARKETING HERO ================= -->
+        <div class="Marketing_Hero">
+            <div class="Title">
+                <p>Marketing</p>
+            </div>
+            <div class="Subtitle">
+                <p>How Eden Economy reaches engineers, builders, and independent tech teams.</p>
+            </div>
+            <div class="Description">
+                <p>We use focused campaigns and creator-first messaging to help technical communities discover practical tools, learn faster, and build sustainable ventures.</p>
+            </div>
+        </div>
+
+        <!-- Book_Mark: ================= MARKETING STRATEGY ================= -->
+        <div class="Marketing_Strategy">
+            <div class="Title">
+                <p>Marketing Strategy</p>
+            </div>
+            <div class="marketing-list">
+                <div class="marketing-item"><p>Creator showcases and product walkthroughs</p></div>
+                <div class="marketing-item"><p>Targeted campaigns for indie engineering teams</p></div>
+                <div class="marketing-item"><p>Community feedback loops for message testing</p></div>
+                <div class="marketing-item"><p>Launch sequences aligned with feature releases</p></div>
+            </div>
+        </div>
+
+        <!-- Book_Mark: ================= MARKETING CTA ================= -->
+        <div class="Marketing_CTA">
+            <button type="button" class="marketing-cta-button">View Marketing Plan</button>
         </div>
     </div>
 
@@ -1774,6 +2235,51 @@
                         updateFuturePlanContent(futurePlanMarkers[0].dataset.plan);
                     }
 
+                    const clAMachineMarkers = document.querySelectorAll('.cl-a-machine-marker');
+                    const clAProductContents = document.querySelectorAll('.cl-a-product-content');
+                    const clAMachineTimelineContent = document.querySelector('.cl-a-machine-timeline-content');
+
+                    function updateCLAMachineContent(productId) {
+                        clAMachineMarkers.forEach((marker) => {
+                            marker.classList.remove('active');
+                        });
+
+                        clAProductContents.forEach((content) => {
+                            content.classList.remove('active');
+                        });
+
+                        const activeMarker = document.querySelector(`.cl-a-machine-marker[data-product="${productId}"]`);
+                        const activeContent = document.querySelector(`.cl-a-product-content[data-product="${productId}"]`);
+
+                        if (activeMarker) {
+                            activeMarker.classList.add('active');
+                        }
+
+                        if (activeContent) {
+                            activeContent.classList.add('active');
+                            if (clAMachineTimelineContent) {
+                                clAMachineTimelineContent.classList.add('active');
+                            }
+                        }
+                    }
+
+                    clAMachineMarkers.forEach((marker) => {
+                        marker.addEventListener('click', () => {
+                            updateCLAMachineContent(marker.dataset.product);
+                        });
+
+                        marker.addEventListener('keydown', (e) => {
+                            if (e.key === 'Enter' || e.key === ' ') {
+                                e.preventDefault();
+                                updateCLAMachineContent(marker.dataset.product);
+                            }
+                        });
+                    });
+
+                    if (clAMachineMarkers.length > 0) {
+                        updateCLAMachineContent(clAMachineMarkers[0].dataset.product);
+                    }
+
                     const blueprintButtons = document.querySelectorAll('.blueprint-trigger');
                     const blueprintCards = document.querySelectorAll('.blueprint-overlay');
                     const blueprintCloseButtons = document.querySelectorAll('.blueprint-close');
@@ -1835,6 +2341,91 @@
                             }
                         });
                     }
+
+                    const tierButtons = document.querySelectorAll('.tier-trigger');
+                    const tierCards = document.querySelectorAll('.subscription-tier-overlay');
+                    const tierCloseButtons = document.querySelectorAll('.subscription-tier-close');
+
+                    function closeTierCards() {
+                        tierCards.forEach((card) => {
+                            resetTierCardAnimation(card);
+                            card.classList.remove('active');
+                        });
+                    }
+
+                    function resetTierCardAnimation(card) {
+                        if (!card) return;
+
+                        card.classList.remove('typing-active');
+
+                        const tierType = card.querySelector('.tier-type-text');
+                        if (!tierType) return;
+
+                        const textLength = Math.max(tierType.textContent.trim().length, 1);
+                        tierType.style.setProperty('--tier-type-steps', textLength.toString());
+                        tierType.style.setProperty('--tier-type-width', `${textLength}ch`);
+
+                        tierType.style.animation = 'none';
+                        tierType.style.width = '0';
+                        tierType.offsetHeight;
+                        tierType.style.animation = '';
+                    }
+
+                    function animateTierCard(card) {
+                        if (!card) return;
+
+                        resetTierCardAnimation(card);
+
+                        if (card.dataset.tier === 'cl-a-tech') {
+                            const clAFirstMarker = card.querySelector('.cl-a-machine-marker');
+                            if (clAFirstMarker) {
+                                updateCLAMachineContent(clAFirstMarker.dataset.product);
+                            }
+                        }
+
+                        runFadeAnimation([
+                            card.querySelectorAll('.subscription-tier-close'),
+                            card.querySelectorAll('.subscription-tier-card > h3'),
+                            card.querySelectorAll('.subscription-tier-card .tier-type-text'),
+                            card.querySelectorAll('.subscription-tier-card .tier-description'),
+                            card.querySelectorAll('.subscription-tier-card .cl-a-machine-marker, .subscription-tier-card .cl-a-machine-timeline-content')
+                        ]);
+
+                        const initialDelay = 800;
+                        const staggerDelay = 90;
+                        const groupGap = 220;
+                        const typeGroupIndex = 2;
+                        const typeGroupDelay = initialDelay + (typeGroupIndex * (staggerDelay + groupGap));
+
+                        setTimeout(() => {
+                            if (card.classList.contains('active')) {
+                                card.classList.add('typing-active');
+                            }
+                        }, typeGroupDelay);
+                    }
+
+                    function openTierCard(targetId) {
+                        tierCards.forEach((card) => {
+                            if (card.dataset.tier === targetId) {
+                                card.classList.add('active');
+                                animateTierCard(card);
+                            } else {
+                                card.classList.remove('active');
+                            }
+                        });
+                    }
+
+                    tierButtons.forEach((button) => {
+                        button.addEventListener('click', () => {
+                            openTierCard(button.dataset.tierTarget);
+                        });
+                    });
+
+                    tierCloseButtons.forEach((button) => {
+                        button.addEventListener('click', () => {
+                            closeTierCards();
+                        });
+                    });
                 });
             </script>
         
@@ -2286,7 +2877,7 @@
                 left: 50%;
                 transform: translateX(-50%);
                 width: calc(100% - 40px);
-                height: calc(100% - 120px);
+                height: calc(100% - 40px);
                 display: flex;
                 justify-content: center;
                 align-items: center;
