@@ -230,7 +230,7 @@
         <script aria-label="Swipe_Script">
             // Touch/swipe fade navigation
             document.addEventListener('DOMContentLoaded', () => {
-                const sections = document.querySelectorAll('.Logo, .Subscriptions, .Marketing, .Page_1, .The_Free_Economy, .page_2, .page_3');
+                const sections = document.querySelectorAll('.Logo, .Who_We_Are, .Subscriptions, .Marketing, .The_Free_Economy, .page_2, .page_3');
                 let currentSection = 0;
                 let touchStartY = 0;
                 let touchEndY = 0;
@@ -265,19 +265,19 @@
                         replayLogoAnimation();
                     }
                     
-                    // Start Subscriptions animation when Subscriptions is displayed
+                    // Start Who We Are animation when Who_We_Are is displayed
                     if (index === 1) {
+                        startWhoWeAreAnimation();
+                    }
+
+                    // Start Subscriptions animation when Subscriptions is displayed
+                    if (index === 2) {
                         startSubscriptionsAnimation();
                     }
 
                     // Start Marketing animation when Marketing is displayed
-                    if (index === 2) {
-                        startMarketingAnimation();
-                    }
-
-                    // Start roadmap animation when Page_1 is displayed
                     if (index === 3) {
-                        startRoadMapAnimation();
+                        startMarketingAnimation();
                     }
 
                     // Start Free Economy animation when The_Free_Economy is displayed
@@ -479,19 +479,17 @@
                     ]);
                 }
 
-                function startRoadMapAnimation() {
-                    const pageOne = document.querySelector('.Page_1');
-                    if (!pageOne) return;
+                function startWhoWeAreAnimation() {
+                    const whoWeAre = document.querySelector('.Who_We_Are');
+                    if (!whoWeAre) return;
 
                     runFadeAnimation([
-                        pageOne.querySelectorAll('.roadmap-container .Title p'),
-                        pageOne.querySelectorAll('.roadmap-container .timeline-content'),
-                        pageOne.querySelectorAll('.roadmap-container .timeline-years .year-marker'),
-                        pageOne.querySelectorAll('.eden-container .Title p'),
-                        pageOne.querySelectorAll('.eden-container .eden-timeline-content'),
-                        pageOne.querySelectorAll('.eden-container .eden-timeline-years .eden-year-marker'),
-                        pageOne.querySelectorAll('.Who_We_Are'),
-                        pageOne.querySelectorAll('.Kickstarter_Button')
+                        whoWeAre.querySelectorAll('.Who_We_Are_Hero .Title p'),
+                        whoWeAre.querySelectorAll('.Who_We_Are_Hero .Subtitle p'),
+                        whoWeAre.querySelectorAll('.Who_We_Are_Hero .Description p'),
+                        whoWeAre.querySelectorAll('.Who_We_Are_Content .Title p'),
+                        whoWeAre.querySelectorAll('.Who_We_Are_Content .who-we-card'),
+                        whoWeAre.querySelectorAll('.Who_We_Are_Footer p')
                     ]);
                 }
 
@@ -778,6 +776,183 @@
     </div>
     
     <!-- Book_Mark: ============================== ADDITIONAL PAGES ============================== -->
+
+    <div class="Who_We_Are">
+        <style>
+            .Who_We_Are {
+                width: 100dvw;
+                height: 100dvh;
+                position: relative;
+                scroll-snap-align: start;
+                display: flex;
+                justify-content: center;
+                align-items: flex-start;
+                background: linear-gradient(135deg, #f5f5f5, #ffffff);
+                color: #9a9a9a;
+                font-size: 2rem;
+            }
+
+            .Who_We_Are .Who_We_Are_Hero {
+                position: absolute;
+                top: 10px;
+                width: calc(100% - 20px);
+                height: 260px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                text-align: center;
+                padding: 0 20px;
+                gap: 10px;
+            }
+
+            .Who_We_Are .Who_We_Are_Hero .Title p {
+                font-family: 'MainFont', monospace;
+                font-size: 18px;
+                font-weight: 100;
+                color: #333;
+                margin: 0;
+                opacity: 0;
+                visibility: hidden;
+            }
+
+            .Who_We_Are .Who_We_Are_Hero .Subtitle p,
+            .Who_We_Are .Who_We_Are_Hero .Description p,
+            .Who_We_Are .Who_We_Are_Content .who-we-card p,
+            .Who_We_Are .Who_We_Are_Footer p {
+                font-family: 'MainFont', monospace;
+                font-size: 11px;
+                font-weight: 100;
+                color: #666;
+                line-height: 1.5;
+                margin: 0;
+                opacity: 0;
+                visibility: hidden;
+            }
+
+            .Who_We_Are .Who_We_Are_Hero .Subtitle p {
+                max-width: 760px;
+            }
+
+            .Who_We_Are .Who_We_Are_Hero .Description p {
+                max-width: 820px;
+            }
+
+            .Who_We_Are .Who_We_Are_Content {
+                position: absolute;
+                top: 300px;
+                width: calc(100% - 20px);
+                height: calc(100% - 390px);
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: flex-start;
+            }
+
+            .Who_We_Are .Who_We_Are_Content .Title {
+                position: absolute;
+                top: 10px;
+                left: 10px;
+            }
+
+            .Who_We_Are .Who_We_Are_Content .Title p {
+                font-family: 'MainFont', monospace;
+                font-size: 11px;
+                font-weight: 100;
+                color: #9a9a9a;
+                margin: 0;
+                opacity: 0;
+                visibility: hidden;
+            }
+
+            .Who_We_Are .Who_We_Are_Content .who-we-grid {
+                width: calc(100% - 40px);
+                max-width: 860px;
+                margin-top: 44px;
+                display: grid;
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+                gap: 10px;
+            }
+
+            .Who_We_Are .Who_We_Are_Content .who-we-card {
+                border: 1px solid #000;
+                background: #fff;
+                padding: 14px;
+                opacity: 0;
+                visibility: hidden;
+            }
+
+            .Who_We_Are .Who_We_Are_Content .who-we-card h3 {
+                margin: 0 0 8px 0;
+                font-family: 'MainFont', monospace;
+                font-size: 11px;
+                font-weight: 100;
+                color: #333;
+            }
+
+            .Who_We_Are .Who_We_Are_Footer {
+                position: absolute;
+                bottom: 28px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: calc(100% - 40px);
+                max-width: 860px;
+                text-align: center;
+            }
+
+            @media (max-width: 900px) {
+                .Who_We_Are .Who_We_Are_Hero {
+                    height: 280px;
+                }
+
+                .Who_We_Are .Who_We_Are_Content {
+                    top: 320px;
+                    height: calc(100% - 420px);
+                }
+
+                .Who_We_Are .Who_We_Are_Content .who-we-grid {
+                    grid-template-columns: 1fr;
+                }
+            }
+        </style>
+
+        <div class="Who_We_Are_Hero">
+            <div class="Title">
+                <p>Who We Are</p>
+            </div>
+            <div class="Subtitle">
+                <p>Eden Economy is an engineering-first initiative focused on giving indie companies practical access to advanced manufacturing capability through open systems and structured technical standards.</p>
+            </div>
+            <div class="Description">
+                <p>We design production-ready machine architecture, open component libraries, and software workflows that allow small teams to operate with the discipline and output of larger organizations.</p>
+            </div>
+        </div>
+
+        <div class="Who_We_Are_Content">
+            <div class="Title">
+                <p>Our Operating Model</p>
+            </div>
+            <div class="who-we-grid">
+                <article class="who-we-card">
+                    <h3>Mission</h3>
+                    <p>We reduce the cost barrier to serious manufacturing by combining open-source machine architecture with structured documentation and operational software.</p>
+                </article>
+                <article class="who-we-card">
+                    <h3>How We Work</h3>
+                    <p>Our team develops modular machine subsystems, validated part libraries, and integration methods that let founders assemble equipment around real production targets.</p>
+                </article>
+                <article class="who-we-card">
+                    <h3>Who We Serve</h3>
+                    <p>We build for builders: indie hardware teams, startup labs, and engineering-focused businesses that need reliable tools without enterprise-level upfront spending.</p>
+                </article>
+            </div>
+        </div>
+
+        <div class="Who_We_Are_Footer">
+            <p>With our open libraries and software stack, teams can specify, build, and run the exact machines they need for fabrication, testing, and scale-up. The goal is simple: make high-end engineering infrastructure available to independent companies that are ready to ship real products.</p>
+        </div>
+    </div>
+
     <!-- Book_Mark: ============================== SUBSCRIPTIONS ============================== -->
     <div class="Subscriptions">
         <style>
@@ -897,6 +1072,21 @@
                 justify-content: center;
                 text-align: center;
                 padding: 20px;
+            }
+
+            .Subscriptions .subscription-tier-card.card-sync-fade {
+                animation: tierCardSyncFade 0.45s ease both;
+            }
+
+            @keyframes tierCardSyncFade {
+                from {
+                    opacity: 0;
+                    transform: translateY(8px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
             }
 
             .Subscriptions .subscription-card h3 {
@@ -1209,8 +1399,11 @@
             .Subscriptions .subscription-tier-card > h3,
             .Subscriptions .subscription-tier-card .tier-type-text,
             .Subscriptions .subscription-tier-card .tier-description,
-            .Subscriptions .subscription-tier-card .cl-a-machine-marker,
-            .Subscriptions .subscription-tier-card .cl-a-machine-timeline-content {
+            .Subscriptions .subscription-tier-card .cl-a-dots-nav,
+            .Subscriptions .subscription-tier-card .cl-a-dots-list,
+            .Subscriptions .subscription-tier-card .cl-a-dots-counter,
+            .Subscriptions .subscription-tier-card .cl-a-product-panel,
+            .Subscriptions .subscription-tier-card .cl-a-open-source-section {
                 opacity: 0;
                 visibility: hidden;
             }
@@ -1227,82 +1420,114 @@
                 max-width: 760px;
             }
 
-            .Subscriptions .subscription-tier-card .cl-a-machine-list {
+            .Subscriptions .subscription-tier-card .cl-a-machine-section {
                 position: absolute;
                 top: 215px;
                 left: 50%;
                 transform: translateX(-50%);
-                width: 350px;
+                width: 380px;
                 display: flex;
                 align-items: flex-start;
                 gap: 28px;
             }
 
-            .Subscriptions .subscription-tier-card .cl-a-machine-markers {
+            .Subscriptions .subscription-tier-card .cl-a-dots-column {
                 display: flex;
                 flex-direction: column;
                 align-items: center;
-                justify-content: center;
-                gap: 24px;
-                padding-top: 2px;
+                width: 30px;
+                flex-shrink: 0;
             }
 
-            .Subscriptions .subscription-tier-card .cl-a-machine-marker {
-                position: relative;
+            .Subscriptions .subscription-tier-card .cl-a-dots-nav {
+                width: 30px;
+                height: 30px;
                 display: flex;
-                flex-direction: column;
                 align-items: center;
                 justify-content: center;
-                background: transparent;
                 border: none;
-                padding: 0;
+                background: transparent;
+                color: #7a7a7a;
+                font-size: 11px;
+                font-family: 'MainFont', monospace;
                 cursor: pointer;
-                -webkit-tap-highlight-color: transparent;
+                touch-action: manipulation;
+                transition: color 0.2s ease;
             }
 
-            .Subscriptions .subscription-tier-card .cl-a-machine-marker:focus,
-            .Subscriptions .subscription-tier-card .cl-a-machine-marker:focus-visible {
-                outline: none;
-                box-shadow: none;
+            .Subscriptions .subscription-tier-card .cl-a-dots-nav:hover {
+                color: #4A90E2;
             }
 
-            .Subscriptions .subscription-tier-card .cl-a-machine-dot {
+            .Subscriptions .subscription-tier-card .cl-a-dots-nav:disabled {
+                color: #ccc;
+                cursor: default;
+            }
+
+            .Subscriptions .subscription-tier-card .cl-a-dots-list {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: flex-start;
+                width: 30px;
+            }
+
+            .Subscriptions .subscription-tier-card .cl-a-dot {
+                width: 30px;
+                height: 24px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                touch-action: manipulation;
+            }
+
+            .Subscriptions .subscription-tier-card .cl-a-dot::after {
+                content: '';
+                display: block;
                 width: 5px;
                 height: 5px;
-                min-width: 5px;
                 border-radius: 50%;
                 background: #C0C0C0;
-                transition: all 0.3s ease;
+                transition: background 0.3s ease, transform 0.3s ease;
             }
 
-            .Subscriptions .subscription-tier-card .cl-a-machine-marker:hover .cl-a-machine-dot,
-            .Subscriptions .subscription-tier-card .cl-a-machine-marker.active .cl-a-machine-dot {
+            .Subscriptions .subscription-tier-card .cl-a-dot:hover::after,
+            .Subscriptions .subscription-tier-card .cl-a-dot.active::after {
                 background: #4A90E2;
                 transform: scale(1.5);
             }
 
-            .Subscriptions .subscription-tier-card .cl-a-machine-timeline-content {
+            .Subscriptions .subscription-tier-card .cl-a-dots-counter {
+                margin-top: 8px;
+                font-family: 'MainFont', monospace;
+                font-size: 10px;
+                font-weight: 100;
+                color: #777;
+                text-align: center;
+                line-height: 1.2;
+            }
+
+            .Subscriptions .subscription-tier-card .cl-a-product-panel {
                 flex: 1;
-                opacity: 0;
-                transition: opacity 0.4s ease;
-                pointer-events: none;
                 text-align: left;
+                transition: opacity 0.4s ease;
             }
 
-            .Subscriptions .subscription-tier-card .cl-a-machine-timeline-content.active {
+            .Subscriptions .subscription-tier-card .cl-a-product-panel.active {
                 opacity: 1;
-                pointer-events: auto;
+                visibility: visible;
             }
 
-            .Subscriptions .subscription-tier-card .cl-a-product-content {
+            .Subscriptions .subscription-tier-card .cl-a-product-item {
                 display: none;
             }
 
-            .Subscriptions .subscription-tier-card .cl-a-product-content.active {
+            .Subscriptions .subscription-tier-card .cl-a-product-item.active {
                 display: block;
             }
 
-            .Subscriptions .subscription-tier-card .cl-a-product-content h3 {
+            .Subscriptions .subscription-tier-card .cl-a-product-item h3 {
                 margin: 0 0 10px 0;
                 font-family: 'MainFont', monospace;
                 font-size: 14px;
@@ -1311,7 +1536,7 @@
                 text-align: left;
             }
 
-            .Subscriptions .subscription-tier-card .cl-a-product-content p {
+            .Subscriptions .subscription-tier-card .cl-a-product-item p {
                 margin: 0;
                 font-family: 'MainFont', monospace;
                 font-size: 11px;
@@ -1319,6 +1544,39 @@
                 color: #666;
                 line-height: 1.4;
                 text-align: left;
+            }
+
+            .Subscriptions .subscription-tier-card .cl-a-open-source-section {
+                position: absolute;
+                left: 50%;
+                bottom: 26px;
+                transform: translateX(-50%);
+                width: min(380px, calc(100% - 40px));
+                text-align: left;
+                transition: opacity 0.4s ease;
+            }
+
+            .Subscriptions .subscription-tier-card .cl-a-open-source-section h4 {
+                margin: 0 0 8px 0;
+                font-family: 'MainFont', monospace;
+                font-size: 12px;
+                font-weight: 100;
+                color: #333;
+                text-align: center;
+            }
+
+            .Subscriptions .subscription-tier-card .cl-a-open-source-section p {
+                margin: 0;
+                font-family: 'MainFont', monospace;
+                font-size: 10px;
+                font-weight: 100;
+                color: #666;
+                line-height: 1.5;
+                text-align: center;
+            }
+
+            .Subscriptions .subscription-tier-card .cl-a-open-source-section p + p {
+                margin-top: 8px;
             }
 
             .Subscriptions .subscription-tier-close {
@@ -1388,46 +1646,151 @@
                                 <h3>Class - A Tech</h3>
                                 <p class="tier-type-text">Circuit Board Development</p>
                                 <p class="tier-description">We build machines that can build any curcuit board in the world, including modular expansion cards to modern mother boards.</p>
-                                <div class="cl-a-machine-list">
-                                    <div class="cl-a-machine-markers">
-                                        <button type="button" class="cl-a-machine-marker" data-product="product-1" aria-label="CL-A product marker 1"><span class="cl-a-machine-dot"></span></button>
-                                        <button type="button" class="cl-a-machine-marker" data-product="product-2" aria-label="CL-A product marker 2"><span class="cl-a-machine-dot"></span></button>
-                                        <button type="button" class="cl-a-machine-marker" data-product="product-3" aria-label="CL-A product marker 3"><span class="cl-a-machine-dot"></span></button>
-                                        <button type="button" class="cl-a-machine-marker" data-product="product-4" aria-label="CL-A product marker 4"><span class="cl-a-machine-dot"></span></button>
-                                        <button type="button" class="cl-a-machine-marker" data-product="product-5" aria-label="CL-A product marker 5"><span class="cl-a-machine-dot"></span></button>
-                                        <button type="button" class="cl-a-machine-marker" data-product="product-6" aria-label="CL-A product marker 6"><span class="cl-a-machine-dot"></span></button>
-                                        <button type="button" class="cl-a-machine-marker" data-product="product-7" aria-label="CL-A product marker 7"><span class="cl-a-machine-dot"></span></button>
+                                <div class="cl-a-machine-section">
+                                    <div class="cl-a-dots-column">
+                                        <button type="button" class="cl-a-dots-nav" data-dir="prev" aria-label="Previous page" disabled>▲</button>
+                                        <div class="cl-a-dots-list">
+                                            <div class="cl-a-dot" data-idx="0"></div>
+                                            <div class="cl-a-dot" data-idx="1"></div>
+                                            <div class="cl-a-dot" data-idx="2"></div>
+                                            <div class="cl-a-dot" data-idx="3"></div>
+                                            <div class="cl-a-dot" data-idx="4"></div>
+                                            <div class="cl-a-dot" data-idx="5"></div>
+                                            <div class="cl-a-dot" data-idx="6"></div>
+                                            <div class="cl-a-dot" data-idx="7"></div>
+                                            <div class="cl-a-dot" data-idx="8"></div>
+                                            <div class="cl-a-dot" data-idx="9"></div>
+                                            <div class="cl-a-dot" data-idx="10"></div>
+                                            <div class="cl-a-dot" data-idx="11"></div>
+                                            <div class="cl-a-dot" data-idx="12"></div>
+                                            <div class="cl-a-dot" data-idx="13"></div>
+                                            <div class="cl-a-dot" data-idx="14"></div>
+                                            <div class="cl-a-dot" data-idx="15"></div>
+                                            <div class="cl-a-dot" data-idx="16"></div>
+                                            <div class="cl-a-dot" data-idx="17"></div>
+                                            <div class="cl-a-dot" data-idx="18"></div>
+                                            <div class="cl-a-dot" data-idx="19"></div>
+                                            <div class="cl-a-dot" data-idx="20"></div>
+                                            <div class="cl-a-dot" data-idx="21"></div>
+                                            <div class="cl-a-dot" data-idx="22"></div>
+                                            <div class="cl-a-dot" data-idx="23"></div>
+                                            <div class="cl-a-dot" data-idx="24"></div>
+                                            <div class="cl-a-dot" data-idx="25"></div>
+                                        </div>
+                                        <button type="button" class="cl-a-dots-nav" data-dir="next" aria-label="Next page">▼</button>
+                                        <span class="cl-a-dots-counter" aria-live="polite">Page 1 / 4</span>
                                     </div>
-                                    <div class="cl-a-machine-timeline-content">
-                                        <div class="cl-a-product-content" data-product="product-1">
-                                            <h3>Copper Clad Lamination Presses</h3>
-                                            <p>Used for multilayer board base construction and stack-up consistency before trace imaging.</p>
+                                    <div class="cl-a-product-panel">
+                                        <div class="cl-a-product-item" data-idx="0">
+                                            <h3>CAM Software & DFM Workstation — $500 / mo Subscription Plan</h3>
+                                            <p>High-performance workstation running industry-standard CAM software for Gerber processing, panelization, design-rule checking, and net verification. Every production board passes through this station first to catch errors before any material is committed to the fabrication line.</p>
                                         </div>
-                                        <div class="cl-a-product-content" data-product="product-2">
-                                            <h3>UV Photoresist Exposure Units</h3>
-                                            <p>Provides high-precision trace imaging for clean transfer of circuit layouts to copper surfaces.</p>
+                                        <div class="cl-a-product-item" data-idx="1">
+                                            <h3>Laser Direct Imaging System — $500 / mo Subscription Plan</h3>
+                                            <p>Writes circuit patterns directly onto photoresist-coated copper panels using a focused UV laser beam, eliminating the need for film masks entirely. Achieves trace and space widths below 50 microns with perfect registration, enabling high-density interconnect board production for modern computing hardware.</p>
                                         </div>
-                                        <div class="cl-a-product-content" data-product="product-3">
-                                            <h3>Automated PCB Etching Systems</h3>
-                                            <p>Handles controlled copper removal to produce accurate pattern transfer and board geometry.</p>
+                                        <div class="cl-a-product-item" data-idx="2">
+                                            <h3>Multilayer Lamination Press — $500 / mo Subscription Plan</h3>
+                                            <p>A hydraulic vacuum press that bonds multiple copper foil and prepreg layers under precisely controlled heat and pressure to produce multilayer PCB stackups. Handles boards up to 20+ layers with controlled impedance, which is standard for motherboards, GPU cards, and high-speed computing interfaces.</p>
                                         </div>
-                                        <div class="cl-a-product-content" data-product="product-4">
-                                            <h3>CNC Micro-Drilling Stations</h3>
-                                            <p>Creates precision vias and component pin routing paths for complex high-density board designs.</p>
+                                        <div class="cl-a-product-item" data-idx="3">
+                                            <h3>Automated Conveyorized Etching Line — $500 / mo Subscription Plan</h3>
+                                            <p>A fully enclosed, high-throughput chemical etching system with automated panel loading, calibrated spray nozzles, multi-stage rinse chambers, and chemical regeneration. Delivers consistent copper removal across entire production panels with tight etch-factor control for fine-pitch computing board traces.</p>
                                         </div>
-                                        <div class="cl-a-product-content" data-product="product-5">
-                                            <h3>SMT Pick-and-Place Lines</h3>
-                                            <p>Supports rapid board population and surface-mount assembly for prototype and production runs.</p>
+                                        <div class="cl-a-product-item" data-idx="4">
+                                            <h3>Electroless Copper Deposition Line — $500 / mo Subscription Plan</h3>
+                                            <p>Deposits a thin seed layer of copper inside drilled via holes and onto panel surfaces through chemical reduction. This establishes the base conductivity required for subsequent electrolytic plating and is the critical step that makes multilayer board interlayer connections possible.</p>
                                         </div>
-                                        <div class="cl-a-product-content" data-product="product-6">
-                                            <h3>AOI Inspection Cameras and Test Rigs</h3>
-                                            <p>Performs production quality assurance with optical inspection, validation checks, and test cycles.</p>
+                                        <div class="cl-a-product-item" data-idx="5">
+                                            <h3>Electrolytic Copper Plating Line — $500 / mo Subscription Plan</h3>
+                                            <p>Builds up copper thickness on traces, pads, and inside plated through-holes using electrodeposition. Ensures uniform copper distribution that meets IPC Class 2 and Class 3 specifications for production computing boards, with precise control over plating thickness and throwing power into high-aspect-ratio vias.</p>
                                         </div>
-                                        <div class="cl-a-product-content" data-product="product-7">
-                                            <h3>Modular Expansion Cards and Motherboard Kits</h3>
-                                            <p>Finished hardware products designed for scalable integration across modern motherboard platforms.</p>
+                                        <div class="cl-a-product-item" data-idx="6">
+                                            <h3>High-Speed CNC Drilling Machine — $500 / mo Subscription Plan</h3>
+                                            <p>A multi-spindle mechanical drilling system that creates through-holes, component mounting holes, and mechanical vias at production speed. Achieves positional accuracy within 25 microns with spindle speeds up to 150,000 RPM, handling the thousands of drill hits required per panel on dense computing boards.</p>
+                                        </div>
+                                        <div class="cl-a-product-item" data-idx="7">
+                                            <h3>Laser Via Drilling System — $500 / mo Subscription Plan</h3>
+                                            <p>A UV or CO2 laser system for creating microvias, blind vias, and buried vias in HDI board designs. Essential for modern computing hardware where mechanical drills cannot achieve the sub-100-micron diameters required for BGA fan-out routing on processors, memory modules, and high-speed interconnects.</p>
+                                        </div>
+                                        <div class="cl-a-product-item" data-idx="8">
+                                            <h3>Automated Solder Mask Coating Line — $500 / mo Subscription Plan</h3>
+                                            <p>A curtain or spray coating system that applies liquid photoimageable solder mask across entire production panels, followed by UV exposure through a mask, alkaline development, and thermal cure. Produces the professional green, black, or custom-color finish expected on commercial computing products.</p>
+                                        </div>
+                                        <div class="cl-a-product-item" data-idx="9">
+                                            <h3>Surface Finish Line (ENIG / HASL) — $500 / mo Subscription Plan</h3>
+                                            <p>Applies the final surface finish to exposed copper pads before assembly. Electroless Nickel Immersion Gold for fine-pitch BGA and QFN pads on computing boards, or Hot Air Solder Leveling for standard through-hole and larger SMT applications. Ensures solderability and long shelf life.</p>
+                                        </div>
+                                        <div class="cl-a-product-item" data-idx="10">
+                                            <h3>CNC Router & V-Score Depanelizer — $500 / mo Subscription Plan</h3>
+                                            <p>Separates individual boards from production panels using precision CNC routing or v-score breaking with controlled depth cuts. Includes integrated dust extraction and board handling conveyors to produce clean, burr-free edges on finished boards ready for assembly.</p>
+                                        </div>
+                                        <div class="cl-a-product-item" data-idx="11">
+                                            <h3>Bare Board AOI & Electrical Test — $500 / mo Subscription Plan</h3>
+                                            <p>Automated optical inspection and flying probe electrical testing of fabricated bare boards before they enter the assembly line. Verifies trace integrity, copper isolation, via connectivity, and impedance compliance to catch fabrication defects before components are placed.</p>
+                                        </div>
+                                        <div class="cl-a-product-item" data-idx="12">
+                                            <h3>Automated Solder Paste Printer — $500 / mo Subscription Plan</h3>
+                                            <p>A fully automatic stencil printer with 2D vision alignment that deposits solder paste onto PCB pads with repeatable accuracy down to 25-micron offset. Handles fine-pitch component pads on computing boards where paste volume consistency directly determines solder joint reliability.</p>
+                                        </div>
+                                        <div class="cl-a-product-item" data-idx="13">
+                                            <h3>High-Speed Pick-and-Place Machine — $500 / mo Subscription Plan</h3>
+                                            <p>A multi-head turret placement system capable of placing tens of thousands of components per hour. Handles everything from 01005 passive components to large BGA processors and connectors with vision-assisted alignment, feeding from tape reels, trays, and tube feeders for full production throughput.</p>
+                                        </div>
+                                        <div class="cl-a-product-item" data-idx="14">
+                                            <h3>Convection Reflow Oven — $500 / mo Subscription Plan</h3>
+                                            <p>A full-length convection tunnel reflow oven with nitrogen inerting capability and independently controlled heating zones. Programmable thermal profiles handle lead-free SAC305 and other alloys with precise temperature uniformity across the entire board, critical for large computing panels with mixed thermal mass.</p>
+                                        </div>
+                                        <div class="cl-a-product-item" data-idx="15">
+                                            <h3>Wave Soldering Machine — $500 / mo Subscription Plan</h3>
+                                            <p>For soldering through-hole components on mixed-technology computing boards. Features programmable wave parameters, automated flux application, and preheating stages. Handles connectors, power components, and mechanical through-hole parts that cannot be reflow soldered alongside surface mount components.</p>
+                                        </div>
+                                        <div class="cl-a-product-item" data-idx="16">
+                                            <h3>Selective Soldering System — $500 / mo Subscription Plan</h3>
+                                            <p>A programmable soldering system with a miniature solder wave or iron tip that targets individual through-hole joints on densely populated boards. Used where wave soldering would damage nearby SMT components, which is common on modern computing boards with mixed-technology layouts.</p>
+                                        </div>
+                                        <div class="cl-a-product-item" data-idx="17">
+                                            <h3>3D Automated Optical Inspection — $500 / mo Subscription Plan</h3>
+                                            <p>A post-reflow 3D AOI system that measures solder joint height and geometry, detects bridges, insufficient solder, tombstoned components, polarity errors, and placement offset. Inspects every board at line speed to maintain production quality standards for computing hardware.</p>
+                                        </div>
+                                        <div class="cl-a-product-item" data-idx="18">
+                                            <h3>X-Ray Inspection System — $500 / mo Subscription Plan</h3>
+                                            <p>A 2D/3D X-ray imaging system for inspecting hidden solder joints under BGA processors, QFN packages, and other bottom-terminated components. Essential for computing boards where the most critical connections on CPUs, GPUs, and chipsets are completely hidden from optical inspection.</p>
+                                        </div>
+                                        <div class="cl-a-product-item" data-idx="19">
+                                            <h3>In-Circuit & Flying Probe Test — $500 / mo Subscription Plan</h3>
+                                            <p>Electrical test platforms that verify component presence, correct values, solder joint integrity, and basic circuit function on every assembled board. In-circuit test uses a bed-of-nails fixture for high-volume runs while flying probe handles lower volumes and prototypes without custom fixturing.</p>
+                                        </div>
+                                        <div class="cl-a-product-item" data-idx="20">
+                                            <h3>BGA Rework Station — $500 / mo Subscription Plan</h3>
+                                            <p>An IR and hot-air rework system with bottom-side preheat and top-side vision alignment for removing and replacing BGA and CSP packages on assembled boards. Enables recovery of expensive computing boards with single-component failures without scrapping the entire assembly.</p>
+                                        </div>
+                                        <div class="cl-a-product-item" data-idx="21">
+                                            <h3>Conformal Coating Line — $500 / mo Subscription Plan</h3>
+                                            <p>An automated selective or spray conformal coating system that applies protective acrylic, silicone, or urethane polymer coatings over assembled computing boards. Provides moisture, dust, and chemical resistance for boards deployed in industrial, automotive, or harsh operating environments.</p>
+                                        </div>
+                                        <div class="cl-a-product-item" data-idx="22">
+                                            <h3>Thermal & Environmental Test Chamber — $500 / mo Subscription Plan</h3>
+                                            <p>A programmable temperature and humidity cycling chamber for accelerated life testing and reliability qualification of finished computing boards. Simulates years of thermal stress in days to verify solder joint integrity, component survival, and long-term performance before product release.</p>
+                                        </div>
+                                        <div class="cl-a-product-item" data-idx="23">
+                                            <h3>DI Water Purification System — $500 / mo Subscription Plan</h3>
+                                            <p>Produces ultra-pure deionized water required by the plating, etching, cleaning, and rinsing processes throughout the fabrication line. Prevents ionic contamination that would compromise copper adhesion, solder mask adhesion, and surface finish quality on production computing boards.</p>
+                                        </div>
+                                        <div class="cl-a-product-item" data-idx="24">
+                                            <h3>Chemical Waste Treatment System — $500 / mo Subscription Plan</h3>
+                                            <p>Processes spent etchant solutions, plating bath chemistry, and contaminated rinse water to meet environmental discharge regulations. Recovers copper and neutralizes acids for safe disposal, which is mandatory for any production PCB facility handling the volume of chemistry a million-dollar lab generates.</p>
+                                        </div>
+                                        <div class="cl-a-product-item" data-idx="25">
+                                            <h3>Industrial Fume Extraction & Air Handling — $500 / mo Subscription Plan</h3>
+                                            <p>A centralized extraction and filtration system that captures chemical vapors from etching and plating, solder fumes from reflow and wave, and particulates from drilling and routing. Maintains OSHA-compliant air quality across the entire production floor for safe continuous operation.</p>
                                         </div>
                                     </div>
+                                </div>
+                                <div class="cl-a-open-source-section">
+                                    <h4>Open-Source Build Access — Included at $500 / mo</h4>
+                                    <p>For a single $500 monthly subscription, your team receives access to our complete open-source machine ecosystem: mechanical assemblies, electronics modules, firmware references, control architectures, and continuously updated part libraries.</p>
+                                    <p>Each library entry is documented with specifications, compatibility notes, and integration guidance so your engineers can build custom machine configurations for your exact production goals. The same subscription also includes the latest CAM software stack used to operate and calibrate these systems, giving indie companies a practical path to design, build, and scale any machine they need without traditional upfront equipment barriers.</p>
                                 </div>
                             </div>
                         </div>
@@ -1472,6 +1835,228 @@
             </div>
         </div>
     </div>
+
+    <script aria-label="Subscriptions_Script">
+        document.addEventListener('DOMContentLoaded', () => {
+            const subscriptions = document.querySelector('.Subscriptions');
+            if (!subscriptions) return;
+
+            const futurePlanMarkers = subscriptions.querySelectorAll('.future-plan-marker');
+            const futurePlanContents = subscriptions.querySelectorAll('.future-plan-content');
+            const futurePlansTimelineContent = subscriptions.querySelector('.future-plans-timeline-content');
+
+            function updateFuturePlanContent(planId) {
+                futurePlanMarkers.forEach((marker) => marker.classList.remove('active'));
+                futurePlanContents.forEach((content) => content.classList.remove('active'));
+
+                const activeMarker = subscriptions.querySelector(`.future-plan-marker[data-plan="${planId}"]`);
+                const activeContent = subscriptions.querySelector(`.future-plan-content[data-plan="${planId}"]`);
+
+                if (activeMarker) activeMarker.classList.add('active');
+                if (activeContent) {
+                    activeContent.classList.add('active');
+                    if (futurePlansTimelineContent) futurePlansTimelineContent.classList.add('active');
+                }
+            }
+
+            futurePlanMarkers.forEach((marker) => {
+                marker.addEventListener('click', () => updateFuturePlanContent(marker.dataset.plan));
+                marker.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        updateFuturePlanContent(marker.dataset.plan);
+                    }
+                });
+            });
+
+            if (futurePlanMarkers.length > 0) {
+                updateFuturePlanContent(futurePlanMarkers[0].dataset.plan);
+            }
+
+            const claDots = Array.from(subscriptions.querySelectorAll('.cl-a-dot'));
+            const claItems = Array.from(subscriptions.querySelectorAll('.cl-a-product-item'));
+            const claList = subscriptions.querySelector('.cl-a-dots-list');
+            const claPanel = subscriptions.querySelector('.cl-a-product-panel');
+            const claCounter = subscriptions.querySelector('.cl-a-dots-counter');
+            const claNavs = subscriptions.querySelectorAll('.cl-a-dots-nav');
+            const CLA_PER_PAGE = 8;
+            const CLA_TOTAL = claDots.length;
+            const CLA_PAGES = Math.max(Math.ceil(CLA_TOTAL / CLA_PER_PAGE), 1);
+            let claPage = 0;
+
+            function claRenderPage() {
+                const start = claPage * CLA_PER_PAGE;
+                const end = start + CLA_PER_PAGE;
+
+                claDots.forEach((dot, i) => {
+                    dot.style.display = (i >= start && i < end) ? 'flex' : 'none';
+                });
+
+                if (claCounter) claCounter.textContent = `Page ${claPage + 1} / ${CLA_PAGES}`;
+
+                claNavs.forEach((btn) => {
+                    if (btn.dataset.dir === 'prev') btn.disabled = claPage === 0;
+                    if (btn.dataset.dir === 'next') btn.disabled = claPage >= CLA_PAGES - 1;
+                });
+            }
+
+            function claSelect(idx) {
+                if (idx < 0 || idx >= CLA_TOTAL) return;
+
+                claDots.forEach((d) => d.classList.remove('active'));
+                claItems.forEach((item) => item.classList.remove('active'));
+
+                if (claDots[idx]) claDots[idx].classList.add('active');
+                if (claItems[idx]) claItems[idx].classList.add('active');
+                if (claPanel) claPanel.classList.add('active');
+            }
+
+            function claGoToPage(page, selectFirst = false) {
+                claPage = Math.max(0, Math.min(page, CLA_PAGES - 1));
+                claRenderPage();
+                if (selectFirst) claSelect(claPage * CLA_PER_PAGE);
+            }
+
+            if (claList) {
+                claList.addEventListener('click', (e) => {
+                    const dot = e.target.closest('.cl-a-dot');
+                    if (!dot) return;
+                    const idx = parseInt(dot.dataset.idx, 10);
+                    if (!Number.isNaN(idx)) claSelect(idx);
+                });
+            }
+
+            claNavs.forEach((btn) => {
+                btn.addEventListener('click', () => {
+                    if (btn.dataset.dir === 'prev') claGoToPage(claPage - 1, true);
+                    if (btn.dataset.dir === 'next') claGoToPage(claPage + 1, true);
+                });
+            });
+
+            if (CLA_TOTAL > 0) {
+                claRenderPage();
+                claSelect(0);
+            }
+
+            const subscriptionTrigger = subscriptions.querySelector('.subscription-trigger');
+            const subscriptionOverlay = subscriptions.querySelector('.subscription-overlay');
+            const subscriptionClose = subscriptions.querySelector('.subscription-close');
+
+            function closeSubscriptionCard() {
+                if (subscriptionOverlay) subscriptionOverlay.classList.remove('active');
+            }
+
+            if (subscriptionTrigger && subscriptionOverlay) {
+                subscriptionTrigger.addEventListener('click', () => {
+                    subscriptionOverlay.classList.add('active');
+                });
+            }
+
+            if (subscriptionClose) {
+                subscriptionClose.addEventListener('click', closeSubscriptionCard);
+            }
+
+            if (subscriptionOverlay) {
+                subscriptionOverlay.addEventListener('click', (event) => {
+                    if (event.target === subscriptionOverlay) closeSubscriptionCard();
+                });
+            }
+
+            const tierButtons = subscriptions.querySelectorAll('.tier-trigger');
+            const tierCards = subscriptions.querySelectorAll('.subscription-tier-overlay');
+            const tierCloseButtons = subscriptions.querySelectorAll('.subscription-tier-close');
+
+            function resetTierCardAnimation(card) {
+                if (!card) return;
+
+                card.classList.remove('typing-active');
+
+                const tierType = card.querySelector('.tier-type-text');
+                if (!tierType) return;
+
+                const textLength = Math.max(tierType.textContent.trim().length, 1);
+                tierType.style.setProperty('--tier-type-steps', textLength.toString());
+                tierType.style.setProperty('--tier-type-width', `${textLength}ch`);
+
+                tierType.style.animation = 'none';
+                tierType.style.width = '0';
+                tierType.offsetHeight;
+                tierType.style.animation = '';
+            }
+
+            function closeTierCards() {
+                tierCards.forEach((card) => {
+                    resetTierCardAnimation(card);
+                    card.classList.remove('active');
+                });
+            }
+
+            function animateTierCard(card) {
+                if (!card) return;
+
+                resetTierCardAnimation(card);
+
+                const tierCardBody = card.querySelector('.subscription-tier-card');
+                if (tierCardBody) {
+                    tierCardBody.classList.remove('card-sync-fade');
+                    tierCardBody.offsetWidth;
+                    tierCardBody.classList.add('card-sync-fade');
+                }
+
+                if (card.dataset.tier === 'cl-a-tech') {
+                    claGoToPage(0, false);
+                    claSelect(0);
+                }
+
+                if (typeof runFadeAnimation === 'function') {
+                    runFadeAnimation([
+                        card.querySelectorAll('.subscription-tier-close'),
+                        card.querySelectorAll('.subscription-tier-card > h3'),
+                        card.querySelectorAll('.subscription-tier-card .tier-type-text'),
+                        card.querySelectorAll('.subscription-tier-card .tier-description'),
+                        card.querySelectorAll('.subscription-tier-card .cl-a-dots-nav, .subscription-tier-card .cl-a-dots-list, .subscription-tier-card .cl-a-dots-counter, .subscription-tier-card .cl-a-product-panel, .subscription-tier-card .cl-a-open-source-section')
+                    ]);
+                }
+
+                const initialDelay = 800;
+                const staggerDelay = 90;
+                const groupGap = 220;
+                const typeGroupIndex = 2;
+                const typeGroupDelay = initialDelay + (typeGroupIndex * (staggerDelay + groupGap));
+
+                setTimeout(() => {
+                    if (card.classList.contains('active')) {
+                        card.classList.add('typing-active');
+                    }
+                }, typeGroupDelay);
+            }
+
+            function openTierCard(targetId) {
+                tierCards.forEach((card) => {
+                    if (card.dataset.tier === targetId) {
+                        card.classList.add('active');
+                        animateTierCard(card);
+                    } else {
+                        card.classList.remove('active');
+                    }
+                });
+            }
+
+            tierButtons.forEach((button) => {
+                button.addEventListener('click', () => openTierCard(button.dataset.tierTarget));
+            });
+
+            tierCloseButtons.forEach((button) => {
+                button.addEventListener('click', closeTierCards);
+            });
+
+            tierCards.forEach((card) => {
+                card.addEventListener('click', (event) => {
+                    if (event.target === card) closeTierCards();
+                });
+            });
+        });
+    </script>
 
     <!-- Book_Mark: ============================== MARKETING ============================== -->
     <div class="Marketing">
@@ -1634,1058 +2219,7 @@
             <button type="button" class="marketing-cta-button">View Marketing Plan</button>
         </div>
     </div>
-
-    <!-- Book_Mark: ============================== PAGE_1 ============================== -->
-    <div class="Page_1">
-        <!-- Book_Mark: ================= PAGE_1 ROADMAP ================= -->
-        <div class="Road_Map">
-            <div class="roadmap-container">
-                <div class="Title">
-                    <p>World Time line</p>
-                </div>
-                <div class="roadmap-nodes">
-                    <div class="timeline-container">
-                        <div class="timeline-track"></div>
-                        <div class="timeline-slider" id="timelineSlider"></div>
-                        <div class="timeline-years">
-                            <div class="year-marker" data-year="2026">
-                                <div class="year-dot"></div>
-                                <div class="year-label">2026</div>
-                            </div>
-                            <div class="year-marker" data-year="2027">
-                                <div class="year-dot"></div>
-                                <div class="year-label">2027</div>
-                            </div>
-                            <div class="year-marker" data-year="2028">
-                                <div class="year-dot"></div>
-                                <div class="year-label">2028</div>
-                            </div>
-                            <div class="year-marker" data-year="2029">
-                                <div class="year-dot"></div>
-                                <div class="year-label">2029</div>
-                            </div>
-                            <div class="year-marker" data-year="2030">
-                                <div class="year-dot"></div>
-                                <div class="year-label">2030</div>
-                            </div>
-                            <div class="year-marker" data-year="2031">
-                                <div class="year-dot"></div>
-                                <div class="year-label">2031</div>
-                            </div>
-                            <div class="year-marker" data-year="2032">
-                                <div class="year-dot"></div>
-                                <div class="year-label">2032</div>
-                            </div>
-                            <div class="year-marker" data-year="2033">
-                                <div class="year-dot"></div>
-                                <div class="year-label">2033</div>
-                            </div>
-                            <div class="year-marker" data-year="2034">
-                                <div class="year-dot"></div>
-                                <div class="year-label">2034</div>
-                            </div>
-                        </div>
-                        <div class="timeline-content">
-                            <div class="year-content" data-year="2026">
-                                <h3>2026</h3>
-                                <p>Beginning our journey with innovative AI development and foundational technologies.</p>
-                            </div>
-                            <div class="year-content" data-year="2027">
-                                <h3>2027</h3>
-                                <p>Expanding our capabilities and launching first generation AI tools.</p>
-                            </div>
-                            <div class="year-content" data-year="2028">
-                                <h3>2028</h3>
-                                <p>Advanced research and development in machine learning systems.</p>
-                            </div>
-                            <div class="year-content" data-year="2029">
-                                <h3>2029</h3>
-                                <p>Breaking new ground with autonomous systems and intelligent automation.</p>
-                            </div>
-                            <div class="year-content" data-year="2030">
-                                <h3>2030</h3>
-                                <p>Major breakthrough in AI integration across multiple industries.</p>
-                            </div>
-                            <div class="year-content" data-year="2031">
-                                <h3>2031</h3>
-                                <p>Global expansion and deployment of next-generation technologies.</p>
-                            </div>
-                            <div class="year-content" data-year="2032">
-                                <h3>2032</h3>
-                                <p>Revolutionary advances in quantum computing and neural networks.</p>
-                            </div>
-                            <div class="year-content" data-year="2033">
-                                <h3>2033</h3>
-                                <p>Establishing new standards for ethical AI and sustainable technology.</p>
-                            </div>
-                            <div class="year-content" data-year="2034">
-                                <h3>2034</h3>
-                                <p>Full realization of our vision with comprehensive AI-powered solutions.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
         
-        <!-- Book_Mark: ================= PAGE_1 EDEN DEVELOPMENT ================= -->
-        <!-- Eden Development Timeline -->
-        <div class="Eden_Development">
-            <div class="eden-container">
-                <div class="Title">
-                    <p>Eden Development</p>
-                </div>
-                <div class="eden-nodes">
-                    <div class="eden-timeline-container">
-                        <div class="eden-timeline-slider" id="edenTimelineSlider"></div>
-                        <div class="eden-timeline-years">
-                            <div class="eden-year-marker" data-year="2026">
-                                <div class="eden-year-dot"></div>
-                                <div class="eden-year-label">2026</div>
-                            </div>
-                            <div class="eden-year-marker" data-year="2027">
-                                <div class="eden-year-dot"></div>
-                                <div class="eden-year-label">2027</div>
-                            </div>
-                            <div class="eden-year-marker" data-year="2028">
-                                <div class="eden-year-dot"></div>
-                                <div class="eden-year-label">2028</div>
-                            </div>
-                            <div class="eden-year-marker" data-year="2029">
-                                <div class="eden-year-dot"></div>
-                                <div class="eden-year-label">2029</div>
-                            </div>
-                            <div class="eden-year-marker" data-year="2030">
-                                <div class="eden-year-dot"></div>
-                                <div class="eden-year-label">2030</div>
-                            </div>
-                            <div class="eden-year-marker" data-year="2031">
-                                <div class="eden-year-dot"></div>
-                                <div class="eden-year-label">2031</div>
-                            </div>
-                            <div class="eden-year-marker" data-year="2032">
-                                <div class="eden-year-dot"></div>
-                                <div class="eden-year-label">2032</div>
-                            </div>
-                            <div class="eden-year-marker" data-year="2033">
-                                <div class="eden-year-dot"></div>
-                                <div class="eden-year-label">2033</div>
-                            </div>
-                            <div class="eden-year-marker" data-year="2034">
-                                <div class="eden-year-dot"></div>
-                                <div class="eden-year-label">2034</div>
-                            </div>
-                        </div>
-                        <div class="eden-timeline-content">
-                            <div class="eden-year-content" data-year="2026">
-                                <h3>2026</h3>
-                                <p>Eden Economy platform foundation and core architecture development.</p>
-                            </div>
-                            <div class="eden-year-content" data-year="2027">
-                                <h3>2027</h3>
-                                <p>Alpha testing phase and initial community integration features.</p>
-                            </div>
-                            <div class="eden-year-content" data-year="2028">
-                                <h3>2028</h3>
-                                <p>Beta release with advanced AI capabilities and smart contracts.</p>
-                            </div>
-                            <div class="eden-year-content" data-year="2029">
-                                <h3>2029</h3>
-                                <p>Full platform launch and global ecosystem expansion.</p>
-                            </div>
-                            <div class="eden-year-content" data-year="2030">
-                                <h3>2030</h3>
-                                <p>Advanced decentralized governance and tokenomics implementation.</p>
-                            </div>
-                            <div class="eden-year-content" data-year="2031">
-                                <h3>2031</h3>
-                                <p>Integration with major blockchain networks and enterprise partnerships.</p>
-                            </div>
-                            <div class="eden-year-content" data-year="2032">
-                                <h3>2032</h3>
-                                <p>AI-driven economic modeling and predictive analytics platform.</p>
-                            </div>
-                            <div class="eden-year-content" data-year="2033">
-                                <h3>2033</h3>
-                                <p>Establishing new standards for decentralized digital economies.</p>
-                            </div>
-                            <div class="eden-year-content" data-year="2034">
-                                <h3>2034</h3>
-                                <p>Full realization of Eden Economy vision with comprehensive ecosystem.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Kickstarter Button -->
-        <div class="Kickstarter_Button">
-            <button>Kickstarter</button>
-        </div>
-        
-        <style aria-label="Page_1">
-            .Page_1 {
-                width: 100dvw;
-                height: 100dvh;
-                position: relative;
-                scroll-snap-align: start;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                font-size: 2rem;
-                color: #9a9a9a;
-                background: linear-gradient(135deg, #f5f5f5, #ffffff);
-            }
-            
-            /* Roadmap Styles */
-            .Road_Map {
-                position: absolute;
-                top: 10px;
-                width: calc(100% - 20px);
-                height: 250px;
-                overflow: hidden;
-            }
-            
-            .roadmap-container {
-                position: relative;
-                width: 100%;
-                height: 100%;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-            }
-
-            .roadmap-container .Title {
-                position: absolute;
-                top: 10px;
-                left: 10px;
-            }
-
-            .roadmap-container .Title p {
-                font-size: 11px;
-                font-weight: 100;
-                opacity: 0;
-                visibility: hidden;
-            }
-            
-            .roadmap-nodes {
-                position: relative;
-                width: 100%;
-                height: 100%;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                z-index: 2;
-            }
-            
-            /* Timeline Styles */
-            .timeline-container {
-                    position: relative;
-                    width: calc(100% - 40px);
-                    height: 220px;
-                    display: flex;
-                    flex-direction: column;
-                    justify-content: center;
-                    align-items: center;
-                    margin: 0 20px;
-                    transform: translateY(40px);
-                }
-                
-                .timeline-slider {
-                    position: absolute;
-                    top: 50%;
-                    left: 0%;
-                    width: 0px;
-                    height: 0px;
-                    background: transparent;
-                    transform: translate(-50%, -50%);
-                    cursor: grab;
-                    z-index: 3;
-                    transition: transform 0.2s ease;
-                    border-radius: 1px;
-                    pointer-events: none;
-                }
-                
-                .timeline-slider:hover {
-                    transform: translate(-50%, -50%) scale(1.1);
-                    background: transparent;
-                }
-                
-                .timeline-slider:active {
-                    cursor: grabbing;
-                    transform: translate(-50%, -50%) scale(1.05);
-                    background: transparent;
-                }
-                
-                .timeline-years {
-                    position: absolute;
-                    top: calc(50% + 10px);
-                    left: 0%;
-                    width: 100%;
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    gap: 30px;
-                    z-index: 2;
-                }
-                
-                .year-marker {
-                    position: relative;
-                    display: flex;
-                    flex-direction: column;
-                    align-items: center;
-                    cursor: pointer;
-                    justify-content: center;
-                    -webkit-tap-highlight-color: transparent;
-                    opacity: 0;
-                    visibility: hidden;
-                }
-
-                .year-marker:focus,
-                .year-marker:focus-visible {
-                    outline: none;
-                    box-shadow: none;
-                }
-                
-                .year-dot {
-                    width: 5px;
-                    height: 5px;
-                    background: #C0C0C0;
-                    border-radius: 50%;
-                    margin-bottom: 10px;
-                    transition: all 0.3s ease;
-                    flex-shrink: 0;
-                }
-                
-                .year-marker:hover .year-dot {
-                    background: #4A90E2;
-                    transform: scale(1.5);
-                }
-                
-                .year-label {
-                    font-family: 'MainFont', monospace;
-                    font-size: 8px;
-                    font-weight: 100;
-                    color: #666;
-                    text-align: center;
-                    transition: color 0.3s ease;
-                }
-                
-                .year-marker:hover .year-label {
-                    color: #4A90E2;
-                }
-                
-                .timeline-content {
-                    position: absolute;
-                    top: 20px;
-                    left: 50%;
-                    transform: translateX(-50%);
-                    width: 80%;
-                    text-align: center;
-                    opacity: 0;
-                    transition: opacity 0.4s ease;
-                    pointer-events: none;
-                }
-                
-                .timeline-content.active {
-                    opacity: 1;
-                    pointer-events: auto;
-                }
-                
-                .year-content {
-                    display: none;
-                }
-                
-                .year-content.active {
-                    display: block;
-                }
-                
-                .year-content h3 {
-                    font-family: 'MainFont', monospace;
-                    font-size: 14px;
-                    font-weight: 100;
-                    color: #333;
-                    margin-bottom: 10px;
-                }
-                
-                .year-content p {
-                    font-family: 'MainFont', monospace;
-                    font-size: 11px;
-                    font-weight: 100;
-                    color: #666;
-                    line-height: 1.4;
-                }
-            </style>
-            <script>
-                document.addEventListener('DOMContentLoaded', () => {
-                    // Timeline Slider Functionality
-                    const timelineSlider = document.getElementById('timelineSlider');
-                    const yearMarkers = document.querySelectorAll('.year-marker');
-                    const yearContents = document.querySelectorAll('.year-content');
-                    const timelineContent = document.querySelector('.timeline-content');
-                    
-                    let isDragging = false;
-                    let currentYear = 2026;
-                    const startYear = 2026;
-                    const endYear = 2034;
-                    const yearRange = endYear - startYear;
-                    
-                    // Initialize timeline
-                    function updateSliderPosition(year) {
-                        const progress = (year - startYear) / yearRange;
-                        const containerWidth = timelineSlider.parentElement.offsetWidth;
-                        const newPosition = progress * containerWidth;
-                        timelineSlider.style.left = `${newPosition}px`;
-                        
-                        // Update content
-                        updateContent(year);
-                    }
-                    
-                    function updateContent(year) {
-                        // Hide all content
-                        yearContents.forEach(content => {
-                            content.classList.remove('active');
-                        });
-                        
-                        // Show selected year content
-                        const selectedContent = document.querySelector(`.year-content[data-year="${year}"]`);
-                        if (selectedContent) {
-                            selectedContent.classList.add('active');
-                            timelineContent.classList.add('active');
-                        }
-                        
-                        currentYear = year;
-                    }
-                    
-                    // Slider dragging
-                    timelineSlider.addEventListener('mousedown', (e) => {
-                        isDragging = true;
-                        e.preventDefault();
-                    });
-                    
-                    document.addEventListener('mousemove', (e) => {
-                        if (!isDragging) return;
-                        
-                        const container = timelineSlider.parentElement;
-                        const containerRect = container.getBoundingClientRect();
-                        const containerWidth = containerRect.width;
-                        const mouseX = e.clientX - containerRect.left;
-                        const progress = Math.max(0, Math.min(1, mouseX / containerWidth));
-                        const year = Math.round(startYear + (progress * yearRange));
-                        
-                        updateSliderPosition(year);
-                    });
-                    
-                    document.addEventListener('mouseup', () => {
-                        isDragging = false;
-                    });
-                    
-                    // Year marker clicks
-                    yearMarkers.forEach(marker => {
-                        marker.addEventListener('click', () => {
-                            const year = parseInt(marker.dataset.year);
-                            updateSliderPosition(year);
-                        });
-                    });
-                    
-                    // Initialize with first year
-                    updateSliderPosition(startYear);
-                    
-                    // Handle window resize
-                    window.addEventListener('resize', () => {
-                        updateSliderPosition(currentYear);
-                    });
-                    
-                    // Eden Development Timeline Functionality
-                    const edenTimelineSlider = document.getElementById('edenTimelineSlider');
-                    const edenYearMarkers = document.querySelectorAll('.eden-year-marker');
-                    const edenYearContents = document.querySelectorAll('.eden-year-content');
-                    const edenTimelineContent = document.querySelector('.eden-timeline-content');
-                    
-                    let edenCurrentYear = 2026;
-                    const edenStartYear = 2026;
-                    const edenEndYear = 2034;
-                    const edenYearRange = edenEndYear - edenStartYear;
-                    
-                    // Initialize Eden timeline
-                    function updateEdenSliderPosition(year) {
-                        const progress = (year - edenStartYear) / edenYearRange;
-                        const containerWidth = edenTimelineSlider.parentElement.offsetWidth;
-                        const newPosition = progress * containerWidth;
-                        edenTimelineSlider.style.left = `${newPosition}px`;
-                        
-                        // Update content
-                        updateEdenContent(year);
-                    }
-                    
-                    function updateEdenContent(year) {
-                        // Hide all content
-                        edenYearContents.forEach(content => {
-                            content.classList.remove('active');
-                        });
-                        
-                        // Show selected year content
-                        const selectedContent = document.querySelector(`.eden-year-content[data-year="${year}"]`);
-                        if (selectedContent) {
-                            selectedContent.classList.add('active');
-                            edenTimelineContent.classList.add('active');
-                        }
-                        
-                        edenCurrentYear = year;
-                    }
-                    
-                    // Eden year marker clicks
-                    edenYearMarkers.forEach(marker => {
-                        marker.addEventListener('click', () => {
-                            const year = parseInt(marker.dataset.year);
-                            updateEdenSliderPosition(year);
-                        });
-                    });
-                    
-                    // Initialize Eden timeline with first year
-                    updateEdenSliderPosition(edenStartYear);
-                    
-                    // Handle Eden window resize
-                    window.addEventListener('resize', () => {
-                        updateEdenSliderPosition(edenCurrentYear);
-                    });
-
-                    // Free Economy ideas timeline
-                    const ideaMarkers = document.querySelectorAll('.idea-marker');
-                    const ideaContents = document.querySelectorAll('.idea-content');
-                    const ideasTimelineContent = document.querySelector('.ideas-timeline-content');
-
-                    function updateIdeaContent(ideaId) {
-                        ideaMarkers.forEach((marker) => {
-                            marker.classList.remove('active');
-                        });
-
-                        ideaContents.forEach((content) => {
-                            content.classList.remove('active');
-                        });
-
-                        const activeMarker = document.querySelector(`.idea-marker[data-idea="${ideaId}"]`);
-                        const activeContent = document.querySelector(`.idea-content[data-idea="${ideaId}"]`);
-
-                        if (activeMarker) {
-                            activeMarker.classList.add('active');
-                        }
-
-                        if (activeContent) {
-                            activeContent.classList.add('active');
-                            if (ideasTimelineContent) {
-                                ideasTimelineContent.classList.add('active');
-                            }
-                        }
-                    }
-
-                    ideaMarkers.forEach((marker) => {
-                        marker.addEventListener('click', () => {
-                            updateIdeaContent(marker.dataset.idea);
-                        });
-                    });
-
-                    if (ideaMarkers.length > 0) {
-                        updateIdeaContent(ideaMarkers[0].dataset.idea);
-                    }
-
-                    const futurePlanMarkers = document.querySelectorAll('.future-plan-marker');
-                    const futurePlanContents = document.querySelectorAll('.future-plan-content');
-                    const futurePlansTimelineContent = document.querySelector('.future-plans-timeline-content');
-
-                    function updateFuturePlanContent(planId) {
-                        futurePlanMarkers.forEach((marker) => {
-                            marker.classList.remove('active');
-                        });
-
-                        futurePlanContents.forEach((content) => {
-                            content.classList.remove('active');
-                        });
-
-                        const activeMarker = document.querySelector(`.future-plan-marker[data-plan="${planId}"]`);
-                        const activeContent = document.querySelector(`.future-plan-content[data-plan="${planId}"]`);
-
-                        if (activeMarker) {
-                            activeMarker.classList.add('active');
-                        }
-
-                        if (activeContent) {
-                            activeContent.classList.add('active');
-                            if (futurePlansTimelineContent) {
-                                futurePlansTimelineContent.classList.add('active');
-                            }
-                        }
-                    }
-
-                    futurePlanMarkers.forEach((marker) => {
-                        marker.addEventListener('click', () => {
-                            updateFuturePlanContent(marker.dataset.plan);
-                        });
-
-                        marker.addEventListener('keydown', (e) => {
-                            if (e.key === 'Enter' || e.key === ' ') {
-                                e.preventDefault();
-                                updateFuturePlanContent(marker.dataset.plan);
-                            }
-                        });
-                    });
-
-                    if (futurePlanMarkers.length > 0) {
-                        updateFuturePlanContent(futurePlanMarkers[0].dataset.plan);
-                    }
-
-                    const clAMachineMarkers = document.querySelectorAll('.cl-a-machine-marker');
-                    const clAProductContents = document.querySelectorAll('.cl-a-product-content');
-                    const clAMachineTimelineContent = document.querySelector('.cl-a-machine-timeline-content');
-
-                    function updateCLAMachineContent(productId) {
-                        clAMachineMarkers.forEach((marker) => {
-                            marker.classList.remove('active');
-                        });
-
-                        clAProductContents.forEach((content) => {
-                            content.classList.remove('active');
-                        });
-
-                        const activeMarker = document.querySelector(`.cl-a-machine-marker[data-product="${productId}"]`);
-                        const activeContent = document.querySelector(`.cl-a-product-content[data-product="${productId}"]`);
-
-                        if (activeMarker) {
-                            activeMarker.classList.add('active');
-                        }
-
-                        if (activeContent) {
-                            activeContent.classList.add('active');
-                            if (clAMachineTimelineContent) {
-                                clAMachineTimelineContent.classList.add('active');
-                            }
-                        }
-                    }
-
-                    clAMachineMarkers.forEach((marker) => {
-                        marker.addEventListener('click', () => {
-                            updateCLAMachineContent(marker.dataset.product);
-                        });
-
-                        marker.addEventListener('keydown', (e) => {
-                            if (e.key === 'Enter' || e.key === ' ') {
-                                e.preventDefault();
-                                updateCLAMachineContent(marker.dataset.product);
-                            }
-                        });
-                    });
-
-                    if (clAMachineMarkers.length > 0) {
-                        updateCLAMachineContent(clAMachineMarkers[0].dataset.product);
-                    }
-
-                    const blueprintButtons = document.querySelectorAll('.blueprint-trigger');
-                    const blueprintCards = document.querySelectorAll('.blueprint-overlay');
-                    const blueprintCloseButtons = document.querySelectorAll('.blueprint-close');
-
-                    function closeBlueprintCards() {
-                        blueprintCards.forEach((card) => {
-                            card.classList.remove('active');
-                        });
-                    }
-
-                    function openBlueprintCard(targetId) {
-                        blueprintCards.forEach((card) => {
-                            if (card.dataset.blueprint === targetId) {
-                                card.classList.add('active');
-                            } else {
-                                card.classList.remove('active');
-                            }
-                        });
-                    }
-
-                    blueprintButtons.forEach((button) => {
-                        button.addEventListener('click', () => {
-                            openBlueprintCard(button.dataset.blueprintTarget);
-                        });
-                    });
-
-                    blueprintCloseButtons.forEach((button) => {
-                        button.addEventListener('click', () => {
-                            closeBlueprintCards();
-                        });
-                    });
-
-                    const subscriptionTrigger = document.querySelector('.subscription-trigger');
-                    const subscriptionOverlay = document.querySelector('.subscription-overlay');
-                    const subscriptionClose = document.querySelector('.subscription-close');
-
-                    function closeSubscriptionCard() {
-                        if (subscriptionOverlay) {
-                            subscriptionOverlay.classList.remove('active');
-                        }
-                    }
-
-                    if (subscriptionTrigger && subscriptionOverlay) {
-                        subscriptionTrigger.addEventListener('click', () => {
-                            subscriptionOverlay.classList.add('active');
-                        });
-                    }
-
-                    if (subscriptionClose) {
-                        subscriptionClose.addEventListener('click', () => {
-                            closeSubscriptionCard();
-                        });
-                    }
-
-                    if (subscriptionOverlay) {
-                        subscriptionOverlay.addEventListener('click', (event) => {
-                            if (event.target === subscriptionOverlay) {
-                                closeSubscriptionCard();
-                            }
-                        });
-                    }
-
-                    const tierButtons = document.querySelectorAll('.tier-trigger');
-                    const tierCards = document.querySelectorAll('.subscription-tier-overlay');
-                    const tierCloseButtons = document.querySelectorAll('.subscription-tier-close');
-
-                    function closeTierCards() {
-                        tierCards.forEach((card) => {
-                            resetTierCardAnimation(card);
-                            card.classList.remove('active');
-                        });
-                    }
-
-                    function resetTierCardAnimation(card) {
-                        if (!card) return;
-
-                        card.classList.remove('typing-active');
-
-                        const tierType = card.querySelector('.tier-type-text');
-                        if (!tierType) return;
-
-                        const textLength = Math.max(tierType.textContent.trim().length, 1);
-                        tierType.style.setProperty('--tier-type-steps', textLength.toString());
-                        tierType.style.setProperty('--tier-type-width', `${textLength}ch`);
-
-                        tierType.style.animation = 'none';
-                        tierType.style.width = '0';
-                        tierType.offsetHeight;
-                        tierType.style.animation = '';
-                    }
-
-                    function animateTierCard(card) {
-                        if (!card) return;
-
-                        resetTierCardAnimation(card);
-
-                        if (card.dataset.tier === 'cl-a-tech') {
-                            const clAFirstMarker = card.querySelector('.cl-a-machine-marker');
-                            if (clAFirstMarker) {
-                                updateCLAMachineContent(clAFirstMarker.dataset.product);
-                            }
-                        }
-
-                        runFadeAnimation([
-                            card.querySelectorAll('.subscription-tier-close'),
-                            card.querySelectorAll('.subscription-tier-card > h3'),
-                            card.querySelectorAll('.subscription-tier-card .tier-type-text'),
-                            card.querySelectorAll('.subscription-tier-card .tier-description'),
-                            card.querySelectorAll('.subscription-tier-card .cl-a-machine-marker, .subscription-tier-card .cl-a-machine-timeline-content')
-                        ]);
-
-                        const initialDelay = 800;
-                        const staggerDelay = 90;
-                        const groupGap = 220;
-                        const typeGroupIndex = 2;
-                        const typeGroupDelay = initialDelay + (typeGroupIndex * (staggerDelay + groupGap));
-
-                        setTimeout(() => {
-                            if (card.classList.contains('active')) {
-                                card.classList.add('typing-active');
-                            }
-                        }, typeGroupDelay);
-                    }
-
-                    function openTierCard(targetId) {
-                        tierCards.forEach((card) => {
-                            if (card.dataset.tier === targetId) {
-                                card.classList.add('active');
-                                animateTierCard(card);
-                            } else {
-                                card.classList.remove('active');
-                            }
-                        });
-                    }
-
-                    tierButtons.forEach((button) => {
-                        button.addEventListener('click', () => {
-                            openTierCard(button.dataset.tierTarget);
-                        });
-                    });
-
-                    tierCloseButtons.forEach((button) => {
-                        button.addEventListener('click', () => {
-                            closeTierCards();
-                        });
-                    });
-                });
-            </script>
-        
-        <!-- Book_Mark: ================= PAGE_1 WHO WE ARE ================= -->
-        <!-- Who We Are Section -->
-        <div class="Who_We_Are">
-            <h2>Who We Are</h2>
-            <p>We are a team of passionate developers and designers dedicated to creating innovative gaming experiences and cutting-edge engineering solutions.</p>
-        </div>
-        
-        <!-- Book_Mark: ================= PAGE_1 KICKSTARTER ================= -->
-        <!-- Kickstarter Button -->
-        <div class="Kickstarter_Button">
-            <button>Kickstarter</button>
-        </div>
-        
-        <style aria-label="Page_1">
-            .Page_1 {
-                width: 100dvw;
-                height: 100dvh;
-                position: relative;
-                scroll-snap-align: start;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                font-size: 2rem;
-                color: #9a9a9a;
-                background: linear-gradient(135deg, #f5f5f5, #ffffff);
-            }
-            
-            .Who_We_Are {
-                position: absolute;
-                top: 580px;
-                left: 50%;
-                transform: translateX(-50%);
-                text-align: center;
-                opacity: 0;
-                visibility: hidden;
-                transition: opacity 0.8s ease-in-out;
-                width: 80%;
-                max-width: 600px;
-                z-index: 1;
-            }
-            
-            .Who_We_Are h2 {
-                font-family: 'MainFont', monospace;
-                font-size: 18px;
-                font-weight: 100;
-                color: #333;
-                margin-bottom: 15px;
-            }
-            
-            .Who_We_Are p {
-                font-family: 'MainFont', monospace;
-                font-size: 11px;
-                font-weight: 200;
-                color: #666;
-                line-height: 1.6;
-            }
-            
-            .Kickstarter_Button {
-                position: absolute;
-                bottom: 30px;
-                left: 50%;
-                transform: translateX(-50%);
-                opacity: 0;
-                visibility: hidden;
-                transition: opacity 0.8s ease-in-out;
-            }
-
-            .Kickstarter_Button button {
-                width: 160px;
-                height: 30px;
-                background: rgb(255, 255, 255);
-                border: 1px solid rgb(0, 0, 0);
-                
-                font-size: 11px;
-                font-family: 'MainFont', monospace;
-                cursor: pointer;
-            }
-            
-            /* Eden Development Styles */
-            .Eden_Development {
-                position: absolute;
-                top: 280px;
-                width: calc(100% - 20px);
-                height: 250px;
-                overflow: hidden;
-            }
-            
-            .eden-container {
-                position: relative;
-                width: 100%;
-                height: 100%;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-            }
-
-            .eden-container .Title {
-                position: absolute;
-                top: 10px;
-                left: 10px;
-            }
-
-            .eden-container .Title p {
-                font-size: 11px;
-                font-weight: 100;
-                opacity: 0;
-                visibility: hidden;
-            }
-            
-            .eden-nodes {
-                position: relative;
-                width: 100%;
-                height: 100%;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                z-index: 2;
-            }
-            
-            /* Eden Timeline Styles */
-            .eden-timeline-container {
-                position: relative;
-                width: calc(100% - 40px);
-                height: 220px;
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-                align-items: center;
-                margin: 0 20px;
-                transform: translateY(40px);
-            }
-            
-            .eden-timeline-slider {
-                position: absolute;
-                top: 50%;
-                left: 0%;
-                width: 0px;
-                height: 0px;
-                background: transparent;
-                transform: translate(-50%, -50%);
-                cursor: grab;
-                z-index: 3;
-                transition: transform 0.2s ease;
-                border-radius: 1px;
-                pointer-events: none;
-            }
-            
-            .eden-timeline-slider:hover {
-                transform: translate(-50%, -50%) scale(1.1);
-                background: transparent;
-            }
-            
-            .eden-timeline-slider:active {
-                cursor: grabbing;
-                transform: translate(-50%, -50%) scale(1.05);
-                background: transparent;
-            }
-            
-            .eden-timeline-years {
-                position: absolute;
-                top: calc(50% + 10px);
-                left: 0%;
-                width: 100%;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                gap: 30px;
-                z-index: 2;
-            }
-            
-            .eden-year-marker {
-                position: relative;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                cursor: pointer;
-                justify-content: center;
-                -webkit-tap-highlight-color: transparent;
-            }
-
-            .eden-year-marker:focus,
-            .eden-year-marker:focus-visible {
-                outline: none;
-                box-shadow: none;
-            }
-            
-            .eden-year-dot {
-                width: 5px;
-                height: 5px;
-                background: #C0C0C0;
-                border-radius: 50%;
-                margin-bottom: 10px;
-                transition: all 0.3s ease;
-                flex-shrink: 0;
-            }
-            
-            .eden-year-marker:hover .eden-year-dot {
-                background: #4A90E2;
-                transform: scale(1.5);
-            }
-            
-            .eden-year-label {
-                font-family: 'MainFont', monospace;
-                font-size: 8px;
-                font-weight: 100;
-                color: #666;
-                text-align: center;
-                transition: color 0.3s ease;
-            }
-            
-            .eden-year-marker:hover .eden-year-label {
-                color: #4A90E2;
-            }
-            
-            .eden-timeline-content {
-                position: absolute;
-                top: 20px;
-                left: 50%;
-                transform: translateX(-50%);
-                width: 80%;
-                text-align: center;
-                opacity: 0;
-                transition: opacity 0.4s ease;
-                pointer-events: none;
-            }
-            
-            .eden-timeline-content.active {
-                opacity: 1;
-                pointer-events: auto;
-            }
-            
-            .eden-year-content {
-                display: none;
-            }
-            
-            .eden-year-content.active {
-                display: block;
-            }
-            
-            .eden-year-content h3 {
-                font-family: 'MainFont', monospace;
-                font-size: 14px;
-                font-weight: 100;
-                color: #333;
-                margin-bottom: 10px;
-            }
-            
-            .eden-year-content p {
-                font-family: 'MainFont', monospace;
-                font-size: 11px;
-                font-weight: 100;
-                color: #666;
-                line-height: 1.4;
-            }
-        </style>
-        
-    </div>
     <!-- Book_Mark: ============================== THE_FREE_ECONOMY ============================== -->
     <div class="The_Free_Economy">
         <style>
